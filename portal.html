@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fbf7f1" />
+    <title>Maylin Mattress | Questionnaire Portal</title>
+    <meta
+      name="description"
+      content="Private questionnaire review portal for the Maylin Mattress website."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=20260324" />
+    <script src="storage.js?v=20260324" defer></script>
+    <script src="main.js?v=20260324" defer></script>
+    <script src="portal.js?v=20260324" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="index.html?v=20260324" aria-label="Maylin Mattress website">
+          <img src="assets/maylin-mattress-logo.png" alt="Maylin Mattress logo" />
+        </a>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Toggle navigation"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="Portal navigation">
+          <a href="index.html?v=20260324">Website</a>
+          <a href="index.html?v=20260324#contact">Questionnaire</a>
+          <a href="portal.html?v=20260324">Portal</a>
+          <button
+            class="button button-outline portal-logout-button"
+            type="button"
+            id="portal-logout-nav"
+            hidden
+          >
+            Log out
+          </button>
+        </nav>
+      </header>
+
+      <main id="main" class="portal-main">
+        <section class="panel portal-intro" data-reveal="up">
+          <p class="eyebrow">Private portal</p>
+          <h1>Review every questionnaire in one place.</h1>
+          <p class="lead">
+            This restricted area stores the website questionnaires saved in this browser and lets
+            your team review, search, and export them quickly.
+          </p>
+          <p class="portal-note">
+            Access is limited to authorized credentials and remains active for the current browser
+            session only.
+          </p>
+        </section>
+
+        <div class="portal-grid">
+          <section class="panel portal-login-panel" id="login-panel" data-reveal="up">
+            <p class="eyebrow">Restricted access</p>
+            <h2>Sign in to access the questionnaire vault.</h2>
+            <p class="portal-note">
+              Use the private portal credentials to review the saved questionnaires.
+            </p>
+
+            <form class="portal-login-form" id="portal-login-form" novalidate>
+              <label>
+                Username
+                <input
+                  type="text"
+                  name="username"
+                  autocomplete="username"
+                  placeholder="Revup"
+                  required
+                />
+              </label>
+
+              <label>
+                Password
+                <input
+                  type="password"
+                  name="password"
+                  autocomplete="current-password"
+                  placeholder="Enter password"
+                  required
+                />
+              </label>
+
+              <div class="form-actions">
+                <button class="button button-primary" type="submit">Access Portal</button>
+              </div>
+
+              <p class="portal-status" id="login-status" aria-live="polite"></p>
+            </form>
+
+            <section class="portal-signup-panel" id="portal-signup-panel" hidden>
+              <div class="dashboard-panel-head">
+                <div>
+                  <span class="dashboard-kicker">New user</span>
+                  <h3>Create portal user</h3>
+                </div>
+              </div>
+
+              <form class="portal-login-form" id="portal-signup-form">
+                <label>
+                  Full name
+                  <input type="text" name="fullName" placeholder="Team member name" />
+                </label>
+
+                <label>
+                  Email
+                  <input
+                    type="email"
+                    name="signupEmail"
+                    autocomplete="email"
+                    placeholder="newuser@example.com"
+                    required
+                  />
+                </label>
+
+                <label>
+                  Password
+                  <input
+                    type="password"
+                    name="signupPassword"
+                    autocomplete="new-password"
+                    placeholder="Create password"
+                    required
+                  />
+                </label>
+
+                <div class="form-actions">
+                  <button class="button button-outline" type="submit">Create User</button>
+                </div>
+
+                <p class="portal-status" id="signup-status" aria-live="polite"></p>
+              </form>
+            </section>
+
+            <div class="portal-setup-note">
+              <span class="dashboard-kicker">Recommended setup</span>
+              <p>
+                Current direct portal access uses the internal credentials Revup and Miami.
+              </p>
+            </div>
+          </section>
+
+          <section class="panel portal-dashboard" id="dashboard" data-reveal="up" hidden>
+            <div class="portal-header">
+              <div>
+                <p class="eyebrow">Dashboard</p>
+                <h2>Saved questionnaires.</h2>
+                <p class="portal-note">
+                  Every website submission is listed here with contact details, delivery area, and
+                  customer notes.
+                </p>
+              </div>
+
+              <div class="portal-actions">
+                <button class="button button-outline" type="button" id="export-json">
+                  Export JSON
+                </button>
+                <button class="button button-outline" type="button" id="export-csv">
+                  Export CSV
+                </button>
+                <button
+                  class="button button-primary portal-logout-button"
+                  type="button"
+                  id="portal-logout-inline"
+                >
+                  Log out
+                </button>
+              </div>
+            </div>
+
+            <div class="portal-stat-grid">
+              <article class="portal-stat-card">
+                <span>Total questionnaires</span>
+                <strong id="stat-total">0</strong>
+              </article>
+
+              <article class="portal-stat-card">
+                <span>Latest entry</span>
+                <strong id="stat-latest">No entries yet</strong>
+              </article>
+
+              <article class="portal-stat-card">
+                <span>Delivery areas</span>
+                <strong id="stat-areas">0</strong>
+              </article>
+
+              <article class="portal-stat-card">
+                <span>Ready to follow up</span>
+                <strong id="stat-ready">0</strong>
+              </article>
+            </div>
+
+            <div class="dashboard-layout">
+              <aside class="dashboard-sidebar">
+                <section class="dashboard-panel">
+                  <div class="dashboard-panel-head">
+                    <div>
+                      <span class="dashboard-kicker">Insights</span>
+                      <h3>Delivery area breakdown</h3>
+                    </div>
+                  </div>
+
+                  <div class="area-breakdown" id="area-breakdown"></div>
+                </section>
+
+                <section class="dashboard-panel">
+                  <div class="dashboard-panel-head">
+                    <div>
+                      <span class="dashboard-kicker">Activity</span>
+                      <h3>Recent submissions</h3>
+                    </div>
+                  </div>
+
+                  <div class="activity-feed" id="recent-activity"></div>
+                </section>
+              </aside>
+
+              <div class="dashboard-main">
+                <section class="dashboard-panel dashboard-records-panel">
+                  <div class="records-toolbar">
+                    <div class="portal-search">
+                      <label for="portal-search">Search questionnaires</label>
+                      <input
+                        id="portal-search"
+                        type="search"
+                        placeholder="Search by name, email, phone, delivery area, or notes"
+                      />
+                    </div>
+
+                    <div class="dashboard-sort">
+                      <span class="dashboard-sort-label">Sort by</span>
+                      <div class="sort-chips" id="sort-chips">
+                        <button class="sort-chip is-active" type="button" data-sort="newest">
+                          Newest
+                        </button>
+                        <button class="sort-chip" type="button" data-sort="oldest">Oldest</button>
+                        <button class="sort-chip" type="button" data-sort="name">Name</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="dashboard-filter-strip">
+                    <span class="dashboard-filter-label">Filter by area</span>
+                    <div class="filter-chips" id="area-filters"></div>
+                  </div>
+
+                  <div class="results-meta" id="results-meta"></div>
+                </section>
+
+                <div class="questionnaire-list" id="questionnaire-list"></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="panel site-footer site-footer-minimal" data-reveal="up">
+        <p class="footer-credit">Created by RevUp Agency Group LLC</p>
+      </footer>
+    </div>
+  </body>
+</html>
