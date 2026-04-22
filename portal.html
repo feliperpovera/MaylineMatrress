@@ -86,7 +86,7 @@
                 </p>
 
                 <div class="portal-access-card">
-                  <span class="dashboard-kicker">Current access</span>
+                  <span class="dashboard-kicker">Backup access</span>
                   <div class="portal-access-list">
                     <div>
                       <span>Portal</span>
@@ -106,7 +106,7 @@
                 <div class="portal-setup-note">
                   <span class="dashboard-kicker">Recommended setup</span>
                   <p>
-                    Configure Supabase to sync leads across devices. Until then, the fallback
+                    Configure Supabase to sync leads across devices. The backup
                     access remains username <strong>revup</strong> and password
                     <strong>miami</strong>.
                   </p>
@@ -124,12 +124,12 @@
 
                   <form class="portal-login-form" id="portal-login-form" novalidate>
                     <label>
-                      Username
+                      Username or email
                       <input
                         type="text"
                         name="username"
-                        autocomplete="username"
-                        placeholder="revup"
+                        autocomplete="username email"
+                        placeholder="revup or team@example.com"
                         required
                       />
                     </label>

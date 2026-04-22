@@ -102,12 +102,10 @@ const isFallbackAuthenticated = () =>
   window.sessionStorage.getItem(portalAuthKey) === "authenticated";
 
 const setAuthenticated = (authenticated) => {
-  if (!isRemoteDataEnabled) {
-    if (authenticated) {
-      window.sessionStorage.setItem(portalAuthKey, "authenticated");
-    } else {
-      window.sessionStorage.removeItem(portalAuthKey);
-    }
+  if (authenticated) {
+    window.sessionStorage.setItem(portalAuthKey, "authenticated");
+  } else {
+    window.sessionStorage.removeItem(portalAuthKey);
   }
 
   if (loginPanel) {
@@ -462,14 +460,14 @@ const updateLoginIdentityUi = () => {
   );
 
   if (isRemoteDataEnabled) {
-    loginIdentityInput.name = "email";
-    loginIdentityInput.type = "email";
-    loginIdentityInput.autocomplete = "email";
+    loginIdentityInput.name = "username";
+    loginIdentityInput.type = "text";
+    loginIdentityInput.autocomplete = "username";
     loginIdentityInput.setAttribute("inputmode", "email");
-    loginIdentityInput.placeholder = "team@example.com";
+    loginIdentityInput.placeholder = "revup or team@example.com";
 
     if (labelTextNode) {
-      labelTextNode.textContent = "Email\n                ";
+      labelTextNode.textContent = "Username or email\n                ";
     }
   } else {
     loginIdentityInput.name = "username";
@@ -540,9 +538,10 @@ const initializePortal = async () => {
     }
 
     const hasSession = Boolean(data?.session);
-    setAuthenticated(hasSession);
+    const hasFallbackSession = isFallbackAuthenticated();
+    setAuthenticated(hasSession || hasFallbackSession);
 
-    if (hasSession) {
+    if (hasSession || hasFallbackSession) {
       await renderDashboard();
     }
 
@@ -552,6 +551,11 @@ const initializePortal = async () => {
 
       if (authenticated) {
         renderDashboard(searchInput?.value || "").catch(console.error);
+        return;
+      }
+
+      if (isFallbackAuthenticated()) {
+        setAuthenticated(true);
       }
     });
 
@@ -573,31 +577,29 @@ if (loginPanel && dashboard && loginForm && loginStatus) {
     setStatus(loginStatus, "Checking access...");
 
     const formData = new FormData(loginForm);
+    const identity = String(formData.get("username") || formData.get("email") || "").trim();
+    const password = String(formData.get("password") || "").trim();
 
     try {
-      if (isRemoteDataEnabled && dataApi?.signIn) {
-        const email = String(formData.get("email") || "").trim();
-        const password = String(formData.get("password") || "").trim();
-        const { error } = await dataApi.signIn({ email, password });
-
-        if (error) {
-          throw error;
-        }
-
-        setStatus(loginStatus, "Access granted.", "success");
+      if (
+        normalizeText(identity) === fallbackUsername &&
+        normalizeText(password) === fallbackPassword
+      ) {
+        setStatus(loginStatus, "Backup access granted.", "success");
         setAuthenticated(true);
         await renderDashboard(searchInput?.value || "");
         loginForm.reset();
         return;
       }
 
-      const username = String(formData.get("username") || "").trim();
-      const password = String(formData.get("password") || "").trim();
+      if (isRemoteDataEnabled && dataApi?.signIn) {
+        const email = identity;
+        const { error } = await dataApi.signIn({ email, password });
 
-      if (
-        normalizeText(username) === fallbackUsername &&
-        normalizeText(password) === fallbackPassword
-      ) {
+        if (error) {
+          throw error;
+        }
+
         setStatus(loginStatus, "Access granted.", "success");
         setAuthenticated(true);
         await renderDashboard(searchInput?.value || "");
@@ -612,7 +614,7 @@ if (loginPanel && dashboard && loginForm && loginStatus) {
       setStatus(
         loginStatus,
         isRemoteDataEnabled
-          ? "Incorrect email or password."
+          ? "Incorrect backup credentials or email/password."
           : "Incorrect username or password.",
         "error",
       );
