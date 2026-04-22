@@ -1,0 +1,16 @@
+{
+  "name": "maylin-mattress",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Factory direct mattress storefront deployed as a Node.js web app.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20 <25"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
