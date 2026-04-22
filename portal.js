@@ -1,13 +1,19 @@
 const questionnaireStorageKey = "maylin-questionnaires";
 const portalAuthKey = "maylin-admin-session";
-const validUsername = "revup";
-const validPassword = "miami";
+const fallbackUsername = "revup";
+const fallbackPassword = "miami";
 const storageApi = window.maylinStorageApi || null;
+const dataApi = window.maylinDataApi || null;
+const isRemoteDataEnabled = Boolean(dataApi?.isConfigured);
 
 const loginPanel = document.getElementById("login-panel");
 const dashboard = document.getElementById("dashboard");
+const portalGrid = document.querySelector(".portal-grid");
 const loginForm = document.getElementById("portal-login-form");
+const signupPanel = document.getElementById("portal-signup-panel");
+const signupForm = document.getElementById("portal-signup-form");
 const loginStatus = document.getElementById("login-status");
+const signupStatus = document.getElementById("signup-status");
 const questionnaireList = document.getElementById("questionnaire-list");
 const searchInput = document.getElementById("portal-search");
 const exportJsonButton = document.getElementById("export-json");
@@ -22,6 +28,7 @@ const resultsMeta = document.getElementById("results-meta");
 const areaFilters = document.getElementById("area-filters");
 const sortChips = document.getElementById("sort-chips");
 const logoutButtons = document.querySelectorAll(".portal-logout-button");
+
 let currentAreaFilter = "all";
 let currentSort = "newest";
 let cachedEntries = [];
@@ -38,8 +45,25 @@ const escapeMap = {
 };
 
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => escapeMap[char]);
-
 const normalizeText = (value) => String(value ?? "").trim().toLowerCase();
+const cleanPhone = (value) => String(value ?? "").replace(/[^\d+]/g, "");
+
+const setStatus = (element, message, type = "default") => {
+  if (!element) {
+    return;
+  }
+
+  element.textContent = message;
+  element.classList.remove("is-error", "is-success");
+
+  if (type === "error") {
+    element.classList.add("is-error");
+  }
+
+  if (type === "success") {
+    element.classList.add("is-success");
+  }
+};
 
 const getStoredQuestionnaires = () => {
   if (storageApi?.listQuestionnaires) {
@@ -61,17 +85,29 @@ const getStoredQuestionnaires = () => {
 };
 
 const loadQuestionnaires = async () => {
+  if (dataApi?.listQuestionnaires) {
+    try {
+      cachedEntries = await dataApi.listQuestionnaires();
+      return cachedEntries;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   cachedEntries = getStoredQuestionnaires();
   return cachedEntries;
 };
 
-const isAuthenticated = () => window.sessionStorage.getItem(portalAuthKey) === "authenticated";
+const isFallbackAuthenticated = () =>
+  window.sessionStorage.getItem(portalAuthKey) === "authenticated";
 
 const setAuthenticated = (authenticated) => {
-  if (authenticated) {
-    window.sessionStorage.setItem(portalAuthKey, "authenticated");
-  } else {
-    window.sessionStorage.removeItem(portalAuthKey);
+  if (!isRemoteDataEnabled) {
+    if (authenticated) {
+      window.sessionStorage.setItem(portalAuthKey, "authenticated");
+    } else {
+      window.sessionStorage.removeItem(portalAuthKey);
+    }
   }
 
   if (loginPanel) {
@@ -82,6 +118,11 @@ const setAuthenticated = (authenticated) => {
   if (dashboard) {
     dashboard.hidden = !authenticated;
     dashboard.classList.toggle("is-visible", authenticated);
+  }
+
+  if (portalGrid) {
+    portalGrid.classList.toggle("is-login", !authenticated);
+    portalGrid.classList.toggle("is-dashboard", authenticated);
   }
 
   logoutButtons.forEach((button) => {
@@ -105,7 +146,6 @@ const formatDate = (isoDate) => {
 };
 
 const getAreaValue = (entry) => String(entry?.deliveryArea ?? "").trim();
-
 const getAreaKey = (entry) => normalizeText(getAreaValue(entry));
 
 const sortEntries = (entries) => {
@@ -143,17 +183,7 @@ const createDownload = (filename, content, mimeType) => {
 };
 
 const toCsv = (entries) => {
-  const headers = [
-    "createdAt",
-    "name",
-    "email",
-    "phone",
-    "deliveryArea",
-    "message",
-    "source",
-    "id",
-  ];
-
+  const headers = ["createdAt", "name", "email", "phone", "deliveryArea", "message", "source", "id"];
   const escapeCsvValue = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
 
   const rows = entries.map((entry) =>
@@ -186,14 +216,18 @@ const renderQuestionnaireCard = (entry) => {
   const emailAction = entry.email
     ? `<a class="record-action" href="mailto:${encodeURIComponent(entry.email)}">Email</a>`
     : "";
-  const phoneAction = entry.phone
-    ? `<a class="record-action" href="tel:${encodeURIComponent(entry.phone)}">Call</a>`
+  const phoneHref = cleanPhone(entry.phone);
+  const phoneAction = phoneHref
+    ? `<a class="record-action" href="tel:${phoneHref}">Call</a>`
+    : "";
+  const textAction = phoneHref
+    ? `<a class="record-action" href="sms:${phoneHref}">Text</a>`
     : "";
 
   return `
     <article class="questionnaire-card">
       <div class="questionnaire-head">
-        <div>
+        <div class="questionnaire-head-copy">
           <h3>${escapeHtml(entry.name || "Unnamed contact")}</h3>
           <div class="questionnaire-meta">
             <span>${escapeHtml(formatDate(entry.createdAt))}</span>
@@ -205,15 +239,17 @@ const renderQuestionnaireCard = (entry) => {
 
       <div class="questionnaire-fields">
         ${fieldsMarkup}
-        <div class="questionnaire-field questionnaire-field-message">
-          <span>Notes</span>
-          <p>${notesMarkup}</p>
-        </div>
+      </div>
+
+      <div class="questionnaire-message-box">
+        <span>Message</span>
+        <p>${notesMarkup}</p>
       </div>
 
       <div class="record-actions">
         ${emailAction}
         ${phoneAction}
+        ${textAction}
       </div>
     </article>
   `;
@@ -231,7 +267,9 @@ const renderAreaBreakdown = (entries) => {
       return accumulator;
     }
 
-    const existingArea = accumulator.find((item) => normalizeText(item.label) === normalizeText(areaLabel));
+    const existingArea = accumulator.find(
+      (item) => normalizeText(item.label) === normalizeText(areaLabel),
+    );
 
     if (existingArea) {
       existingArea.count += 1;
@@ -330,8 +368,12 @@ const renderResultsMeta = (filteredCount, totalCount) => {
   }
 
   const filterLabel =
-    currentAreaFilter !== "all" ? ` in ${currentAreaFilter.replace(/\b\w/g, (char) => char.toUpperCase())}` : "";
-  const searchLabel = searchInput?.value?.trim() ? ` matching "${searchInput.value.trim()}"` : "";
+    currentAreaFilter !== "all"
+      ? ` in ${currentAreaFilter.replace(/\b\w/g, (char) => char.toUpperCase())}`
+      : "";
+  const searchLabel = searchInput?.value?.trim()
+    ? ` matching "${searchInput.value.trim()}"`
+    : "";
 
   resultsMeta.textContent = `Showing ${filteredCount} of ${totalCount} questionnaires${filterLabel}${searchLabel}.`;
 };
@@ -340,8 +382,7 @@ const getFilteredEntries = (entries, query = "") => {
   const normalizedQuery = query.trim().toLowerCase();
 
   return entries.filter((entry) => {
-    const matchesArea =
-      currentAreaFilter === "all" || getAreaKey(entry) === currentAreaFilter;
+    const matchesArea = currentAreaFilter === "all" || getAreaKey(entry) === currentAreaFilter;
 
     if (!matchesArea) {
       return false;
@@ -351,16 +392,20 @@ const getFilteredEntries = (entries, query = "") => {
       return true;
     }
 
-    return [
-      entry.name,
-      entry.email,
-      entry.phone,
-      entry.deliveryArea,
-      entry.message,
-    ]
+    return [entry.name, entry.email, entry.phone, entry.deliveryArea, entry.message]
       .filter(Boolean)
       .some((value) => String(value).toLowerCase().includes(normalizedQuery));
   });
+};
+
+const renderDashboardError = (message) => {
+  if (questionnaireList) {
+    questionnaireList.innerHTML = `<div class="portal-empty is-error">${escapeHtml(message)}</div>`;
+  }
+
+  if (resultsMeta) {
+    resultsMeta.textContent = message;
+  }
 };
 
 const renderDashboard = async (query = "") => {
@@ -368,94 +413,257 @@ const renderDashboard = async (query = "") => {
     return;
   }
 
-  const entries = await loadQuestionnaires();
-  const filteredEntries = sortEntries(getFilteredEntries(entries, query));
+  try {
+    const entries = await loadQuestionnaires();
+    const filteredEntries = sortEntries(getFilteredEntries(entries, query));
 
-  totalStat.textContent = String(entries.length);
-  latestStat.textContent = entries.length ? formatDate(entries[0].createdAt) : "No entries yet";
-  areasStat.textContent = String(
-    new Set(
-      entries
-        .map((entry) => entry.deliveryArea)
-        .filter(Boolean)
-        .map((value) => String(value).trim().toLowerCase()),
-    ).size,
-  );
-  readyStat.textContent = String(entries.filter((entry) => normalizeText(entry.phone)).length);
+    totalStat.textContent = String(entries.length);
+    latestStat.textContent = entries.length ? formatDate(entries[0].createdAt) : "No entries yet";
+    areasStat.textContent = String(
+      new Set(
+        entries
+          .map((entry) => entry.deliveryArea)
+          .filter(Boolean)
+          .map((value) => String(value).trim().toLowerCase()),
+      ).size,
+    );
+    readyStat.textContent = String(entries.filter((entry) => normalizeText(entry.phone)).length);
 
-  renderAreaFilters(entries);
-  renderAreaBreakdown(filteredEntries);
-  renderRecentActivity(filteredEntries);
-  renderResultsMeta(filteredEntries.length, entries.length);
+    renderAreaFilters(entries);
+    renderAreaBreakdown(filteredEntries);
+    renderRecentActivity(filteredEntries);
+    renderResultsMeta(filteredEntries.length, entries.length);
 
-  if (!filteredEntries.length) {
-    questionnaireList.innerHTML = `
-      <div class="portal-empty">
-        No questionnaires match the current search or area filter.
-      </div>
-    `;
+    if (!filteredEntries.length) {
+      questionnaireList.innerHTML = `
+        <div class="portal-empty">
+          No questionnaires match the current search or area filter.
+        </div>
+      `;
+      return;
+    }
+
+    questionnaireList.innerHTML = filteredEntries.map(renderQuestionnaireCard).join("");
+  } catch (error) {
+    console.error(error);
+    renderDashboardError(
+      "We could not load the questionnaires right now. Check the data connection and try again.",
+    );
+  }
+};
+
+const updateLoginIdentityUi = () => {
+  if (!loginIdentityInput || !loginIdentityLabel) {
     return;
   }
 
-  questionnaireList.innerHTML = filteredEntries.map(renderQuestionnaireCard).join("");
-};
+  const labelTextNode = Array.from(loginIdentityLabel.childNodes).find(
+    (node) => node.nodeType === Node.TEXT_NODE && node.textContent?.trim(),
+  );
 
-  if (loginPanel && dashboard && loginForm && loginStatus) {
-  if (loginIdentityInput) {
+  if (isRemoteDataEnabled) {
+    loginIdentityInput.name = "email";
+    loginIdentityInput.type = "email";
+    loginIdentityInput.autocomplete = "email";
+    loginIdentityInput.setAttribute("inputmode", "email");
+    loginIdentityInput.placeholder = "team@example.com";
+
+    if (labelTextNode) {
+      labelTextNode.textContent = "Email\n                ";
+    }
+  } else {
+    loginIdentityInput.name = "username";
     loginIdentityInput.type = "text";
+    loginIdentityInput.autocomplete = "username";
     loginIdentityInput.setAttribute("inputmode", "text");
     loginIdentityInput.setAttribute("autocapitalize", "off");
     loginIdentityInput.setAttribute("spellcheck", "false");
-    loginIdentityInput.placeholder = "Revup";
-  }
-
-  if (loginIdentityLabel) {
-    const labelTextNode = Array.from(loginIdentityLabel.childNodes).find(
-      (node) => node.nodeType === Node.TEXT_NODE && node.textContent?.trim(),
-    );
+    loginIdentityInput.placeholder = "revup";
 
     if (labelTextNode) {
       labelTextNode.textContent = "Username\n                ";
     }
   }
+};
 
-  setAuthenticated(isAuthenticated());
+const clearDashboardSearch = () => {
+  currentAreaFilter = "all";
+  currentSort = "newest";
 
-  if (isAuthenticated()) {
-    renderDashboard().catch(console.error);
+  if (searchInput) {
+    searchInput.value = "";
   }
 
-  loginForm.addEventListener("submit", (event) => {
+  if (sortChips) {
+    sortChips.querySelectorAll("[data-sort]").forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.sort === "newest");
+    });
+  }
+};
+
+const handleLogout = async () => {
+  if (isRemoteDataEnabled && dataApi?.signOut) {
+    const { error } = await dataApi.signOut();
+
+    if (error) {
+      console.error(error);
+    }
+  }
+
+  setAuthenticated(false);
+  clearDashboardSearch();
+  cachedEntries = [];
+  setStatus(loginStatus, "You have been logged out.", "success");
+
+  if (questionnaireList) {
+    questionnaireList.innerHTML = "";
+  }
+};
+
+const initializeSignupUi = () => {
+  if (!signupPanel) {
+    return;
+  }
+
+  signupPanel.hidden = !(isRemoteDataEnabled && dataApi?.allowPortalSignup);
+};
+
+const initializePortal = async () => {
+  updateLoginIdentityUi();
+  initializeSignupUi();
+
+  if (isRemoteDataEnabled && dataApi?.getSession) {
+    const { data, error } = await dataApi.getSession();
+
+    if (error) {
+      console.error(error);
+    }
+
+    const hasSession = Boolean(data?.session);
+    setAuthenticated(hasSession);
+
+    if (hasSession) {
+      await renderDashboard();
+    }
+
+    dataApi.onAuthStateChange?.((_event, session) => {
+      const authenticated = Boolean(session);
+      setAuthenticated(authenticated);
+
+      if (authenticated) {
+        renderDashboard(searchInput?.value || "").catch(console.error);
+      }
+    });
+
+    return;
+  }
+
+  setAuthenticated(isFallbackAuthenticated());
+
+  if (isFallbackAuthenticated()) {
+    await renderDashboard();
+  }
+};
+
+if (loginPanel && dashboard && loginForm && loginStatus) {
+  initializePortal().catch(console.error);
+
+  loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    setStatus(loginStatus, "Checking access...");
 
     const formData = new FormData(loginForm);
-    const username = String(formData.get("username") || formData.get("email") || "").trim();
-    const password = String(formData.get("password") || "").trim();
 
-    if (normalizeText(username) === validUsername && normalizeText(password) === validPassword) {
-      loginStatus.textContent = "Access granted.";
-      setAuthenticated(true);
-      renderDashboard(searchInput?.value || "").catch(console.error);
-      loginForm.reset();
+    try {
+      if (isRemoteDataEnabled && dataApi?.signIn) {
+        const email = String(formData.get("email") || "").trim();
+        const password = String(formData.get("password") || "").trim();
+        const { error } = await dataApi.signIn({ email, password });
+
+        if (error) {
+          throw error;
+        }
+
+        setStatus(loginStatus, "Access granted.", "success");
+        setAuthenticated(true);
+        await renderDashboard(searchInput?.value || "");
+        loginForm.reset();
+        return;
+      }
+
+      const username = String(formData.get("username") || "").trim();
+      const password = String(formData.get("password") || "").trim();
+
+      if (
+        normalizeText(username) === fallbackUsername &&
+        normalizeText(password) === fallbackPassword
+      ) {
+        setStatus(loginStatus, "Access granted.", "success");
+        setAuthenticated(true);
+        await renderDashboard(searchInput?.value || "");
+        loginForm.reset();
+        return;
+      }
+
+      throw new Error("Incorrect username or password.");
+    } catch (error) {
+      console.error(error);
+      setAuthenticated(false);
+      setStatus(
+        loginStatus,
+        isRemoteDataEnabled
+          ? "Incorrect email or password."
+          : "Incorrect username or password.",
+        "error",
+      );
+    }
+  });
+
+  signupForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!isRemoteDataEnabled || !dataApi?.signUp) {
+      setStatus(signupStatus, "Portal signup is not available in fallback mode.", "error");
       return;
     }
 
-    loginStatus.textContent = "Incorrect username or password.";
-    setAuthenticated(false);
+    const formData = new FormData(signupForm);
+    const fullName = String(formData.get("fullName") || "").trim();
+    const email = String(formData.get("signupEmail") || "").trim();
+    const password = String(formData.get("signupPassword") || "").trim();
+
+    setStatus(signupStatus, "Creating user...");
+
+    try {
+      const { error } = await dataApi.signUp({
+        email,
+        password,
+        metadata: fullName ? { full_name: fullName } : {},
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      setStatus(
+        signupStatus,
+        "User created. Check the inbox for verification if your auth settings require it.",
+        "success",
+      );
+      signupForm.reset();
+    } catch (error) {
+      console.error(error);
+      setStatus(
+        signupStatus,
+        error?.message || "We could not create the portal user right now.",
+        "error",
+      );
+    }
   });
 
   logoutButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      setAuthenticated(false);
-      loginStatus.textContent = "You have been logged out.";
-
-      if (searchInput) {
-        searchInput.value = "";
-      }
-
-      if (questionnaireList) {
-        questionnaireList.innerHTML = "";
-      }
+      handleLogout().catch(console.error);
     });
   });
 
@@ -513,7 +721,7 @@ const renderDashboard = async (query = "") => {
   }
 
   window.addEventListener("storage", () => {
-    if (isAuthenticated()) {
+    if (!isRemoteDataEnabled && isFallbackAuthenticated()) {
       renderDashboard(searchInput?.value || "").catch(console.error);
     }
   });

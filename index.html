@@ -49,9 +49,12 @@
     <!-- Preload LCP hero image for faster rendering -->
     <link rel="preload" as="image" href="assets/maylin-luxury-pillow-top-01.png" />
 
-    <link rel="stylesheet" href="styles.css?v=20260406" />
-    <script src="storage.js?v=20260406" defer></script>
-    <script src="main.js?v=20260406" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260422" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="supabase-config.js?v=20260422" defer></script>
+    <script src="supabase.js?v=20260422" defer></script>
+    <script src="storage.js?v=20260422" defer></script>
+    <script src="main.js?v=20260422" defer></script>
 
     <!-- Structured Data: LocalBusiness -->
     <script type="application/ld+json">
@@ -1079,7 +1082,7 @@
               </article>
             </div>
 
-            <div class="contact-form-wrap contact-whatsapp-wrap">
+            <div class="contact-form-wrap">
               <div class="contact-primary-actions">
                 <a class="button button-primary" href="tel:+17863067842">Call +1 (786) 306-7842</a>
                 <a
@@ -1088,6 +1091,73 @@
                   >Text Us</a
                 >
               </div>
+              <form class="contact-form questionnaire-form" id="contact-form" novalidate>
+                <div class="form-grid">
+                  <label>
+                    Full name
+                    <input
+                      type="text"
+                      name="name"
+                      autocomplete="name"
+                      placeholder="Your name"
+                      required
+                    />
+                  </label>
+
+                  <label>
+                    Email
+                    <input
+                      type="email"
+                      name="email"
+                      autocomplete="email"
+                      placeholder="you@example.com"
+                      required
+                    />
+                  </label>
+
+                  <label>
+                    Phone
+                    <input
+                      type="tel"
+                      name="phone"
+                      autocomplete="tel"
+                      placeholder="+1 (786) 306-7842"
+                    />
+                  </label>
+
+                  <label>
+                    Delivery area
+                    <select name="deliveryArea" required>
+                      <option value="">Select your area</option>
+                      <option>Hialeah</option>
+                      <option>Miami</option>
+                      <option>Doral</option>
+                      <option>Miami Gardens</option>
+                      <option>Coral Gables</option>
+                      <option>Miami Beach</option>
+                      <option>Other</option>
+                    </select>
+                  </label>
+
+                  <label class="full-span">
+                    What do you need?
+                    <textarea
+                      name="message"
+                      placeholder="Tell us the mattress size, comfort level, budget, delivery timing, or if you need a custom build."
+                      required
+                    ></textarea>
+                  </label>
+                </div>
+
+                <div class="form-actions">
+                  <button class="button button-primary" type="submit">Send request</button>
+                </div>
+
+                <p class="form-note">
+                  Every request is saved for the team and can be reviewed in the private portal.
+                </p>
+                <p class="form-status" id="form-status" aria-live="polite"></p>
+              </form>
               <div class="whatsapp-priority-card">
                 <span>Best contact</span>
                 <strong>Call or send a text for the fastest response. WhatsApp is available if you prefer it.</strong>
@@ -1100,7 +1170,7 @@
 
       <footer class="panel site-footer" data-reveal="up">
         <p class="footer-credit">Created by RevUp Agency Group LLC</p>
-        <a class="footer-portal-entry" href="portal.html?v=20260327" aria-label="Open private portal">
+        <a class="footer-portal-entry" href="portal.html?v=20260422" aria-label="Open private portal">
           <span class="footer-portal-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" role="img" focusable="false">
               <path

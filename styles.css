@@ -67,6 +67,10 @@ textarea {
   font: inherit;
 }
 
+select {
+  font: inherit;
+}
+
 .skip-link {
   position: absolute;
   left: 16px;
@@ -1657,6 +1661,7 @@ h3 {
 }
 
 .contact-form input,
+.contact-form select,
 .contact-form textarea,
 .portal-login-form input,
 .portal-search input {
@@ -1673,6 +1678,7 @@ h3 {
 }
 
 .contact-form input:focus,
+.contact-form select:focus,
 .contact-form textarea:focus,
 .portal-login-form input:focus,
 .portal-search input:focus {
@@ -1715,7 +1721,7 @@ h3 {
 
 .portal-grid {
   display: grid;
-  grid-template-columns: minmax(320px, 0.38fr) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 20px;
 }
 
@@ -1734,6 +1740,82 @@ h3 {
 .portal-login-form {
   display: grid;
   gap: 16px;
+}
+
+.portal-login-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(340px, 420px);
+  gap: 24px;
+  align-items: start;
+}
+
+.portal-login-copy,
+.portal-auth-stack {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.portal-auth-card,
+.portal-access-card,
+.portal-setup-note,
+.questionnaire-message-box {
+  border: 1px solid rgba(23, 19, 16, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: var(--shadow-soft);
+}
+
+.portal-auth-card,
+.portal-access-card,
+.portal-setup-note {
+  padding: 22px;
+}
+
+.portal-access-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.portal-access-list div {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(247, 240, 231, 0.72);
+}
+
+.portal-access-list span,
+.questionnaire-message-box span {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.portal-access-list strong {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.portal-setup-note p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.portal-grid.is-login .portal-login-panel {
+  width: min(100%, 1100px);
+  margin-inline: auto;
+}
+
+.portal-grid.is-dashboard .portal-dashboard {
+  width: 100%;
 }
 
 .portal-header {
@@ -1826,6 +1908,11 @@ h3 {
   font-size: clamp(1.7rem, 3vw, 2.2rem);
 }
 
+.questionnaire-head-copy {
+  display: grid;
+  gap: 8px;
+}
+
 .questionnaire-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1850,8 +1937,23 @@ h3 {
 
 .questionnaire-fields {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
+}
+
+.questionnaire-message-box {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(246, 241, 235, 0.92)),
+    rgba(255, 255, 255, 0.9);
+}
+
+.questionnaire-message-box p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.72;
 }
 
 .records-toolbar {
@@ -2061,6 +2163,15 @@ h3 {
   border-radius: var(--radius-md);
   color: var(--ink-soft);
   text-align: center;
+}
+
+.portal-empty.is-error,
+.portal-status.is-error {
+  color: #a33b30;
+}
+
+.portal-status.is-success {
+  color: var(--accent);
 }
 
 .site-footer {
@@ -2318,7 +2429,12 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .portal-login-shell,
   .records-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-access-list {
     grid-template-columns: 1fr;
   }
 
@@ -2449,6 +2565,14 @@ h3 {
   .portal-login-panel,
   .portal-dashboard {
     padding: 22px;
+  }
+
+  .portal-auth-card,
+  .portal-access-card,
+  .portal-setup-note,
+  .questionnaire-message-box {
+    border-radius: 20px;
+    padding: 18px;
   }
 
   h1 {

@@ -5,6 +5,7 @@ const formStatus = document.getElementById("form-status");
 const revealItems = document.querySelectorAll("[data-reveal]");
 const productAlbumTriggers = document.querySelectorAll("[data-product-album-trigger]");
 const storageApi = window.maylinStorageApi || null;
+const dataApi = window.maylinDataApi || null;
 const createEntryId =
   storageApi?.createEntryId ||
   (() =>
@@ -307,8 +308,16 @@ if (form && formStatus) {
     const phone = String(formData.get("phone") || "").trim();
     const deliveryArea = String(formData.get("deliveryArea") || "").trim();
     const message = String(formData.get("message") || "").trim();
+    const submitButton = form.querySelector('button[type="submit"]');
 
     try {
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
+      }
+
+      formStatus.textContent = "Saving your request...";
+
       const entry = {
         id: createEntryId(),
         createdAt: new Date().toISOString(),
@@ -320,7 +329,9 @@ if (form && formStatus) {
         source: "website-questionnaire",
       };
 
-      if (storageApi?.saveQuestionnaire) {
+      if (dataApi?.saveQuestionnaire) {
+        await dataApi.saveQuestionnaire(entry);
+      } else if (storageApi?.saveQuestionnaire) {
         storageApi.saveQuestionnaire(entry);
       } else {
         throw new Error("Storage API is unavailable.");
@@ -333,6 +344,11 @@ if (form && formStatus) {
       console.error(error);
       formStatus.textContent =
         "We could not save the questionnaire right now. Please try again.";
+    } finally {
+      if (submitButton instanceof HTMLButtonElement) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send request";
+      }
     }
   });
 }

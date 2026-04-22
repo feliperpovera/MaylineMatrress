@@ -16,17 +16,20 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20260327" />
-    <script src="storage.js?v=20260327" defer></script>
-    <script src="main.js?v=20260327" defer></script>
-    <script src="portal.js?v=20260327" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260422" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="supabase-config.js?v=20260422" defer></script>
+    <script src="supabase.js?v=20260422" defer></script>
+    <script src="storage.js?v=20260422" defer></script>
+    <script src="main.js?v=20260422" defer></script>
+    <script src="portal.js?v=20260422" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
     <div class="page-shell">
       <header class="site-header">
-        <a class="brand" href="index.html?v=20260327" aria-label="Maylin Mattress website">
+        <a class="brand" href="index.html?v=20260422" aria-label="Maylin Mattress website">
           <img src="assets/maylin-mattress-logo.png" alt="Maylin Mattress logo" />
         </a>
 
@@ -43,9 +46,9 @@
         </button>
 
         <nav class="site-nav" id="site-nav" aria-label="Portal navigation">
-          <a href="index.html?v=20260327">Website</a>
-          <a href="index.html?v=20260327#contact">Questionnaire</a>
-          <a href="portal.html?v=20260327">Portal</a>
+          <a href="index.html?v=20260422">Website</a>
+          <a href="index.html?v=20260422#contact">Questionnaire</a>
+          <a href="portal.html?v=20260422">Portal</a>
           <button
             class="button button-outline portal-logout-button"
             type="button"
@@ -62,102 +65,138 @@
           <p class="eyebrow">Private portal</p>
           <h1>Review every questionnaire in one place.</h1>
           <p class="lead">
-            This restricted area stores the website questionnaires saved in this browser and lets
-            your team review, search, and export them quickly.
+            Review incoming requests, search them quickly, and export the records your team needs
+            to follow up on every lead.
           </p>
           <p class="portal-note">
-            Access is limited to authorized credentials and remains active for the current browser
-            session only.
+            If Supabase is configured, submissions sync across devices. Otherwise, this browser
+            keeps a local copy for review.
           </p>
         </section>
 
         <div class="portal-grid">
           <section class="panel portal-login-panel" id="login-panel" data-reveal="up">
-            <p class="eyebrow">Restricted access</p>
-            <h2>Sign in to access the questionnaire vault.</h2>
-            <p class="portal-note">
-              Use the private portal credentials to review the saved questionnaires.
-            </p>
+            <div class="portal-login-shell">
+              <div class="portal-login-copy">
+                <p class="eyebrow">Restricted access</p>
+                <h2>Sign in to access the questionnaire vault.</h2>
+                <p class="portal-note">
+                  Use the portal credentials to review every request, export records, and contact
+                  leads by email or phone.
+                </p>
 
-            <form class="portal-login-form" id="portal-login-form" novalidate>
-              <label>
-                Username
-                <input
-                  type="text"
-                  name="username"
-                  autocomplete="username"
-                  placeholder="Revup"
-                  required
-                />
-              </label>
+                <div class="portal-access-card">
+                  <span class="dashboard-kicker">Current access</span>
+                  <div class="portal-access-list">
+                    <div>
+                      <span>Portal</span>
+                      <strong>/portal.html</strong>
+                    </div>
+                    <div>
+                      <span>Username</span>
+                      <strong>revup</strong>
+                    </div>
+                    <div>
+                      <span>Password</span>
+                      <strong>miami</strong>
+                    </div>
+                  </div>
+                </div>
 
-              <label>
-                Password
-                <input
-                  type="password"
-                  name="password"
-                  autocomplete="current-password"
-                  placeholder="Enter password"
-                  required
-                />
-              </label>
-
-              <div class="form-actions">
-                <button class="button button-primary" type="submit">Access Portal</button>
-              </div>
-
-              <p class="portal-status" id="login-status" aria-live="polite"></p>
-            </form>
-
-            <section class="portal-signup-panel" id="portal-signup-panel" hidden>
-              <div class="dashboard-panel-head">
-                <div>
-                  <span class="dashboard-kicker">New user</span>
-                  <h3>Create portal user</h3>
+                <div class="portal-setup-note">
+                  <span class="dashboard-kicker">Recommended setup</span>
+                  <p>
+                    Configure Supabase to sync leads across devices. Until then, the fallback
+                    access remains username <strong>revup</strong> and password
+                    <strong>miami</strong>.
+                  </p>
                 </div>
               </div>
 
-              <form class="portal-login-form" id="portal-signup-form">
-                <label>
-                  Full name
-                  <input type="text" name="fullName" placeholder="Team member name" />
-                </label>
+              <div class="portal-auth-stack">
+                <section class="portal-auth-card">
+                  <div class="dashboard-panel-head">
+                    <div>
+                      <span class="dashboard-kicker">Portal login</span>
+                      <h3>Open the dashboard</h3>
+                    </div>
+                  </div>
 
-                <label>
-                  Email
-                  <input
-                    type="email"
-                    name="signupEmail"
-                    autocomplete="email"
-                    placeholder="newuser@example.com"
-                    required
-                  />
-                </label>
+                  <form class="portal-login-form" id="portal-login-form" novalidate>
+                    <label>
+                      Username
+                      <input
+                        type="text"
+                        name="username"
+                        autocomplete="username"
+                        placeholder="revup"
+                        required
+                      />
+                    </label>
 
-                <label>
-                  Password
-                  <input
-                    type="password"
-                    name="signupPassword"
-                    autocomplete="new-password"
-                    placeholder="Create password"
-                    required
-                  />
-                </label>
+                    <label>
+                      Password
+                      <input
+                        type="password"
+                        name="password"
+                        autocomplete="current-password"
+                        placeholder="Enter password"
+                        required
+                      />
+                    </label>
 
-                <div class="form-actions">
-                  <button class="button button-outline" type="submit">Create User</button>
-                </div>
+                    <div class="form-actions">
+                      <button class="button button-primary" type="submit">Access Portal</button>
+                    </div>
 
-                <p class="portal-status" id="signup-status" aria-live="polite"></p>
-              </form>
-            </section>
+                    <p class="portal-status" id="login-status" aria-live="polite"></p>
+                  </form>
+                </section>
 
-            <div class="portal-setup-note">
-              <span class="dashboard-kicker">Recommended setup</span>
-              <p>
-                Current direct portal access uses the internal credentials Revup and Miami.
-              </p>
+                <section class="portal-signup-panel portal-auth-card" id="portal-signup-panel" hidden>
+                  <div class="dashboard-panel-head">
+                    <div>
+                      <span class="dashboard-kicker">New user</span>
+                      <h3>Create portal user</h3>
+                    </div>
+                  </div>
+
+                  <form class="portal-login-form" id="portal-signup-form">
+                    <label>
+                      Full name
+                      <input type="text" name="fullName" placeholder="Team member name" />
+                    </label>
+
+                    <label>
+                      Email
+                      <input
+                        type="email"
+                        name="signupEmail"
+                        autocomplete="email"
+                        placeholder="newuser@example.com"
+                        required
+                      />
+                    </label>
+
+                    <label>
+                      Password
+                      <input
+                        type="password"
+                        name="signupPassword"
+                        autocomplete="new-password"
+                        placeholder="Create password"
+                        required
+                      />
+                    </label>
+
+                    <div class="form-actions">
+                      <button class="button button-outline" type="submit">Create User</button>
+                    </div>
+
+                    <p class="portal-status" id="signup-status" aria-live="polite"></p>
+                  </form>
+                </section>
+              </div>
             </div>
           </section>
 
