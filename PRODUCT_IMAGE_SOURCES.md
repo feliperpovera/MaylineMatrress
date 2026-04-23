@@ -68,17 +68,27 @@ Downloaded on 2026-03-30 for product album previews.
 
 ## Carpentry References
 
-- `assets/product-albums/carpentry-1.jpg`
-  Source: https://commons.wikimedia.org/w/index.php?curid=94320348
-  Direct file: https://upload.wikimedia.org/wikipedia/commons/a/af/Making_benches_in_a_carpentry_workshop.jpg
-  License: CC BY-SA
+- `assets/product-albums/carpentry-kitchen.jpg`
+  Source: https://www.pexels.com/photo/wooden-cabinets-in-a-kitchen-7028113/
+  Direct file: https://images.pexels.com/photos/7028113/pexels-photo-7028113.jpeg?auto=compress&cs=tinysrgb&w=1200
+  License: Pexels License / free to use
 
-- `assets/product-albums/carpentry-2.jpg`
-  Source: https://commons.wikimedia.org/w/index.php?curid=136769329
-  Direct file: https://upload.wikimedia.org/wikipedia/commons/b/bc/A_small_carpentry_workshop_at_Nsukka.jpg
-  License: CC BY-SA
+- `assets/product-albums/carpentry-closet.jpg`
+  Source: https://www.pexels.com/photo/a-brown-wooden-walk-in-closet-8146203/
+  Direct file: https://images.pexels.com/photos/8146203/pexels-photo-8146203.jpeg?auto=compress&cs=tinysrgb&w=1200
+  License: Pexels License / free to use
 
-- `assets/product-albums/carpentry-3.jpg`
-  Source: https://www.flickr.com/photos/202846129@N03/54555250861
-  Direct file: https://live.staticflickr.com/65535/54555250861_10abd404ff_b.jpg
-  License: CC BY 2.0
+- `assets/product-albums/carpentry-headboard.jpg`
+  Source: https://www.pexels.com/photo/wooden-headboard-near-the-bed-8471630/
+  Direct file: https://images.pexels.com/photos/8471630/pexels-photo-8471630.jpeg?auto=compress&cs=tinysrgb&w=1200
+  License: Pexels License / free to use
+
+- `assets/product-albums/carpentry-workshop.jpg`
+  Source: https://www.pexels.com/photo/carpenter-working-with-wooden-piece-in-workshop-5974344/
+  Direct file: https://images.pexels.com/photos/5974344/pexels-photo-5974344.jpeg?auto=compress&cs=tinysrgb&w=1200
+  License: Pexels License / free to use
+
+- Legacy local images retained:
+  `assets/product-albums/carpentry-1.jpg`
+  `assets/product-albums/carpentry-2.jpg`
+  `assets/product-albums/carpentry-3.jpg`

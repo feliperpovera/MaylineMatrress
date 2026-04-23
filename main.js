@@ -1,17 +1,34 @@
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
+const heroVideo = document.querySelector(".hero-video");
+const heroVideoFrame = document.querySelector(".hero-video-frame");
+const heroVideoEndScreen = document.querySelector(".hero-video-end-screen");
+const heroVideoEndLogo = document.querySelector(".hero-video-end-logo");
 const form = document.getElementById("contact-form");
 const formStatus = document.getElementById("form-status");
 const revealItems = document.querySelectorAll("[data-reveal]");
 const productAlbumTriggers = document.querySelectorAll("[data-product-album-trigger]");
 const storageApi = window.maylinStorageApi || null;
 const dataApi = window.maylinDataApi || null;
+const dataLayer = window.dataLayer || (window.dataLayer = []);
 const createEntryId =
   storageApi?.createEntryId ||
   (() =>
     window.crypto?.randomUUID
       ? window.crypto.randomUUID()
       : `entry-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+
+const trackEvent = (eventName, details = {}) => {
+  dataLayer.push({
+    event: eventName,
+    ...details,
+  });
+};
+
+const getLinkLabel = (link) => {
+  const label = link.getAttribute("aria-label") || link.textContent || "";
+  return label.trim().replace(/\s+/g, " ");
+};
 
 if (navToggle && siteNav) {
   const closeNav = () => {
@@ -76,6 +93,56 @@ if ("IntersectionObserver" in window) {
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
+
+if (heroVideo && heroVideoFrame && heroVideoEndScreen && heroVideoEndLogo) {
+  const hideHeroEndScreen = () => {
+    heroVideoFrame.classList.remove("has-ended");
+    heroVideoEndScreen.classList.remove("is-visible");
+  };
+
+  const showHeroEndScreen = () => {
+    heroVideoFrame.classList.add("has-ended");
+    heroVideoEndScreen.classList.add("is-visible");
+    trackEvent("hero_video_completed", {
+      component: "hero_video",
+    });
+  };
+
+  heroVideo.addEventListener("loadedmetadata", hideHeroEndScreen);
+  heroVideo.addEventListener("play", hideHeroEndScreen);
+  heroVideo.addEventListener("seeking", hideHeroEndScreen);
+  heroVideo.addEventListener("ended", showHeroEndScreen);
+}
+
+document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+  link.addEventListener("click", () => {
+    trackEvent("contact_click", {
+      contact_method: "phone",
+      link_text: getLinkLabel(link),
+      destination: link.getAttribute("href") || "",
+    });
+  });
+});
+
+document.querySelectorAll('a[href^="sms:"]').forEach((link) => {
+  link.addEventListener("click", () => {
+    trackEvent("contact_click", {
+      contact_method: "sms",
+      link_text: getLinkLabel(link),
+      destination: link.getAttribute("href") || "",
+    });
+  });
+});
+
+document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp"]').forEach((link) => {
+  link.addEventListener("click", () => {
+    trackEvent("contact_click", {
+      contact_method: "whatsapp",
+      link_text: getLinkLabel(link),
+      destination: link.getAttribute("href") || "",
+    });
+  });
+});
 
 if (productAlbumTriggers.length > 0) {
   const lightbox = document.createElement("div");
@@ -282,6 +349,10 @@ if (productAlbumTriggers.length > 0) {
     if (card) {
       card.classList.add("is-open");
     }
+
+    trackEvent("product_gallery_open", {
+      product_name: card?.querySelector("h3")?.textContent?.trim() || "Product",
+    });
   };
 
   productAlbumTriggers.forEach((trigger) => {

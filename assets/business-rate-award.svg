@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" role="img" aria-labelledby="title desc">
+  <title id="title">BusinessRate Top 5 2026 award for Maylin Mattress Factory Direct</title>
+  <desc id="desc">Gold glowing BusinessRate recognition graphic with Top 5 2026 award winner text for Maylin Mattress Factory Direct.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#171717"/>
+      <stop offset="58%" stop-color="#2a2823"/>
+      <stop offset="100%" stop-color="#43403a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="34%" r="36%">
+      <stop offset="0%" stop-color="#fff6a4" stop-opacity="0.98"/>
+      <stop offset="48%" stop-color="#ffe16c" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#ffe16c" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="floorGlow" cx="50%" cy="72%" r="30%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.84"/>
+      <stop offset="52%" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="plaque" x1="0" x2="1">
+      <stop offset="0%" stop-color="#f4f4f4"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e7e7e7"/>
+    </linearGradient>
+    <filter id="softBlur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <filter id="textShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1024" height="1536" fill="url(#bg)"/>
+  <rect width="1024" height="1536" fill="url(#glow)"/>
+  <ellipse cx="512" cy="1088" rx="360" ry="238" fill="url(#floorGlow)"/>
+
+  <g opacity="0.74" fill="none" stroke="#ffdb58" stroke-linecap="round" stroke-width="8">
+    <path d="M286 358c-62 88-80 204-36 312 40 98 104 146 146 194 20 22 28 44 34 62" />
+    <path d="M328 404c-38 98-26 192 32 272 44 60 82 88 102 138" />
+    <path d="M734 358c62 88 80 204 36 312-40 98-104 146-146 194-20 22-28 44-34 62" />
+    <path d="M692 404c38 98 26 192-32 272-44 60-82 88-102 138" />
+    <path d="M400 876c42 34 70 70 88 114" />
+    <path d="M624 876c-42 34-70 70-88 114" />
+  </g>
+
+  <g fill="#ffdb58" opacity="0.9">
+    <path d="M274 364c36 22 68 56 96 98-50 0-78-18-96-98Z"/>
+    <path d="M246 438c40 18 74 46 102 84-48 6-78-8-102-84Z"/>
+    <path d="M230 536c40 20 72 50 94 88-46 2-76-14-94-88Z"/>
+    <path d="M256 634c36 22 62 52 82 90-44-2-68-22-82-90Z"/>
+    <path d="M328 278c44 16 82 46 114 88-54 8-88-12-114-88Z"/>
+    <path d="M392 262c44 4 84 24 122 58-48 18-86 10-122-58Z"/>
+    <path d="M750 364c-36 22-68 56-96 98 50 0 78-18 96-98Z"/>
+    <path d="M778 438c-40 18-74 46-102 84 48 6 78-8 102-84Z"/>
+    <path d="M794 536c-40 20-72 50-94 88 46 2 76-14 94-88Z"/>
+    <path d="M768 634c-36 22-62 52-82 90 44-2 68-22 82-90Z"/>
+    <path d="M696 278c-44 16-82 46-114 88 54 8 88-12 114-88Z"/>
+    <path d="M632 262c-44 4-84 24-122 58 48 18 86 10 122-58Z"/>
+  </g>
+
+  <g fill="#ffdd63">
+    <path d="M420 404l14 30 34 4-24 22 6 34-30-16-30 16 6-34-24-22 34-4 14-30Z"/>
+    <path d="M470 388l13 28 30 4-22 20 6 30-27-14-27 14 6-30-22-20 30-4 13-28Z"/>
+    <path d="M512 372l15 34 38 4-28 24 8 38-33-18-33 18 8-38-28-24 38-4 15-34Z"/>
+    <path d="M554 388l13 28 30 4-22 20 6 30-27-14-27 14 6-30-22-20 30-4 13-28Z"/>
+    <path d="M604 404l14 30 34 4-24 22 6 34-30-16-30 16 6-34-24-22 34-4 14-30Z"/>
+  </g>
+
+  <g filter="url(#textShadow)" fill="#111111" text-anchor="middle">
+    <text x="512" y="514" font-family="Arial, Helvetica, sans-serif" font-size="94" font-weight="800">TOP 5</text>
+    <text x="512" y="612" font-family="Arial, Helvetica, sans-serif" font-size="118" font-weight="900">2026</text>
+    <text x="512" y="672" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="800">AWARD WINNER</text>
+  </g>
+
+  <g transform="translate(186 700)">
+    <rect x="0" y="0" width="652" height="138" rx="28" fill="url(#plaque)" stroke="#ffd95d" stroke-width="6"/>
+    <rect x="12" y="12" width="628" height="114" rx="22" fill="none" stroke="#cfcfcf" stroke-width="2"/>
+    <text x="326" y="96" fill="#111111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="700">
+      <tspan font-weight="900">Business</tspan><tspan font-weight="300">Rate</tspan>
+    </text>
+  </g>
+
+  <g filter="url(#textShadow)" fill="#111111" text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
+    <text x="512" y="952" font-size="70" font-weight="900">MAYLIN MATTRESS</text>
+    <text x="512" y="1024" font-size="70" font-weight="900">FACTORY DIRECT</text>
+    <line x1="236" x2="788" y1="1098" y2="1098" stroke="#c7c7c7" stroke-opacity="0.8" stroke-width="2"/>
+    <text x="512" y="1154" fill="#f7f7f7" font-size="58" font-weight="300">Mattress Store</text>
+    <line x1="236" x2="788" y1="1180" y2="1180" stroke="#c7c7c7" stroke-opacity="0.8" stroke-width="2"/>
+    <text x="512" y="1268" fill="#f7f7f7" font-size="54" font-weight="300">Hialeah</text>
+    <text x="512" y="1322" fill="#f7f7f7" font-size="54" font-weight="300">Florida</text>
+  </g>
+
+  <g text-anchor="middle" font-family="Arial, Helvetica, sans-serif">
+    <text x="430" y="1428" fill="#f0f0f0" font-size="36" font-weight="300">Powered by</text>
+    <text x="510" y="1428" fill="#4285F4" font-size="38" font-weight="700">G</text>
+    <text x="542" y="1428" fill="#DB4437" font-size="38" font-weight="700">o</text>
+    <text x="572" y="1428" fill="#F4B400" font-size="38" font-weight="700">o</text>
+    <text x="604" y="1428" fill="#4285F4" font-size="38" font-weight="700">g</text>
+    <text x="638" y="1428" fill="#0F9D58" font-size="38" font-weight="700">l</text>
+    <text x="656" y="1428" fill="#DB4437" font-size="38" font-weight="700">e</text>
+    <text x="756" y="1428" fill="#f0f0f0" font-size="36" font-weight="300">Reviews</text>
+  </g>
+
+  <rect x="228" y="694" width="568" height="164" rx="34" fill="#fff6ba" opacity="0.24" filter="url(#softBlur)"/>
+</svg>
