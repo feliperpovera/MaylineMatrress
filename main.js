@@ -18,6 +18,35 @@ const createEntryId =
       ? window.crypto.randomUUID()
       : `entry-${Date.now()}-${Math.random().toString(16).slice(2)}`);
 
+const navigationEntry =
+  typeof window.performance?.getEntriesByType === "function"
+    ? window.performance.getEntriesByType("navigation")[0]
+    : null;
+const isReloadNavigation =
+  navigationEntry?.type === "reload" ||
+  window.performance?.navigation?.type === window.performance?.navigation?.TYPE_RELOAD;
+
+const resetScrollToTop = () => {
+  window.requestAnimationFrame(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    window.requestAnimationFrame(() => {
+      window.scrollTo(0, 0);
+    });
+  });
+};
+
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
+if (isReloadNavigation) {
+  window.addEventListener("pageshow", resetScrollToTop);
+  window.addEventListener("load", resetScrollToTop);
+}
+
 const trackEvent = (eventName, details = {}) => {
   dataLayer.push({
     event: eventName,
