@@ -2449,7 +2449,7 @@ h3 {
   }
 
   .panel-hero .hero-card {
-    order: -1;
+    order: 2;
   }
 
   .hero-media {
@@ -2482,34 +2482,42 @@ h3 {
   }
 
   body {
-    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
   }
 
   .page-shell {
-    margin: 10px;
-    padding: 12px;
-    border-radius: 28px;
+    margin: 8px;
+    padding: 10px;
+    border-radius: 24px;
   }
 
   .site-header {
-    top: 10px;
-    flex-wrap: wrap;
-    overflow: visible;
-    padding: 14px;
-    border-radius: 22px;
+    top: 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    border-radius: 20px;
   }
 
   .brand {
-    width: calc(100% - 68px);
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
   }
 
   .nav-toggle {
     display: inline-flex;
+    width: 44px;
+    height: 44px;
+    justify-self: end;
   }
 
   .site-nav {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 8px);
     left: 0;
     right: 0;
     display: none;
@@ -2528,6 +2536,25 @@ h3 {
     display: flex;
   }
 
+  .panel-hero {
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .hero-copy,
+  .panel-hero .hero-card {
+    order: 0;
+  }
+
+  .hero-copy {
+    gap: 10px;
+  }
+
+  .hero-copy .lead {
+    max-width: none;
+    font-size: 1rem;
+  }
+
   .site-nav a,
   .site-nav .button {
     width: 100%;
@@ -2537,11 +2564,15 @@ h3 {
 
   .service-grid,
   .metric-grid,
-  .mini-stats,
   .form-grid,
   .portal-stat-grid,
   .questionnaire-fields {
     grid-template-columns: 1fr;
+  }
+
+  .mini-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 
   .portal-login-shell,
@@ -2561,7 +2592,6 @@ h3 {
     padding: 18px;
   }
 
-  .hero-actions,
   .form-actions,
   .contact-primary-actions {
     align-items: stretch;
@@ -2571,13 +2601,19 @@ h3 {
     width: 100%;
   }
 
+  .hero-actions {
+    display: none;
+  }
+
   .hero-badge {
-    align-items: flex-start;
-    flex-direction: column;
+    gap: 8px;
+    width: min(100%, 18rem);
+    padding: 10px 12px;
   }
 
   .hero-video-frame {
-    min-height: 380px;
+    aspect-ratio: 4 / 5.1;
+    min-height: 0;
   }
 
   .google-reviews-header,
@@ -2587,11 +2623,12 @@ h3 {
   }
 
   .hero-video-overlay {
-    padding: 14px;
+    padding: 12px;
   }
 
   .hero-video-caption {
     max-width: 100%;
+    padding: 12px 14px;
   }
 
   .reviews-layout {
@@ -2642,28 +2679,22 @@ h3 {
     z-index: 60;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    padding: 10px;
+    gap: 8px;
+    padding: 8px;
     border: 1px solid rgba(23, 19, 16, 0.08);
-    border-radius: 22px;
+    border-radius: 18px;
     background: rgba(255, 253, 249, 0.92);
     backdrop-filter: blur(18px);
     box-shadow: 0 20px 40px rgba(23, 19, 16, 0.12);
   }
 
   .mobile-cta-bar .button {
-    min-height: 48px;
+    min-height: 46px;
     padding: 0 12px;
     font-size: 0.9rem;
   }
 
   .whatsapp-float {
-    right: 12px;
-    bottom: calc(88px + env(safe-area-inset-bottom));
-    padding: 12px;
-  }
-
-  .whatsapp-float-label {
     display: none;
   }
 
@@ -2709,7 +2740,7 @@ h3 {
   }
 
   .brand img {
-    width: 106px;
+    width: 86px;
   }
 
   .panel {
@@ -2722,6 +2753,35 @@ h3 {
   .contact-details article,
   .questionnaire-form {
     border-radius: 18px;
+  }
+
+  .site-header {
+    padding: 8px 10px;
+    border-radius: 18px;
+  }
+
+  .nav-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .panel-hero {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .hero-copy {
+    gap: 8px;
+  }
+
+  .hero-copy .lead {
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .hero-card {
+    gap: 10px;
+    padding: 10px;
   }
 
   .section-heading,
@@ -2738,12 +2798,36 @@ h3 {
   }
 
   .hero-video-frame {
-    min-height: 320px;
+    min-height: 300px;
     border-radius: 22px;
   }
 
   .hero-video-end-screen {
     padding: 20px;
+  }
+
+  .hero-badge,
+  .hero-video-caption {
+    border-radius: 16px;
+  }
+
+  .mini-stats article {
+    padding: 16px;
+  }
+
+  .mini-stats strong {
+    font-size: 0.96rem;
+    line-height: 1.4;
+  }
+
+  .product-album-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mobile-cta-bar {
+    left: 10px;
+    right: 10px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
   }
 
   .site-footer {
@@ -2766,6 +2850,12 @@ h3 {
 
   .google-review-item {
     gap: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .mini-stats {
+    grid-template-columns: 1fr;
   }
 }
 
