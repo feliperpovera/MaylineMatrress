@@ -31,13 +31,11 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 108px;
-  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  overflow-x: hidden;
   font-family: "Manrope", sans-serif;
   color: var(--ink);
   background:
@@ -104,6 +102,17 @@ main,
 .portal-main {
   display: grid;
   gap: var(--section-gap);
+}
+
+main > *,
+.panel-hero > *,
+.split-feature > *,
+.about-grid > *,
+.contact-layout > *,
+.reviews-layout > *,
+.service-grid > *,
+.mini-stats > * {
+  min-width: 0;
 }
 
 .site-header {
@@ -687,10 +696,12 @@ h3 {
   align-content: start;
   gap: 14px;
   padding: 28px;
+  min-width: 0;
 }
 
 .product-card {
   position: relative;
+  min-width: 0;
 }
 
 .product-card.is-open {
@@ -722,6 +733,7 @@ h3 {
   align-content: start;
   gap: 14px;
   width: 100%;
+  min-width: 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -831,6 +843,7 @@ h3 {
   display: grid;
   gap: 12px;
   padding-top: 8px;
+  min-width: 0;
 }
 
 .product-album-viewer {
@@ -902,6 +915,8 @@ h3 {
   grid-auto-flow: column;
   grid-auto-columns: minmax(176px, 220px);
   gap: 14px;
+  min-width: 0;
+  max-width: 100%;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   padding: 4px 4px 10px;
