@@ -502,7 +502,7 @@ h3 {
 
 .hero-media {
   order: 1;
-  width: min(100%, 24.5rem);
+  width: min(100%, 32rem);
   justify-self: center;
 }
 
@@ -2525,7 +2525,7 @@ h3 {
 
   .hero-video-frame {
     aspect-ratio: auto;
-    min-height: 460px;
+    min-height: 560px;
   }
 
   .hero-copy {
@@ -2680,7 +2680,7 @@ h3 {
   }
 
   .hero-video-frame {
-    aspect-ratio: 4 / 5.1;
+    aspect-ratio: 4 / 6;
     min-height: 0;
   }
 
@@ -2866,7 +2866,7 @@ h3 {
   }
 
   .hero-video-frame {
-    min-height: 300px;
+    min-height: 400px;
     border-radius: 22px;
   }
 
