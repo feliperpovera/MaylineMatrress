@@ -309,34 +309,6 @@ if (productAlbumTriggers.length > 0) {
       return;
     }
 
-    const viewer = document.createElement("div");
-    viewer.className = "product-album-viewer";
-    viewer.innerHTML = `
-      <div class="album-preview-shell">
-        <button class="album-nav-button" type="button" data-album-prev aria-label="Show previous image for ${productTitle}">
-          Prev
-        </button>
-        <figure class="album-preview-figure" tabindex="0" role="button" aria-label="Open current image for ${productTitle} in full screen">
-          <img class="album-preview-image" alt="" />
-          <figcaption class="album-preview-copy">
-            <strong class="album-preview-title"></strong>
-            <p class="album-preview-caption"></p>
-          </figcaption>
-        </figure>
-        <button class="album-nav-button" type="button" data-album-next aria-label="Show next image for ${productTitle}">
-          Next
-        </button>
-      </div>
-    `;
-    album.prepend(viewer);
-
-    const previewFigure = viewer.querySelector(".album-preview-figure");
-    const previewImage = viewer.querySelector(".album-preview-image");
-    const previewTitle = viewer.querySelector(".album-preview-title");
-    const previewCaption = viewer.querySelector(".album-preview-caption");
-    const prevButton = viewer.querySelector("[data-album-prev]");
-    const nextButton = viewer.querySelector("[data-album-next]");
-
     const items = figures.map((figure, index) => {
       const image = figure.querySelector("img");
       const caption = figure.querySelector("figcaption");
@@ -357,68 +329,19 @@ if (productAlbumTriggers.length > 0) {
       };
     });
 
-    const setAlbumPreview = (index) => {
-      const normalizedIndex = (index + items.length) % items.length;
-      const activeItem = items[normalizedIndex];
-
-      album.dataset.currentIndex = String(normalizedIndex);
-
-      if (previewImage) {
-        previewImage.src = activeItem.src;
-        previewImage.alt = activeItem.alt;
-      }
-
-      if (previewTitle) {
-        previewTitle.textContent = productTitle;
-      }
-
-      if (previewCaption) {
-        previewCaption.textContent = activeItem.caption;
-      }
-
-      items.forEach((item, itemIndex) => {
-        const isActive = itemIndex === normalizedIndex;
-        item.figure.classList.toggle("is-active", isActive);
-        item.figure.setAttribute("aria-pressed", String(isActive));
-      });
-    };
-
     items.forEach((item, index) => {
       item.figure.addEventListener("click", () => {
-        setAlbumPreview(index);
+        album.dataset.currentIndex = String(index);
+        openLightbox(items, productTitle, index);
       });
       item.figure.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          setAlbumPreview(index);
+          album.dataset.currentIndex = String(index);
+          openLightbox(items, productTitle, index);
         }
       });
     });
-
-    previewFigure?.addEventListener("click", () => {
-      const currentIndex = Number(album.dataset.currentIndex || "0");
-      openLightbox(items, productTitle, currentIndex);
-    });
-
-    previewFigure?.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        const currentIndex = Number(album.dataset.currentIndex || "0");
-        openLightbox(items, productTitle, currentIndex);
-      }
-    });
-
-    prevButton?.addEventListener("click", () => {
-      const currentIndex = Number(album.dataset.currentIndex || "0");
-      setAlbumPreview(currentIndex - 1);
-    });
-
-    nextButton?.addEventListener("click", () => {
-      const currentIndex = Number(album.dataset.currentIndex || "0");
-      setAlbumPreview(currentIndex + 1);
-    });
-
-    setAlbumPreview(0);
     album.dataset.galleryReady = "true";
   };
 
