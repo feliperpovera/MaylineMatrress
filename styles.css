@@ -424,7 +424,7 @@ h3 {
 
 .panel-hero {
   display: grid;
-  grid-template-columns: minmax(250px, 0.68fr) minmax(0, 1fr);
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: clamp(32px, 4vw, 56px);
   padding: clamp(34px, 4.8vw, 58px);
@@ -502,7 +502,7 @@ h3 {
 
 .hero-media {
   order: 1;
-  width: min(100%, 32rem);
+  width: 100%;
   justify-self: center;
 }
 
