@@ -2524,8 +2524,8 @@ h3 {
   }
 
   .hero-video-frame {
-    aspect-ratio: auto;
-    min-height: 560px;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
   }
 
   .hero-copy {
@@ -2680,7 +2680,7 @@ h3 {
   }
 
   .hero-video-frame {
-    aspect-ratio: 4 / 6;
+    aspect-ratio: 9 / 12;
     min-height: 0;
   }
 
@@ -2866,7 +2866,7 @@ h3 {
   }
 
   .hero-video-frame {
-    min-height: 400px;
+    min-height: 0;
     border-radius: 22px;
   }
 
