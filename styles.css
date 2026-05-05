@@ -509,7 +509,7 @@ h3 {
 .hero-video-frame {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 6.1;
+  aspect-ratio: 16 / 9;
   border-radius: 28px;
   background: #0b0b0b;
   box-shadow: 0 20px 42px rgba(23, 19, 16, 0.18);
@@ -519,6 +519,7 @@ h3 {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 42% center;
   transition: opacity 0.35s ease;
 }
 
@@ -710,16 +711,12 @@ h3 {
 }
 
 .product-card.is-featured {
-  border-color: rgba(31, 107, 97, 0.16);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 243, 237, 0.88)),
-    rgba(255, 255, 255, 0.88);
+  border-color: rgba(23, 19, 16, 0.08);
+  background: rgba(255, 255, 255, 0.84);
 }
 
 .specialty-card {
-  background:
-    radial-gradient(circle at top right, rgba(204, 161, 97, 0.16), transparent 36%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 243, 236, 0.88));
+  background: rgba(255, 255, 255, 0.84);
 }
 
 .product-card-copy {
@@ -798,28 +795,24 @@ h3 {
 .product-card-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 12px;
   padding-top: 2px;
-  color: var(--ink-soft);
+  color: var(--accent);
 }
 
 .product-card-footer span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-.product-card-footer strong {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
   color: var(--accent);
-  font-size: 0.94rem;
 }
 
-.product-card-footer strong::after {
+.product-card-footer span::after {
   content: "+";
   display: inline-flex;
   align-items: center;
@@ -834,7 +827,7 @@ h3 {
   transition: transform 0.25s ease, background-color 0.25s ease;
 }
 
-.product-card.is-open .product-card-footer strong::after {
+.product-card.is-open .product-card-footer span::after {
   transform: rotate(45deg);
   background: rgba(31, 107, 97, 0.18);
 }
@@ -2680,7 +2673,7 @@ h3 {
   }
 
   .hero-video-frame {
-    aspect-ratio: 9 / 12;
+    aspect-ratio: 16 / 9;
     min-height: 0;
   }
 
