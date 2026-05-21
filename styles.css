@@ -3332,24 +3332,6 @@ h3 {
   color: var(--ink-soft);
 }
 
-.submission-delete-btn {
-  background: none;
-  border: none;
-  color: var(--ink-soft);
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.submission-delete-btn:hover {
-  background: rgba(163, 59, 48, 0.08);
-  color: #a33b30;
-}
-
 .submission-details {
   display: grid;
   grid-template-columns: 1fr 1fr;

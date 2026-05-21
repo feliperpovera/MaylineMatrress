@@ -774,12 +774,6 @@ const renderSubmissions = (submissions) => {
             <span class="submission-date">${escapeHtml(formatDate(sub.createdAt))}</span>
           </div>
         </div>
-        <button class="submission-delete-btn" data-id="${escapeHtml(sub.id)}" aria-label="Delete message">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-          </svg>
-        </button>
       </div>
       <div class="submission-details">
         <div class="submission-detail-item">
@@ -797,24 +791,6 @@ const renderSubmissions = (submissions) => {
     </div>
   `).join("");
 
-  // Attach delete events to buttons dynamically
-  adminSubmissionsList.querySelectorAll(".submission-delete-btn").forEach(btn => {
-    btn.addEventListener("click", async (e) => {
-      const id = btn.getAttribute("data-id");
-      if (confirm("Are you sure you want to delete this message?")) {
-        try {
-          const token = sessionStorage.getItem("maylin_admin_session_token");
-          btn.disabled = true;
-          await apiCall("/admin/delete", { token, id });
-          loadSubmissions();
-        } catch (error) {
-          console.error("Error deleting submission:", error);
-          alert("The message could not be deleted.");
-          btn.disabled = false;
-        }
-      }
-    });
-  });
 };
 
 if (adminRefreshBtn) {

@@ -213,32 +213,7 @@ if ($action === 'submissions') {
 }
 
 if ($action === 'delete') {
-    $id = clean_text($data['id'] ?? '', 120);
-    if ($id === '') {
-        respond(400, ['success' => false, 'error' => 'ID de mensaje requerido']);
-    }
-
-    $updated = locked_update($submissions_file, function (array $submissions) use ($id) {
-        $filtered = array_values(array_filter($submissions, function ($submission) use ($id) {
-            return ($submission['id'] ?? '') !== $id;
-        }));
-
-        if (count($filtered) === count($submissions)) {
-            return ['write' => false, 'not_found' => true];
-        }
-
-        return ['data' => $filtered];
-    });
-
-    if (!$updated['ok']) {
-        respond(500, ['success' => false, 'error' => 'Error al borrar el mensaje']);
-    }
-
-    if (($updated['result']['not_found'] ?? false) === true) {
-        respond(404, ['success' => false, 'error' => 'Mensaje no encontrado']);
-    }
-
-    respond(200, ['success' => true]);
+    respond(403, ['success' => false, 'error' => 'Messages are permanent and cannot be deleted.']);
 }
 
 respond(400, ['success' => false, 'error' => 'Accion no valida']);

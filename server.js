@@ -182,24 +182,10 @@ app.post("/api/admin/submissions", authenticateToken, (req, res) => {
 });
 
 app.post("/api/admin/delete", authenticateToken, (req, res) => {
-  const { id } = req.body;
-  if (!id) {
-    return jsonResponse(res, 400, { success: false, error: "ID de mensaje requerido" });
-  }
-
-  let submissions = getSubmissions();
-  const initialLength = submissions.length;
-  submissions = submissions.filter(sub => sub.id !== id);
-
-  if (submissions.length === initialLength) {
-    return jsonResponse(res, 404, { success: false, error: "Mensaje no encontrado" });
-  }
-
-  if (saveSubmissions(submissions)) {
-    return jsonResponse(res, 200, { success: true });
-  }
-
-  return jsonResponse(res, 500, { success: false, error: "Error al borrar el mensaje" });
+  return jsonResponse(res, 403, {
+    success: false,
+    error: "Messages are permanent and cannot be deleted.",
+  });
 });
 
 app.listen(port, () => {
