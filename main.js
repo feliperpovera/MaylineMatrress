@@ -573,31 +573,31 @@ if (customContactForm && contactFormStatus) {
 
     if (!nombre || !correo || !celular || !mensaje) {
       contactFormStatus.className = "form-status error";
-      contactFormStatus.textContent = "Por favor, completa todos los campos.";
+      contactFormStatus.textContent = "Please complete all fields.";
       return;
     }
 
     try {
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "Enviando...";
+        submitBtn.textContent = "Sending...";
       }
       contactFormStatus.className = "form-status info";
-      contactFormStatus.textContent = "Enviando tu mensaje...";
+      contactFormStatus.textContent = "Sending your message...";
 
       await apiCall("/contact", { nombre, correo, celular, mensaje });
 
       contactFormStatus.className = "form-status success";
-      contactFormStatus.textContent = "¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.";
+      contactFormStatus.textContent = "Message sent successfully. We will contact you soon.";
       customContactForm.reset();
     } catch (error) {
       console.error("Error submitting contact form:", error);
       contactFormStatus.className = "form-status error";
-      contactFormStatus.textContent = "Hubo un error al enviar el mensaje. Inténtalo de nuevo.";
+      contactFormStatus.textContent = "There was an error sending your message. Please try again.";
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Enviar Mensaje";
+        submitBtn.textContent = "Send Message";
       }
     }
   });
@@ -666,7 +666,7 @@ if (adminLoginForm) {
     try {
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "Ingresando...";
+        submitBtn.textContent = "Signing in...";
       }
       if (adminLoginError) adminLoginError.textContent = "";
 
@@ -681,12 +681,12 @@ if (adminLoginForm) {
     } catch (error) {
       console.error("Login error:", error);
       if (adminLoginError) {
-        adminLoginError.textContent = "Usuario o contraseña incorrectos.";
+        adminLoginError.textContent = "Incorrect username or password.";
       }
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Ingresar";
+        submitBtn.textContent = "Sign In";
       }
     }
   });
@@ -710,13 +710,13 @@ const loadSubmissions = async () => {
   try {
     if (adminRefreshBtn) {
       adminRefreshBtn.disabled = true;
-      adminRefreshBtn.textContent = "Actualizando...";
+      adminRefreshBtn.textContent = "Refreshing...";
     }
     if (adminRefreshStatus) {
-      adminRefreshStatus.textContent = "Cargando mensajes privados...";
+      adminRefreshStatus.textContent = "Loading private messages...";
     }
     if (adminSubmissionsList) {
-      adminSubmissionsList.innerHTML = '<div class="admin-loading">Cargando mensajes...</div>';
+      adminSubmissionsList.innerHTML = '<div class="admin-loading">Loading messages...</div>';
     }
 
     const result = await apiCall("/admin/submissions", { token });
@@ -724,7 +724,7 @@ const loadSubmissions = async () => {
       cachedSubmissions = result.submissions;
       renderSubmissions(cachedSubmissions);
       if (adminRefreshStatus) {
-        adminRefreshStatus.textContent = `Actualizado: ${formatDate(new Date().toISOString())}`;
+        adminRefreshStatus.textContent = `Updated: ${formatDate(new Date().toISOString())}`;
       }
     } else {
       throw new Error("Error loading submissions");
@@ -735,15 +735,15 @@ const loadSubmissions = async () => {
       sessionStorage.removeItem("maylin_admin_session_token");
     }
     if (adminSubmissionsList) {
-      adminSubmissionsList.innerHTML = '<div class="admin-error">No se pudieron cargar los mensajes. Vuelve a iniciar sesión.</div>';
+      adminSubmissionsList.innerHTML = '<div class="admin-error">Messages could not be loaded. Please sign in again.</div>';
     }
     if (adminRefreshStatus) {
-      adminRefreshStatus.textContent = "No se pudieron cargar los mensajes.";
+      adminRefreshStatus.textContent = "Messages could not be loaded.";
     }
   } finally {
     if (adminRefreshBtn) {
       adminRefreshBtn.disabled = false;
-      adminRefreshBtn.textContent = "Actualizar";
+      adminRefreshBtn.textContent = "Refresh";
     }
   }
 };
@@ -761,7 +761,7 @@ const renderSubmissions = (submissions) => {
   }
 
   if (submissions.length === 0) {
-    adminSubmissionsList.innerHTML = '<div class="admin-empty">No hay mensajes de contacto aún.</div>';
+    adminSubmissionsList.innerHTML = '<div class="admin-empty">There are no contact messages yet.</div>';
     return;
   }
 
@@ -774,7 +774,7 @@ const renderSubmissions = (submissions) => {
             <span class="submission-date">${escapeHtml(formatDate(sub.createdAt))}</span>
           </div>
         </div>
-        <button class="submission-delete-btn" data-id="${escapeHtml(sub.id)}" aria-label="Eliminar mensaje">
+        <button class="submission-delete-btn" data-id="${escapeHtml(sub.id)}" aria-label="Delete message">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="3 6 5 6 21 6"></polyline>
             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -783,11 +783,11 @@ const renderSubmissions = (submissions) => {
       </div>
       <div class="submission-details">
         <div class="submission-detail-item">
-          <span>Celular:</span>
+          <span>Phone:</span>
           <strong><a href="tel:${escapeHtml(sub.celular)}">${escapeHtml(sub.celular)}</a></strong>
         </div>
         <div class="submission-detail-item">
-          <span>Correo:</span>
+          <span>Email:</span>
           <strong><a href="mailto:${escapeHtml(sub.correo)}">${escapeHtml(sub.correo)}</a></strong>
         </div>
       </div>
@@ -801,7 +801,7 @@ const renderSubmissions = (submissions) => {
   adminSubmissionsList.querySelectorAll(".submission-delete-btn").forEach(btn => {
     btn.addEventListener("click", async (e) => {
       const id = btn.getAttribute("data-id");
-      if (confirm("¿Estás seguro de que deseas eliminar este mensaje?")) {
+      if (confirm("Are you sure you want to delete this message?")) {
         try {
           const token = sessionStorage.getItem("maylin_admin_session_token");
           btn.disabled = true;
@@ -809,7 +809,7 @@ const renderSubmissions = (submissions) => {
           loadSubmissions();
         } catch (error) {
           console.error("Error deleting submission:", error);
-          alert("No se pudo eliminar el mensaje.");
+          alert("The message could not be deleted.");
           btn.disabled = false;
         }
       }
