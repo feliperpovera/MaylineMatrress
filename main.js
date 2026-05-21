@@ -452,3 +452,390 @@ if (form && formStatus) {
     }
   });
 }
+
+// --- Bottom Contact Form & Admin Modal Controls ---
+
+const customContactForm = document.getElementById("custom-contact-form");
+const contactFormStatus = document.getElementById("contact-form-status");
+
+const footerAdminTrigger = document.getElementById("footer-admin-trigger");
+const adminModalOverlay = document.getElementById("admin-modal-overlay");
+const adminModalClose = document.getElementById("admin-modal-close");
+
+const adminLoginView = document.getElementById("admin-login-view");
+const adminLoginForm = document.getElementById("admin-login-form");
+const adminLoginError = document.getElementById("admin-login-error");
+
+const adminDashboardView = document.getElementById("admin-dashboard-view");
+const adminLogoutBtn = document.getElementById("admin-logout-btn");
+const adminStatTotal = document.getElementById("admin-stat-total");
+const adminStatVisible = document.getElementById("admin-stat-visible");
+const adminSearchInput = document.getElementById("admin-search-input");
+const adminRefreshBtn = document.getElementById("admin-refresh-btn");
+const adminRefreshStatus = document.getElementById("admin-refresh-status");
+const adminSubmissionsList = document.getElementById("admin-submissions-list");
+
+let cachedSubmissions = [];
+
+// Helper function to escape HTML characters (XSS Prevention)
+const escapeHtml = (text) => {
+  const map = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  };
+  return String(text ?? "").replace(/[&<>"']/g, (m) => map[m]);
+};
+
+// Helper function to format ISO dates to a clean locale format
+const formatDate = (isoString) => {
+  try {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("es-ES", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  } catch (e) {
+    return isoString;
+  }
+};
+
+// Unified API Handler supporting both Node/Express and PHP Fallback
+const apiCall = async (endpoint, data) => {
+  try {
+    const response = await fetch(`/api${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    
+    if (response.status === 404) {
+      throw new Error("404");
+    }
+
+    const result = await response.json();
+    if (!response.ok) {
+      const requestError = new Error(result.error || "Error en la solicitud");
+      requestError.status = response.status;
+      throw requestError;
+    }
+    return result;
+  } catch (error) {
+    if (error.message === "404" || error.name === "TypeError") {
+      // Fallback to PHP endpoint contact.php
+      let phpAction = "";
+      if (endpoint === "/contact") phpAction = "submit";
+      else if (endpoint === "/admin/login") phpAction = "login";
+      else if (endpoint === "/admin/submissions") phpAction = "submissions";
+      else if (endpoint === "/admin/delete") phpAction = "delete";
+
+      const phpData = { ...data, action: phpAction };
+      
+      const response = await fetch("/contact.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(phpData)
+      });
+
+      const result = await response.json();
+      if (!response.ok) {
+        const requestError = new Error(result.error || "Error en la solicitud PHP");
+        requestError.status = response.status;
+        throw requestError;
+      }
+      return result;
+    } else {
+      throw error;
+    }
+  }
+};
+
+// Bottom Contact Form submission handler
+if (customContactForm && contactFormStatus) {
+  customContactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = customContactForm.querySelector(".form-submit-btn");
+    const formData = new FormData(customContactForm);
+    const nombre = String(formData.get("nombre") || "").trim();
+    const correo = String(formData.get("correo") || "").trim();
+    const celular = String(formData.get("celular") || "").trim();
+    const mensaje = String(formData.get("mensaje") || "").trim();
+
+    if (!nombre || !correo || !celular || !mensaje) {
+      contactFormStatus.className = "form-status error";
+      contactFormStatus.textContent = "Por favor, completa todos los campos.";
+      return;
+    }
+
+    try {
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Enviando...";
+      }
+      contactFormStatus.className = "form-status info";
+      contactFormStatus.textContent = "Enviando tu mensaje...";
+
+      await apiCall("/contact", { nombre, correo, celular, mensaje });
+
+      contactFormStatus.className = "form-status success";
+      contactFormStatus.textContent = "¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.";
+      customContactForm.reset();
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      contactFormStatus.className = "form-status error";
+      contactFormStatus.textContent = "Hubo un error al enviar el mensaje. Inténtalo de nuevo.";
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar Mensaje";
+      }
+    }
+  });
+}
+
+// Handle Admin Trigger click (Hijack standard lock link)
+if (footerAdminTrigger && adminModalOverlay) {
+  footerAdminTrigger.addEventListener("click", (e) => {
+    e.preventDefault();
+    adminModalOverlay.removeAttribute("hidden");
+    adminModalOverlay.style.display = "flex";
+    
+    // Check if there is a saved token session
+    const token = sessionStorage.getItem("maylin_admin_session_token");
+    if (token) {
+      showDashboardView();
+    } else {
+      showLoginView();
+    }
+  });
+}
+
+// Close Modal functions
+const closeAdminModal = () => {
+  if (adminModalOverlay) {
+    adminModalOverlay.setAttribute("hidden", "");
+    adminModalOverlay.style.display = "none";
+  }
+};
+
+if (adminModalClose) {
+  adminModalClose.addEventListener("click", closeAdminModal);
+}
+
+if (adminModalOverlay) {
+  adminModalOverlay.addEventListener("click", (e) => {
+    if (e.target === adminModalOverlay) {
+      closeAdminModal();
+    }
+  });
+}
+
+// Views Switcher
+const showLoginView = () => {
+  if (adminLoginView) adminLoginView.removeAttribute("hidden");
+  if (adminDashboardView) adminDashboardView.setAttribute("hidden", "");
+  if (adminLoginError) adminLoginError.textContent = "";
+  if (adminLoginForm) adminLoginForm.reset();
+};
+
+const showDashboardView = () => {
+  if (adminLoginView) adminLoginView.setAttribute("hidden", "");
+  if (adminDashboardView) adminDashboardView.removeAttribute("hidden");
+  if (adminSearchInput) adminSearchInput.value = "";
+  loadSubmissions();
+};
+
+// Login Form Submit handler
+if (adminLoginForm) {
+  adminLoginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const submitBtn = adminLoginForm.querySelector(".admin-submit-btn");
+    const username = adminLoginForm.username.value.trim();
+    const password = adminLoginForm.password.value;
+
+    try {
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Ingresando...";
+      }
+      if (adminLoginError) adminLoginError.textContent = "";
+
+      const result = await apiCall("/admin/login", { username, password });
+      
+      if (result.success && result.token) {
+        sessionStorage.setItem("maylin_admin_session_token", result.token);
+        showDashboardView();
+      } else {
+        throw new Error("Credenciales inválidas");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      if (adminLoginError) {
+        adminLoginError.textContent = "Usuario o contraseña incorrectos.";
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Ingresar";
+      }
+    }
+  });
+}
+
+// Logout handler
+if (adminLogoutBtn) {
+  adminLogoutBtn.addEventListener("click", () => {
+    sessionStorage.removeItem("maylin_admin_session_token");
+    cachedSubmissions = [];
+    renderSubmissions(cachedSubmissions);
+    showLoginView();
+  });
+}
+
+// Fetch submissions from backend
+const loadSubmissions = async () => {
+  const token = sessionStorage.getItem("maylin_admin_session_token");
+  if (!token) return;
+
+  try {
+    if (adminRefreshBtn) {
+      adminRefreshBtn.disabled = true;
+      adminRefreshBtn.textContent = "Actualizando...";
+    }
+    if (adminRefreshStatus) {
+      adminRefreshStatus.textContent = "Cargando mensajes privados...";
+    }
+    if (adminSubmissionsList) {
+      adminSubmissionsList.innerHTML = '<div class="admin-loading">Cargando mensajes...</div>';
+    }
+
+    const result = await apiCall("/admin/submissions", { token });
+    if (result.success && Array.isArray(result.submissions)) {
+      cachedSubmissions = result.submissions;
+      renderSubmissions(cachedSubmissions);
+      if (adminRefreshStatus) {
+        adminRefreshStatus.textContent = `Actualizado: ${formatDate(new Date().toISOString())}`;
+      }
+    } else {
+      throw new Error("Error loading submissions");
+    }
+  } catch (error) {
+    console.error("Error loading submissions:", error);
+    if (error.status === 401) {
+      sessionStorage.removeItem("maylin_admin_session_token");
+    }
+    if (adminSubmissionsList) {
+      adminSubmissionsList.innerHTML = '<div class="admin-error">No se pudieron cargar los mensajes. Vuelve a iniciar sesión.</div>';
+    }
+    if (adminRefreshStatus) {
+      adminRefreshStatus.textContent = "No se pudieron cargar los mensajes.";
+    }
+  } finally {
+    if (adminRefreshBtn) {
+      adminRefreshBtn.disabled = false;
+      adminRefreshBtn.textContent = "Actualizar";
+    }
+  }
+};
+
+// Render submissions list UI dynamically
+const renderSubmissions = (submissions) => {
+  if (!adminSubmissionsList) return;
+
+  if (adminStatTotal) {
+    adminStatTotal.textContent = cachedSubmissions.length;
+  }
+
+  if (adminStatVisible) {
+    adminStatVisible.textContent = submissions.length;
+  }
+
+  if (submissions.length === 0) {
+    adminSubmissionsList.innerHTML = '<div class="admin-empty">No hay mensajes de contacto aún.</div>';
+    return;
+  }
+
+  adminSubmissionsList.innerHTML = submissions.map(sub => `
+    <div class="submission-card" data-id="${escapeHtml(sub.id)}">
+      <div class="submission-header">
+        <div>
+          <h4 class="submission-name">${escapeHtml(sub.nombre)}</h4>
+          <div class="submission-meta">
+            <span class="submission-date">${escapeHtml(formatDate(sub.createdAt))}</span>
+          </div>
+        </div>
+        <button class="submission-delete-btn" data-id="${escapeHtml(sub.id)}" aria-label="Eliminar mensaje">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="submission-details">
+        <div class="submission-detail-item">
+          <span>Celular:</span>
+          <strong><a href="tel:${escapeHtml(sub.celular)}">${escapeHtml(sub.celular)}</a></strong>
+        </div>
+        <div class="submission-detail-item">
+          <span>Correo:</span>
+          <strong><a href="mailto:${escapeHtml(sub.correo)}">${escapeHtml(sub.correo)}</a></strong>
+        </div>
+      </div>
+      <div class="submission-message">
+        <p>${escapeHtml(sub.mensaje).replace(/\n/g, "<br>")}</p>
+      </div>
+    </div>
+  `).join("");
+
+  // Attach delete events to buttons dynamically
+  adminSubmissionsList.querySelectorAll(".submission-delete-btn").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const id = btn.getAttribute("data-id");
+      if (confirm("¿Estás seguro de que deseas eliminar este mensaje?")) {
+        try {
+          const token = sessionStorage.getItem("maylin_admin_session_token");
+          btn.disabled = true;
+          await apiCall("/admin/delete", { token, id });
+          loadSubmissions();
+        } catch (error) {
+          console.error("Error deleting submission:", error);
+          alert("No se pudo eliminar el mensaje.");
+          btn.disabled = false;
+        }
+      }
+    });
+  });
+};
+
+if (adminRefreshBtn) {
+  adminRefreshBtn.addEventListener("click", loadSubmissions);
+}
+
+// Live Search Filtering
+if (adminSearchInput) {
+  adminSearchInput.addEventListener("input", (e) => {
+    const query = String(e.target.value).toLowerCase().trim();
+    if (!query) {
+      renderSubmissions(cachedSubmissions);
+      return;
+    }
+
+    const filtered = cachedSubmissions.filter(sub => 
+      String(sub.nombre).toLowerCase().includes(query) ||
+      String(sub.correo).toLowerCase().includes(query) ||
+      String(sub.celular).toLowerCase().includes(query) ||
+      String(sub.mensaje).toLowerCase().includes(query)
+    );
+    renderSubmissions(filtered);
+  });
+}

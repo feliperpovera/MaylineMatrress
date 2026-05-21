@@ -2914,3 +2914,531 @@ h3 {
 .about-storefront-image {
   aspect-ratio: 3 / 2;
 }
+
+/* ==========================================================================
+   Bottom Contact Form & Admin Modal Dashboard Styles
+   ========================================================================== */
+
+/* Custom Contact Form */
+.custom-contact-form {
+  display: grid;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(23, 19, 16, 0.08);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(8px);
+  margin-top: 10px;
+}
+
+.custom-contact-form .form-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  color: var(--ink);
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+.custom-contact-form .form-group {
+  display: grid;
+  gap: 6px;
+}
+
+.custom-contact-form .form-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.custom-contact-form label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+
+.custom-contact-form input,
+.custom-contact-form textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(23, 19, 16, 0.12);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-contact-form input:focus,
+.custom-contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31, 107, 97, 0.12);
+}
+
+.custom-contact-form textarea {
+  resize: vertical;
+}
+
+.form-submit-btn {
+  justify-content: center;
+  min-height: 48px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.form-status {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  display: none;
+  text-align: left;
+}
+
+.form-status.info {
+  display: block;
+  background: rgba(23, 19, 16, 0.05);
+  color: var(--ink-soft);
+  border: 1px solid rgba(23, 19, 16, 0.08);
+}
+
+.form-status.success {
+  display: block;
+  background: rgba(31, 107, 97, 0.08);
+  color: var(--accent);
+  border: 1px solid rgba(31, 107, 97, 0.15);
+}
+
+.form-status.error {
+  display: block;
+  background: rgba(163, 59, 48, 0.08);
+  color: #a33b30;
+  border: 1px solid rgba(163, 59, 48, 0.15);
+}
+
+.contact-alternative-actions {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  padding: 16px;
+  background: rgba(23, 19, 16, 0.03);
+  border-radius: var(--radius-sm);
+}
+
+.contact-alternative-actions .alternative-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin: 0;
+  text-align: left;
+}
+
+.contact-alternative-actions .alternative-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Admin Modal Overlay */
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: rgba(23, 19, 16, 0.45);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: adminFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-modal-container {
+  width: min(100%, 780px);
+  max-height: calc(100vh - 40px);
+  background: rgba(251, 247, 241, 0.98);
+  border: 1px solid rgba(23, 19, 16, 0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 60px rgba(23, 19, 16, 0.2);
+  padding: clamp(20px, 4vw, 36px);
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: adminScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: left;
+}
+
+.admin-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(23, 19, 16, 0.08);
+  background: #ffffff;
+  color: var(--ink-soft);
+  font-size: 20px;
+  line-height: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+.admin-modal-close:hover {
+  background: rgba(23, 19, 16, 0.04);
+  color: var(--ink);
+  transform: scale(1.05);
+}
+
+/* Views */
+.admin-view {
+  width: 100%;
+}
+
+.admin-view-header {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.admin-view-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+  color: var(--ink);
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
+.admin-view-header p {
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* Login Form */
+.admin-login-form {
+  display: grid;
+  gap: 16px;
+  max-width: 420px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.admin-login-form .form-group {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-login-form label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+.admin-login-form input {
+  padding: 12px 14px;
+  border: 1px solid rgba(23, 19, 16, 0.12);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.admin-login-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.admin-submit-btn {
+  margin-top: 8px;
+  justify-content: center;
+  width: 100%;
+}
+
+.admin-error-msg {
+  color: #a33b30;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* Dashboard View styling */
+.admin-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(23, 19, 16, 0.08);
+  padding-bottom: 20px;
+}
+
+.admin-dashboard-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+  color: var(--ink);
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.admin-dashboard-header p {
+  color: var(--ink-soft);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Admin stats and toolbar */
+.admin-stats-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.admin-stat-card {
+  background: #ffffff;
+  border: 1px solid rgba(23, 19, 16, 0.08);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  flex: 1;
+}
+
+.admin-stat-card span {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.admin-stat-card strong {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-top: 4px;
+}
+
+.admin-toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin-search-wrap input {
+  width: 100%;
+  padding: 12px 18px;
+  border: 1px solid rgba(23, 19, 16, 0.12);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  font-size: 0.96rem;
+  color: var(--ink);
+}
+
+.admin-search-wrap input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31, 107, 97, 0.08);
+}
+
+.admin-refresh-btn {
+  min-height: 46px;
+  white-space: nowrap;
+}
+
+.admin-refresh-status {
+  min-height: 20px;
+  margin: -10px 0 18px;
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+}
+
+/* Submissions Container */
+.admin-submissions-container {
+  overflow-y: auto;
+  max-height: 48vh;
+  padding-right: 4px;
+}
+
+.admin-submissions-list {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-loading,
+.admin-empty,
+.admin-error {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+.admin-error {
+  color: #a33b30;
+}
+
+/* Submission Card */
+.submission-card {
+  background: #ffffff;
+  border: 1px solid rgba(23, 19, 16, 0.08);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(23, 19, 16, 0.02);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  text-align: left;
+}
+
+.submission-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(31, 107, 97, 0.15);
+}
+
+.submission-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.submission-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 0;
+}
+
+.submission-meta {
+  margin-top: 2px;
+}
+
+.submission-date {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.submission-delete-btn {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.submission-delete-btn:hover {
+  background: rgba(163, 59, 48, 0.08);
+  color: #a33b30;
+}
+
+.submission-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(23, 19, 16, 0.02);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+
+.submission-detail-item span {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+.submission-detail-item strong {
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.submission-detail-item strong a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.submission-detail-item strong a:hover {
+  color: var(--accent);
+}
+
+.submission-message {
+  border-left: 2px solid var(--accent-soft);
+  padding-left: 12px;
+  margin: 0;
+}
+
+.submission-message p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+/* Animations */
+@keyframes adminFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes adminScaleIn {
+  from { transform: scale(0.96); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 640px) {
+  .custom-contact-form .form-group-row,
+  .submission-details,
+  .contact-alternative-actions .alternative-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .custom-contact-form {
+    padding: 16px;
+  }
+  
+  .admin-dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .admin-toolbar {
+    grid-template-columns: 1fr;
+  }
+  
+  .admin-dashboard-actions .button {
+    width: 100%;
+  }
+
+  .admin-refresh-btn {
+    width: 100%;
+  }
+
+  .admin-modal-container {
+    padding: 16px;
+  }
+}

@@ -1,4 +1,5 @@
 DirectoryIndex index.html
 
 RewriteEngine On
+RewriteRule ^private(/|$) - [F,L]
 RewriteRule ^portal/?$ portal.html [L]

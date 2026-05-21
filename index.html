@@ -993,14 +993,42 @@
           </div>
 
           <div class="contact-form-wrap">
-            <div class="contact-primary-actions">
-              <a class="button button-primary" href="tel:+17863067842">Call +1 (786) 306-7842</a>
-              <a class="button text-button" href="sms:+17863067842">Text Us</a>
-            </div>
-            <div class="whatsapp-priority-card">
-              <span>Best contact</span>
-              <strong>Call or send a text for the fastest response. WhatsApp is available if you prefer it.</strong>
-              <p>Ask about pricing, sizes, availability, delivery, and custom builds.</p>
+            <form class="custom-contact-form" id="custom-contact-form" novalidate>
+              <h3 class="form-title">Envíanos un Mensaje</h3>
+              
+              <div class="form-group">
+                <label for="form-nombre">Nombre</label>
+                <input type="text" id="form-nombre" name="nombre" placeholder="Tu nombre completo" required autocomplete="name">
+              </div>
+
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="form-correo">Correo Electrónico</label>
+                  <input type="email" id="form-correo" name="correo" placeholder="ejemplo@correo.com" required autocomplete="email">
+                </div>
+                
+                <div class="form-group">
+                  <label for="form-celular">Celular</label>
+                  <input type="tel" id="form-celular" name="celular" placeholder="Tu número de celular" required autocomplete="tel">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="form-mensaje">Mensaje</label>
+                <textarea id="form-mensaje" name="mensaje" rows="4" placeholder="Escribe tu consulta aquí..." required></textarea>
+              </div>
+
+              <button type="submit" class="button button-primary form-submit-btn">Enviar Mensaje</button>
+              
+              <div id="contact-form-status" class="form-status" aria-live="polite"></div>
+            </form>
+
+            <div class="contact-alternative-actions">
+              <p class="alternative-title">O comunícate directamente:</p>
+              <div class="alternative-buttons">
+                <a class="button button-outline" href="tel:+17863067842">Llamar +1 (786) 306-7842</a>
+                <a class="button button-outline" href="sms:+17863067842">Enviar SMS</a>
+              </div>
             </div>
           </div>
         </div>
@@ -1009,7 +1037,7 @@
 
     <footer class="panel site-footer" data-reveal="up">
       <p class="footer-credit">Created by RevUp Agency Group LLC</p>
-      <a class="footer-portal-entry" href="portal.html?v=20260426" aria-label="Open private portal">
+      <a class="footer-portal-entry" id="footer-admin-trigger" href="portal.html?v=20260426" aria-label="Open private portal">
         <span class="footer-portal-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" role="img" focusable="false">
             <path d="M7 10V8a5 5 0 0 1 10 0v2" fill="none" stroke="currentColor" stroke-linecap="round"
@@ -1020,6 +1048,75 @@
         </span>
       </a>
     </footer>
+  </div>
+
+  <!-- Admin Modal Overlay -->
+  <div class="admin-modal-overlay" id="admin-modal-overlay" hidden>
+    <div class="admin-modal-container">
+      <button class="admin-modal-close" id="admin-modal-close" aria-label="Close admin panel">
+        &times;
+      </button>
+
+      <!-- Step 1: Login View -->
+      <div class="admin-view" id="admin-login-view">
+        <div class="admin-view-header">
+          <span class="dashboard-kicker">Panel de Control Privado</span>
+          <h2>Acceso de Administración</h2>
+          <p>Ingresa tus credenciales para leer los mensajes de contacto.</p>
+        </div>
+        <form class="admin-login-form" id="admin-login-form" autocomplete="on">
+          <div class="form-group">
+            <label for="admin-username">Usuario</label>
+            <input type="text" id="admin-username" name="username" placeholder="Ingresa tu usuario" required autocomplete="username">
+          </div>
+          <div class="form-group">
+            <label for="admin-password">Contraseña</label>
+            <input type="password" id="admin-password" name="password" placeholder="Ingresa tu contraseña" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="button button-primary admin-submit-btn">Ingresar</button>
+          <p id="admin-login-error" class="admin-error-msg" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <!-- Step 2: Dashboard View -->
+      <div class="admin-view" id="admin-dashboard-view" hidden>
+        <div class="admin-dashboard-header">
+          <div>
+            <span class="dashboard-kicker">Mensajes Recibidos</span>
+            <h2>Bandeja de Entrada</h2>
+            <p>Lee y gestiona los mensajes de contacto de forma privada y segura.</p>
+          </div>
+          <div class="admin-dashboard-actions">
+            <button class="button button-outline" id="admin-logout-btn">Cerrar Sesión</button>
+          </div>
+        </div>
+
+        <div class="admin-stats-bar">
+          <div class="admin-stat-card">
+            <span>Mensajes Totales</span>
+            <strong id="admin-stat-total">0</strong>
+          </div>
+          <div class="admin-stat-card">
+            <span>Mostrando</span>
+            <strong id="admin-stat-visible">0</strong>
+          </div>
+        </div>
+
+        <div class="admin-toolbar">
+          <div class="admin-search-wrap">
+            <input type="search" id="admin-search-input" placeholder="Buscar por nombre, correo, celular o mensaje...">
+          </div>
+          <button class="button button-outline admin-refresh-btn" id="admin-refresh-btn" type="button">Actualizar</button>
+        </div>
+        <p class="admin-refresh-status" id="admin-refresh-status" aria-live="polite"></p>
+
+        <div class="admin-submissions-container">
+          <div class="admin-submissions-list" id="admin-submissions-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <a class="whatsapp-float" href="sms:+17863067842" aria-label="Text Maylin Mattress">
