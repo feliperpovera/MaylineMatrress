@@ -438,8 +438,8 @@ if (form && formStatus) {
       }
 
       form.reset();
-      formStatus.textContent =
-        "Request sent successfully. Our team can review it in the private portal and follow up by call, text, or WhatsApp.";
+      window.location.href = "/gracias";
+      return;
     } catch (error) {
       console.error(error);
       formStatus.textContent =
@@ -587,9 +587,9 @@ if (customContactForm && contactFormStatus) {
 
       await apiCall("/contact", { nombre, correo, celular, mensaje });
 
-      contactFormStatus.className = "form-status success";
-      contactFormStatus.textContent = "Message sent successfully. We will contact you soon.";
       customContactForm.reset();
+      window.location.href = "/gracias";
+      return;
     } catch (error) {
       console.error("Error submitting contact form:", error);
       contactFormStatus.className = "form-status error";
