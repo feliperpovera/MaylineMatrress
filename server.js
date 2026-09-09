@@ -38,6 +38,18 @@ app.get("/", (_request, response) => {
   response.sendFile(path.join(rootDir, "index.html"));
 });
 
+app.get("/gracias", (_request, response) => {
+  response.sendFile(path.join(rootDir, "gracias.html"));
+});
+
+app.get("/admin", (_request, response) => {
+  response.sendFile(path.join(rootDir, "admin.html"));
+});
+
+app.get("/es", (_request, response) => {
+  response.sendFile(path.join(rootDir, "es.html"));
+});
+
 app.get("/portal", (_request, response) => {
   response.sendFile(path.join(rootDir, "portal.html"));
 });

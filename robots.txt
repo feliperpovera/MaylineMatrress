@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /gracias
+Disallow: /portal
+Disallow: /private
 
 Sitemap: https://maylinmattress.com/sitemap.xml

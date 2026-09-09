@@ -4,3 +4,5 @@ RewriteEngine On
 RewriteRule ^private(/|$) - [F,L]
 RewriteRule ^portal/?$ portal.html [L]
 RewriteRule ^gracias/?$ gracias.html [L]
+RewriteRule ^admin/?$ admin.html [L]
+RewriteRule ^es/?$ es.html [L]

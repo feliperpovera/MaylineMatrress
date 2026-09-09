@@ -815,3 +815,12 @@ if (adminSearchInput) {
     renderSubmissions(filtered);
   });
 }
+
+// Standalone /admin page: no modal trigger here, so open the right view on load.
+if (!footerAdminTrigger && adminLoginView) {
+  if (sessionStorage.getItem("maylin_admin_session_token")) {
+    showDashboardView();
+  } else {
+    showLoginView();
+  }
+}

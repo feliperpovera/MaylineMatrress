@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#fbf7f1" />
+  <meta name="author" content="Maylin Mattress" />
+
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-NTKBNQZ8');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <title>Admin Access | Maylin Mattress</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png?v=20260521" />
+  <link rel="shortcut icon" href="/assets/favicons/favicon-32x32.png?v=20260521" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="/styles.css?v=20260909" />
+  <style>
+    .admin-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .admin-page .admin-modal-close {
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      line-height: 1;
+      text-decoration: none;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="/supabase-config.js?v=20260426" defer></script>
+  <script src="/supabase.js?v=20260426" defer></script>
+  <script src="/storage.js?v=20260426" defer></script>
+  <script src="/main.js?v=20260909" defer></script>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTKBNQZ8" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <main class="admin-page">
+    <div class="admin-modal-container">
+      <a class="admin-modal-close" href="/" aria-label="Back to homepage">&times;</a>
+
+      <!-- Step 1: Login View -->
+      <div class="admin-view" id="admin-login-view">
+        <div class="admin-view-header">
+          <span class="dashboard-kicker">Private Control Panel</span>
+          <h2>Admin Access</h2>
+          <p>Enter your credentials to read contact form messages.</p>
+        </div>
+        <form class="admin-login-form" id="admin-login-form" autocomplete="on">
+          <div class="form-group">
+            <label for="admin-username">Username</label>
+            <input type="text" id="admin-username" name="username" placeholder="Enter your username" required autocomplete="username">
+          </div>
+          <div class="form-group">
+            <label for="admin-password">Password</label>
+            <input type="password" id="admin-password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="button button-primary admin-submit-btn">Sign In</button>
+          <p id="admin-login-error" class="admin-error-msg" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <!-- Step 2: Dashboard View -->
+      <div class="admin-view" id="admin-dashboard-view" hidden>
+        <div class="admin-dashboard-header">
+          <div>
+            <span class="dashboard-kicker">Received Messages</span>
+            <h2>Inbox</h2>
+            <p>Read and manage contact form messages privately and securely.</p>
+          </div>
+          <div class="admin-dashboard-actions">
+            <button class="button button-outline" id="admin-logout-btn">Sign Out</button>
+          </div>
+        </div>
+
+        <div class="admin-stats-bar">
+          <div class="admin-stat-card">
+            <span>Total Messages</span>
+            <strong id="admin-stat-total">0</strong>
+          </div>
+          <div class="admin-stat-card">
+            <span>Showing</span>
+            <strong id="admin-stat-visible">0</strong>
+          </div>
+        </div>
+
+        <div class="admin-toolbar">
+          <div class="admin-search-wrap">
+            <input type="search" id="admin-search-input" placeholder="Search by name, email, phone, or message...">
+          </div>
+          <button class="button button-outline admin-refresh-btn" id="admin-refresh-btn" type="button">Refresh</button>
+        </div>
+        <p class="admin-refresh-status" id="admin-refresh-status" aria-live="polite"></p>
+
+        <div class="admin-submissions-container">
+          <div class="admin-submissions-list" id="admin-submissions-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+    </div>
+  </main>
+
+</body>
+
+</html>

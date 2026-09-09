@@ -11,6 +11,8 @@ mkdir -p "$OUTPUT_DIR"
 cp "$ROOT_DIR/index.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/portal.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/gracias.html" "$OUTPUT_DIR/"
+cp "$ROOT_DIR/admin.html" "$OUTPUT_DIR/"
+cp "$ROOT_DIR/es.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/styles.css" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/main.js" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/portal.js" "$OUTPUT_DIR/"
@@ -30,7 +32,21 @@ cp "$ROOT_DIR/portal.html" "$OUTPUT_DIR/portal/index.html"
 mkdir -p "$OUTPUT_DIR/gracias"
 cp "$ROOT_DIR/gracias.html" "$OUTPUT_DIR/gracias/index.html"
 
+mkdir -p "$OUTPUT_DIR/admin"
+cp "$ROOT_DIR/admin.html" "$OUTPUT_DIR/admin/index.html"
+
+mkdir -p "$OUTPUT_DIR/es"
+cp "$ROOT_DIR/es.html" "$OUTPUT_DIR/es/index.html"
+
 find "$OUTPUT_DIR" -name '.DS_Store' -delete
+
+# Ship only the optimized WebP assets (plus favicons and the social logo).
+find "$OUTPUT_DIR/assets" -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) \
+  ! -path '*/favicons/*' ! -name 'maylin-mattress-logo.png' -delete
+
+# Drop source media the site does not reference (raw video, archives).
+find "$OUTPUT_DIR/assets" -type f \( -iname '*.mov' -o -iname '*.mp4' -o -iname '*.zip' -o -iname '*.heic' \) -delete
+find "$OUTPUT_DIR/assets" -type d -empty -delete
 
 mkdir -p "$ROOT_DIR/deploy"
 rm -f "$ZIP_PATH"
