@@ -12,7 +12,7 @@ cp "$ROOT_DIR/index.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/portal.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/gracias.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/admin.html" "$OUTPUT_DIR/"
-cp "$ROOT_DIR/es.html" "$OUTPUT_DIR/"
+cp "$ROOT_DIR/en.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/styles.css" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/main.js" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/portal.js" "$OUTPUT_DIR/"
@@ -35,8 +35,8 @@ cp "$ROOT_DIR/gracias.html" "$OUTPUT_DIR/gracias/index.html"
 mkdir -p "$OUTPUT_DIR/admin"
 cp "$ROOT_DIR/admin.html" "$OUTPUT_DIR/admin/index.html"
 
-mkdir -p "$OUTPUT_DIR/es"
-cp "$ROOT_DIR/es.html" "$OUTPUT_DIR/es/index.html"
+mkdir -p "$OUTPUT_DIR/en"
+cp "$ROOT_DIR/en.html" "$OUTPUT_DIR/en/index.html"
 
 find "$OUTPUT_DIR" -name '.DS_Store' -delete
 

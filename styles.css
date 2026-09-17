@@ -2341,47 +2341,20 @@ h3 {
   line-height: 1.5;
 }
 
-.footer-portal-entry {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 42px;
-  height: 42px;
-  overflow: hidden;
-  border: 1px solid rgba(23, 19, 16, 0.1);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.88);
+.footer-contact-link {
   color: var(--ink);
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
-    box-shadow 0.2s ease;
+  font-weight: 700;
+  font-size: 0.96rem;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(23, 19, 16, 0.25);
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.footer-portal-entry:hover,
-.footer-portal-entry:focus-visible {
+.footer-contact-link:hover,
+.footer-contact-link:focus-visible {
   color: var(--accent);
-  border-color: rgba(31, 107, 97, 0.28);
-  box-shadow: 0 14px 24px rgba(23, 19, 16, 0.08);
+  border-color: var(--accent);
   outline: none;
-  transform: translateY(-1px);
-}
-
-.footer-portal-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  line-height: 0;
-}
-
-.footer-portal-icon svg {
-  width: 16px;
-  height: 16px;
-  display: block;
 }
 
 .site-footer-minimal {
