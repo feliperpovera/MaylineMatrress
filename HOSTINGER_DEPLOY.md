@@ -2,7 +2,28 @@
 
 This project is prepared as a static upload for Hostinger.
 
-## Build the Hostinger bundle
+## Automatic deploy (recommended)
+
+`.github/workflows/deploy-hostinger.yml` builds this same bundle and uploads
+it to Hostinger over FTPS on every push to `main`. One-time setup:
+
+1. In hPanel, go to `Files` > `FTP Accounts` and note (or create) an FTP
+   account with access to the site's `public_html`.
+2. In the GitHub repo, go to `Settings` > `Secrets and variables` > `Actions`
+   and add three repository secrets:
+   - `HOSTINGER_FTP_SERVER` — the FTP host from hPanel (e.g. `ftp.maylinmattress.com`)
+   - `HOSTINGER_FTP_USERNAME` — the FTP username
+   - `HOSTINGER_FTP_PASSWORD` — the FTP password
+3. Push to `main` (or run the workflow manually from the Actions tab) and
+   confirm the `Deploy to Hostinger` run finishes green.
+
+Until those three secrets exist, the workflow runs but fails at the upload
+step — nothing breaks, the live site just keeps whatever was last uploaded.
+If `maylinmattress.com` is an addon/parked domain rather than the account's
+primary domain, edit `server-dir` in the workflow to
+`/domains/maylinmattress.com/public_html/`.
+
+## Manual build (fallback)
 
 Optional, set your real Google Tag Manager container first:
 
