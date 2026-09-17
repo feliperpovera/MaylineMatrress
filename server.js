@@ -46,11 +46,11 @@ app.get("/admin", (_request, response) => {
   response.sendFile(path.join(rootDir, "admin.html"));
 });
 
-app.get("/en", (_request, response) => {
-  response.sendFile(path.join(rootDir, "en.html"));
+app.get("/es", (_request, response) => {
+  response.sendFile(path.join(rootDir, "es.html"));
 });
 
-app.get("/es", (_request, response) => {
+app.get("/en", (_request, response) => {
   response.redirect(301, "/");
 });
 
