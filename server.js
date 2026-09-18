@@ -47,12 +47,44 @@ console.log(`Contact submissions stored at: ${SUBMISSIONS_FILE}`);
 app.use(express.json({ limit: "24kb" }));
 app.use(express.urlencoded({ extended: true }));
 
+// express.static below serves rootDir, which is the whole project directory --
+// so without this, https://maylinmattress.com/server.js returns the source,
+// admin credentials included. Everything the browser legitimately needs is
+// listed in PUBLIC_FILES; anything else under the root stays private.
+const PUBLIC_FILES = new Set([
+  "/index.html",
+  "/es.html",
+  "/admin.html",
+  "/gracias.html",
+  "/portal.html",
+  "/main.js",
+  "/portal.js",
+  "/storage.js",
+  "/supabase.js",
+  "/supabase-config.js",
+  "/styles.css",
+  "/robots.txt",
+  "/sitemap.xml",
+]);
+
+const isPublicPath = (requestPath) =>
+  PUBLIC_FILES.has(requestPath) || requestPath.startsWith("/assets/");
+
 app.use((request, response, next) => {
-  if (request.path.startsWith("/private")) {
+  const requestPath = request.path;
+
+  if (requestPath.startsWith("/private")) {
     return response.status(404).send("Not found");
   }
 
-  if (request.path.endsWith(".php")) {
+  if (requestPath.endsWith(".php")) {
+    return response.status(404).send("Not found");
+  }
+
+  // Routes (/, /es, /admin, ...) are handled further down and carry no file
+  // extension; only extension-bearing requests reach express.static.
+  const looksLikeFile = /\.[a-z0-9]+$/i.test(requestPath);
+  if (looksLikeFile && !isPublicPath(requestPath)) {
     return response.status(404).send("Not found");
   }
 
