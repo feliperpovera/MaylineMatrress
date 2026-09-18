@@ -99,14 +99,31 @@ const pruneSessions = () => {
   }
 };
 
-const getClientId = (request) => request.ip || request.headers["x-forwarded-for"] || "unknown";
+// Behind Hostinger's CDN the socket address is the proxy, so prefer the
+// forwarded client address. Without this every visitor can share one bucket
+// and a single noisy client locks everyone else out.
+const getClientId = (request) => {
+  const forwarded = request.headers["x-forwarded-for"];
+  const clientAddress = typeof forwarded === "string" ? forwarded.split(",")[0].trim() : "";
+  return clientAddress || request.ip || "unknown";
+};
 
-const isRateLimited = (key, limit, windowMs) => {
+// Returns { limited, retryAfterSeconds }. A blocked attempt is deliberately NOT
+// recorded: counting it would slide the window forward on every retry, so
+// someone who keeps hitting the button could never get back in.
+const checkRateLimit = (key, limit, windowMs) => {
   const now = Date.now();
   const recentHits = (rateBuckets.get(key) || []).filter((hit) => now - hit < windowMs);
+
+  if (recentHits.length >= limit) {
+    rateBuckets.set(key, recentHits);
+    const retryAfterMs = windowMs - (now - recentHits[0]);
+    return { limited: true, retryAfterSeconds: Math.max(1, Math.ceil(retryAfterMs / 1000)) };
+  }
+
   recentHits.push(now);
   rateBuckets.set(key, recentHits);
-  return recentHits.length > limit;
+  return { limited: false };
 };
 
 const normalizeText = (value, maxLength) => String(value ?? "").trim().slice(0, maxLength);
@@ -166,8 +183,13 @@ const saveSubmissions = (submissions) => {
 
 app.post("/api/contact", (req, res) => {
   const clientId = getClientId(req);
-  if (isRateLimited(`contact:${clientId}`, 8, 10 * 60 * 1000)) {
-    return jsonResponse(res, 429, { success: false, error: "Demasiados intentos. Intenta más tarde." });
+  const contactLimit = checkRateLimit(`contact:${clientId}`, 8, 10 * 60 * 1000);
+  if (contactLimit.limited) {
+    return jsonResponse(res, 429, {
+      success: false,
+      error: "Demasiados intentos. Intenta más tarde.",
+      retryAfterSeconds: contactLimit.retryAfterSeconds,
+    });
   }
 
   const { submission, error } = validateSubmission(req.body);
@@ -195,8 +217,13 @@ app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
   const clientId = getClientId(req);
 
-  if (isRateLimited(`login:${clientId}`, 10, 15 * 60 * 1000)) {
-    return jsonResponse(res, 429, { success: false, error: "Demasiados intentos. Intenta más tarde." });
+  const loginLimit = checkRateLimit(`login:${clientId}`, 10, 15 * 60 * 1000);
+  if (loginLimit.limited) {
+    return jsonResponse(res, 429, {
+      success: false,
+      error: "Demasiados intentos. Intenta más tarde.",
+      retryAfterSeconds: loginLimit.retryAfterSeconds,
+    });
   }
 
   if (username === ADMIN_USER && password === ADMIN_PASS) {

@@ -524,6 +524,7 @@ const apiCall = async (endpoint, data) => {
     if (!response.ok) {
       const requestError = new Error(result.error || "Error en la solicitud");
       requestError.status = response.status;
+      requestError.retryAfterSeconds = result.retryAfterSeconds;
       throw requestError;
     }
     return result;
@@ -681,7 +682,17 @@ if (adminLoginForm) {
     } catch (error) {
       console.error("Login error:", error);
       if (adminLoginError) {
-        adminLoginError.textContent = "Incorrect username or password.";
+        // A 429 is a temporary lockout, not bad credentials -- saying
+        // "incorrect password" there sends you hunting for the wrong problem.
+        if (error.status === 429) {
+          const waitSeconds = error.retryAfterSeconds;
+          const waitText = waitSeconds
+            ? ` Try again in ${Math.ceil(waitSeconds / 60)} minute(s).`
+            : " Try again shortly.";
+          adminLoginError.textContent = `Too many login attempts.${waitText}`;
+        } else {
+          adminLoginError.textContent = "Incorrect username or password.";
+        }
       }
     } finally {
       if (submitBtn) {
