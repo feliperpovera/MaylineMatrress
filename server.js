@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
+const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 const rootDir = __dirname;
@@ -16,6 +17,23 @@ const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
 const SUBMISSIONS_FILE = path.join(rootDir, "private", "submissions.json");
 const activeSessions = new Map();
 const rateBuckets = new Map();
+
+// Persistent storage for contact submissions. Falls back to a local JSON
+// file (not persisted across deploys) only if these env vars are unset --
+// see SUPABASE_SETUP.md and supabase-setup-contact.sql.
+const supabase =
+  process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
+    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
+        auth: { persistSession: false },
+      })
+    : null;
+
+if (!supabase) {
+  console.warn(
+    "SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set -- contact submissions will only be " +
+      "saved to a local file that does NOT persist across deploys. See SUPABASE_SETUP.md.",
+  );
+}
 
 app.use(express.json({ limit: "24kb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -107,7 +125,7 @@ const validateSubmission = (body) => {
   return { submission };
 };
 
-const getSubmissions = () => {
+const getLocalSubmissions = () => {
   try {
     if (!fs.existsSync(SUBMISSIONS_FILE)) {
       return [];
@@ -121,12 +139,14 @@ const getSubmissions = () => {
   }
 };
 
-const saveSubmissions = (submissions) => {
+const saveLocalSubmission = (submission) => {
   try {
     const dir = path.dirname(SUBMISSIONS_FILE);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
+    const submissions = getLocalSubmissions();
+    submissions.unshift(submission);
     const tmpFile = `${SUBMISSIONS_FILE}.${process.pid}.tmp`;
     fs.writeFileSync(tmpFile, JSON.stringify(submissions, null, 2), "utf8");
     fs.renameSync(tmpFile, SUBMISSIONS_FILE);
@@ -137,7 +157,55 @@ const saveSubmissions = (submissions) => {
   }
 };
 
-app.post("/api/contact", (req, res) => {
+// Supabase rows use created_at (snake_case); the admin UI expects createdAt.
+const fromSupabaseRow = (row) => ({
+  id: row.id,
+  createdAt: row.created_at,
+  nombre: row.nombre,
+  correo: row.correo,
+  celular: row.celular,
+  mensaje: row.mensaje,
+});
+
+const getSubmissions = async () => {
+  if (!supabase) {
+    return getLocalSubmissions();
+  }
+
+  const { data, error } = await supabase
+    .from("contact_submissions")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error reading submissions from Supabase:", error);
+    return [];
+  }
+
+  return (data || []).map(fromSupabaseRow);
+};
+
+const saveSubmission = async (submission) => {
+  if (!supabase) {
+    return saveLocalSubmission(submission);
+  }
+
+  const { error } = await supabase.from("contact_submissions").insert({
+    nombre: submission.nombre,
+    correo: submission.correo,
+    celular: submission.celular,
+    mensaje: submission.mensaje,
+  });
+
+  if (error) {
+    console.error("Error writing submission to Supabase:", error);
+    return false;
+  }
+
+  return true;
+};
+
+app.post("/api/contact", async (req, res) => {
   const clientId = getClientId(req);
   if (isRateLimited(`contact:${clientId}`, 8, 10 * 60 * 1000)) {
     return jsonResponse(res, 429, { success: false, error: "Demasiados intentos. Intenta más tarde." });
@@ -154,10 +222,7 @@ app.post("/api/contact", (req, res) => {
     ...submission,
   };
 
-  const submissions = getSubmissions();
-  submissions.unshift(newSubmission);
-
-  if (saveSubmissions(submissions)) {
+  if (await saveSubmission(newSubmission)) {
     return jsonResponse(res, 200, { success: true });
   }
 
@@ -193,8 +258,8 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-app.post("/api/admin/submissions", authenticateToken, (req, res) => {
-  return jsonResponse(res, 200, { success: true, submissions: getSubmissions() });
+app.post("/api/admin/submissions", authenticateToken, async (req, res) => {
+  return jsonResponse(res, 200, { success: true, submissions: await getSubmissions() });
 });
 
 app.post("/api/admin/delete", authenticateToken, (req, res) => {
