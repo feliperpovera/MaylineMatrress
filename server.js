@@ -1,8 +1,8 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const os = require("os");
 const crypto = require("crypto");
-const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 const rootDir = __dirname;
@@ -14,26 +14,35 @@ app.set("trust proxy", true);
 const ADMIN_USER = process.env.MAYLIN_ADMIN_USER || "admin_maylin";
 const ADMIN_PASS = process.env.MAYLIN_ADMIN_PASS || "MaylinSecurePassword2026!";
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
-const SUBMISSIONS_FILE = path.join(rootDir, "private", "submissions.json");
+
+// Contact submissions must live OUTSIDE rootDir. Hostinger redeploys replace
+// the whole app directory, so anything written inside it (the old
+// private/submissions.json) is destroyed on every push. The home directory
+// survives deploys. Override with MAYLIN_DATA_DIR if the host ever changes.
+const DATA_DIR = process.env.MAYLIN_DATA_DIR || path.join(os.homedir(), "maylin-data");
+const SUBMISSIONS_FILE = path.join(DATA_DIR, "submissions.json");
+const LEGACY_SUBMISSIONS_FILE = path.join(rootDir, "private", "submissions.json");
+
 const activeSessions = new Map();
 const rateBuckets = new Map();
 
-// Persistent storage for contact submissions. Falls back to a local JSON
-// file (not persisted across deploys) only if these env vars are unset --
-// see SUPABASE_SETUP.md and supabase-setup-contact.sql.
-const supabase =
-  process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
-    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY, {
-        auth: { persistSession: false },
-      })
-    : null;
+// One-time carry-over: if a previous deploy still has submissions in the old
+// in-app location and the persistent file does not exist yet, keep them.
+const migrateLegacySubmissions = () => {
+  try {
+    if (fs.existsSync(SUBMISSIONS_FILE) || !fs.existsSync(LEGACY_SUBMISSIONS_FILE)) {
+      return;
+    }
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+    fs.copyFileSync(LEGACY_SUBMISSIONS_FILE, SUBMISSIONS_FILE);
+    console.log(`Migrated submissions from ${LEGACY_SUBMISSIONS_FILE} to ${SUBMISSIONS_FILE}`);
+  } catch (error) {
+    console.error("Could not migrate legacy submissions:", error);
+  }
+};
 
-if (!supabase) {
-  console.warn(
-    "SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY not set -- contact submissions will only be " +
-      "saved to a local file that does NOT persist across deploys. See SUPABASE_SETUP.md.",
-  );
-}
+migrateLegacySubmissions();
+console.log(`Contact submissions stored at: ${SUBMISSIONS_FILE}`);
 
 app.use(express.json({ limit: "24kb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -125,7 +134,7 @@ const validateSubmission = (body) => {
   return { submission };
 };
 
-const getLocalSubmissions = () => {
+const getSubmissions = () => {
   try {
     if (!fs.existsSync(SUBMISSIONS_FILE)) {
       return [];
@@ -139,14 +148,12 @@ const getLocalSubmissions = () => {
   }
 };
 
-const saveLocalSubmission = (submission) => {
+const saveSubmissions = (submissions) => {
   try {
     const dir = path.dirname(SUBMISSIONS_FILE);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
-    const submissions = getLocalSubmissions();
-    submissions.unshift(submission);
     const tmpFile = `${SUBMISSIONS_FILE}.${process.pid}.tmp`;
     fs.writeFileSync(tmpFile, JSON.stringify(submissions, null, 2), "utf8");
     fs.renameSync(tmpFile, SUBMISSIONS_FILE);
@@ -157,55 +164,7 @@ const saveLocalSubmission = (submission) => {
   }
 };
 
-// Supabase rows use created_at (snake_case); the admin UI expects createdAt.
-const fromSupabaseRow = (row) => ({
-  id: row.id,
-  createdAt: row.created_at,
-  nombre: row.nombre,
-  correo: row.correo,
-  celular: row.celular,
-  mensaje: row.mensaje,
-});
-
-const getSubmissions = async () => {
-  if (!supabase) {
-    return getLocalSubmissions();
-  }
-
-  const { data, error } = await supabase
-    .from("contact_submissions")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Error reading submissions from Supabase:", error);
-    return [];
-  }
-
-  return (data || []).map(fromSupabaseRow);
-};
-
-const saveSubmission = async (submission) => {
-  if (!supabase) {
-    return saveLocalSubmission(submission);
-  }
-
-  const { error } = await supabase.from("contact_submissions").insert({
-    nombre: submission.nombre,
-    correo: submission.correo,
-    celular: submission.celular,
-    mensaje: submission.mensaje,
-  });
-
-  if (error) {
-    console.error("Error writing submission to Supabase:", error);
-    return false;
-  }
-
-  return true;
-};
-
-app.post("/api/contact", async (req, res) => {
+app.post("/api/contact", (req, res) => {
   const clientId = getClientId(req);
   if (isRateLimited(`contact:${clientId}`, 8, 10 * 60 * 1000)) {
     return jsonResponse(res, 429, { success: false, error: "Demasiados intentos. Intenta más tarde." });
@@ -222,7 +181,10 @@ app.post("/api/contact", async (req, res) => {
     ...submission,
   };
 
-  if (await saveSubmission(newSubmission)) {
+  const submissions = getSubmissions();
+  submissions.unshift(newSubmission);
+
+  if (saveSubmissions(submissions)) {
     return jsonResponse(res, 200, { success: true });
   }
 
@@ -258,8 +220,13 @@ const authenticateToken = (req, res, next) => {
   }
 };
 
-app.post("/api/admin/submissions", authenticateToken, async (req, res) => {
-  return jsonResponse(res, 200, { success: true, submissions: await getSubmissions() });
+app.post("/api/admin/submissions", authenticateToken, (req, res) => {
+  return jsonResponse(res, 200, {
+    success: true,
+    submissions: getSubmissions(),
+    // Surfaced so the storage location can be confirmed without shell access.
+    storagePath: SUBMISSIONS_FILE,
+  });
 });
 
 app.post("/api/admin/delete", authenticateToken, (req, res) => {
