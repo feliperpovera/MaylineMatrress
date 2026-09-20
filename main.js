@@ -594,7 +594,13 @@ if (customContactForm && contactFormStatus) {
     } catch (error) {
       console.error("Error submitting contact form:", error);
       contactFormStatus.className = "form-status error";
-      contactFormStatus.textContent = "There was an error sending your message. Please try again.";
+      // The server sends a usable message for the cases the visitor can act on
+      // (couldn't deliver -> call us, too many attempts -> wait). Only fall
+      // back to the generic line when there is nothing better to show.
+      contactFormStatus.textContent =
+        error.message && error.status && error.status !== 404
+          ? error.message
+          : "There was an error sending your message. Please try again, or call (786) 306-7842.";
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;

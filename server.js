@@ -11,8 +11,33 @@ const port = process.env.PORT || 3000;
 app.disable("x-powered-by");
 app.set("trust proxy", true);
 
+// No password default on purpose. The previous hardcoded one was readable in
+// the public GitHub repo and, until it was blocked, downloadable straight from
+// the live site. If MAYLIN_ADMIN_PASS is unset the admin panel refuses every
+// login rather than falling back to a value an attacker can look up.
 const ADMIN_USER = process.env.MAYLIN_ADMIN_USER || "admin_maylin";
-const ADMIN_PASS = process.env.MAYLIN_ADMIN_PASS || "MaylinSecurePassword2026!";
+const ADMIN_PASS = process.env.MAYLIN_ADMIN_PASS || "";
+
+if (!ADMIN_PASS) {
+  console.warn(
+    "MAYLIN_ADMIN_PASS is not set -- /admin login is disabled until it is. " +
+      "Set it in hPanel > Deployments > Settings and redeploy > Environment Variables.",
+  );
+}
+
+// Lead notifications. RESEND_API_KEY is the only secret needed; without it the
+// app still accepts submissions, it just cannot email them.
+const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
+const LEAD_TO = process.env.MAYLIN_LEAD_TO || "maylinmattress@gmail.com";
+const LEAD_FROM = process.env.MAYLIN_LEAD_FROM || "onboarding@resend.dev";
+const EMAIL_TIMEOUT_MS = 8000;
+
+if (!RESEND_API_KEY) {
+  console.warn(
+    "RESEND_API_KEY is not set -- contact form submissions will NOT be emailed. " +
+      "Because the container is ephemeral, that means they are not durably stored anywhere.",
+  );
+}
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
 
 // Contact submissions must live OUTSIDE rootDir. Hostinger redeploys replace
@@ -213,36 +238,141 @@ const saveSubmissions = (submissions) => {
   }
 };
 
-app.post("/api/contact", (req, res) => {
-  const clientId = getClientId(req);
-  const contactLimit = checkRateLimit(`contact:${clientId}`, 8, 10 * 60 * 1000);
-  if (contactLimit.limited) {
-    return jsonResponse(res, 429, {
+const escapeHtml = (value) =>
+  String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+// Resend's REST API uses snake_case reply_to. Their Node SDK uses replyTo, so
+// code copied from SDK examples silently drops the header and replies go to
+// the From address instead of the customer. Keep this snake_case.
+const sendLeadEmail = async (submission) => {
+  if (!RESEND_API_KEY) {
+    return { sent: false, reason: "RESEND_API_KEY not set" };
+  }
+
+  const rows = [
+    ["Nombre", submission.nombre],
+    ["Correo", submission.correo],
+    ["Teléfono", submission.celular],
+    ["Mensaje", submission.mensaje],
+  ]
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:6px 12px;font-weight:bold;vertical-align:top">${label}</td>` +
+        `<td style="padding:6px 12px;white-space:pre-wrap">${escapeHtml(value)}</td></tr>`,
+    )
+    .join("");
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), EMAIL_TIMEOUT_MS);
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        from: `Maylin Mattress <${LEAD_FROM}>`,
+        to: [LEAD_TO],
+        reply_to: submission.correo,
+        subject: `Nuevo mensaje de ${submission.nombre}`,
+        html:
+          `<h2 style="font-family:sans-serif">Nuevo mensaje del sitio web</h2>` +
+          `<table style="font-family:sans-serif;font-size:15px;border-collapse:collapse">${rows}</table>` +
+          `<p style="font-family:sans-serif;font-size:13px;color:#666">` +
+          `Responde a este correo para contestarle directamente al cliente.</p>`,
+      }),
+    });
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => "");
+      console.error(`Resend rejected the send (${response.status}): ${detail}`);
+      return { sent: false, reason: `resend ${response.status}` };
+    }
+
+    return { sent: true };
+  } catch (error) {
+    // Includes the AbortError from the timeout above.
+    console.error("Lead email failed:", error);
+    return { sent: false, reason: error.name === "AbortError" ? "timeout" : "network" };
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
+app.post("/api/contact", async (req, res) => {
+  // Express 4 does not catch rejections from async handlers -- an uncaught one
+  // reaches process level and Node 22 exits, taking the whole site down. Every
+  // path below this point must stay inside this try/catch.
+  try {
+    const clientId = getClientId(req);
+    const contactLimit = checkRateLimit(`contact:${clientId}`, 8, 10 * 60 * 1000);
+    if (contactLimit.limited) {
+      return jsonResponse(res, 429, {
+        success: false,
+        error: "Demasiados intentos. Intenta más tarde.",
+        retryAfterSeconds: contactLimit.retryAfterSeconds,
+      });
+    }
+
+    // Backstop against a spammer burning the mail provider's free tier from
+    // many IPs. Generous enough that real traffic will never notice.
+    const globalLimit = checkRateLimit("contact:global", 60, 60 * 60 * 1000);
+    if (globalLimit.limited) {
+      console.warn("Global contact rate limit hit -- possible abuse.");
+      return jsonResponse(res, 429, {
+        success: false,
+        error: "Demasiados intentos. Intenta más tarde.",
+        retryAfterSeconds: globalLimit.retryAfterSeconds,
+      });
+    }
+
+    const { submission, error } = validateSubmission(req.body);
+    if (error) {
+      return jsonResponse(res, 400, { success: false, error });
+    }
+
+    const newSubmission = {
+      id: `sub_${Date.now()}_${crypto.randomBytes(6).toString("hex")}`,
+      createdAt: new Date().toISOString(),
+      ...submission,
+    };
+
+    // Keep the read-modify-write synchronous and contiguous. Awaiting between
+    // the read and the write would let a concurrent request interleave and
+    // drop one of the two submissions. This copy only lives until the next
+    // deploy; the email below is the durable record.
+    const submissions = getSubmissions();
+    submissions.unshift(newSubmission);
+    saveSubmissions(submissions);
+
+    const emailResult = await sendLeadEmail(newSubmission);
+
+    if (!emailResult.sent) {
+      // The file copy dies on the next deploy, so a failed email means the
+      // lead is genuinely lost. Say so rather than showing a success page.
+      console.error(`LEAD NOT DELIVERED (${emailResult.reason}):`, JSON.stringify(newSubmission));
+      return jsonResponse(res, 502, {
+        success: false,
+        error: "No pudimos enviar tu mensaje. Por favor llámanos al (786) 306-7842.",
+      });
+    }
+
+    return jsonResponse(res, 200, { success: true });
+  } catch (unexpected) {
+    console.error("Unexpected failure in /api/contact:", unexpected);
+    return jsonResponse(res, 500, {
       success: false,
-      error: "Demasiados intentos. Intenta más tarde.",
-      retryAfterSeconds: contactLimit.retryAfterSeconds,
+      error: "No pudimos enviar tu mensaje. Por favor llámanos al (786) 306-7842.",
     });
   }
-
-  const { submission, error } = validateSubmission(req.body);
-  if (error) {
-    return jsonResponse(res, 400, { success: false, error });
-  }
-
-  const newSubmission = {
-    id: `sub_${Date.now()}_${crypto.randomBytes(6).toString("hex")}`,
-    createdAt: new Date().toISOString(),
-    ...submission,
-  };
-
-  const submissions = getSubmissions();
-  submissions.unshift(newSubmission);
-
-  if (saveSubmissions(submissions)) {
-    return jsonResponse(res, 200, { success: true });
-  }
-
-  return jsonResponse(res, 500, { success: false, error: "Error interno del servidor al guardar" });
 });
 
 app.post("/api/admin/login", (req, res) => {
@@ -255,6 +385,13 @@ app.post("/api/admin/login", (req, res) => {
       success: false,
       error: "Demasiados intentos. Intenta más tarde.",
       retryAfterSeconds: loginLimit.retryAfterSeconds,
+    });
+  }
+
+  if (!ADMIN_PASS) {
+    return jsonResponse(res, 503, {
+      success: false,
+      error: "El panel no está configurado. Falta definir MAYLIN_ADMIN_PASS en el servidor.",
     });
   }
 
