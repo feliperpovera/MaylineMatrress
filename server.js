@@ -11,19 +11,12 @@ const port = process.env.PORT || 3000;
 app.disable("x-powered-by");
 app.set("trust proxy", true);
 
-// No password default on purpose. The previous hardcoded one was readable in
-// the public GitHub repo and, until it was blocked, downloadable straight from
-// the live site. If MAYLIN_ADMIN_PASS is unset the admin panel refuses every
-// login rather than falling back to a value an attacker can look up.
+// This default is deliberate and the owner's call: the panel only lists
+// contact form messages, and keeping it working without setup was preferred
+// over rotating the credential. Note the value is visible in the public GitHub
+// repo. Set MAYLIN_ADMIN_PASS to override it without a code change.
 const ADMIN_USER = process.env.MAYLIN_ADMIN_USER || "admin_maylin";
-const ADMIN_PASS = process.env.MAYLIN_ADMIN_PASS || "";
-
-if (!ADMIN_PASS) {
-  console.warn(
-    "MAYLIN_ADMIN_PASS is not set -- /admin login is disabled until it is. " +
-      "Set it in hPanel > Deployments > Settings and redeploy > Environment Variables.",
-  );
-}
+const ADMIN_PASS = process.env.MAYLIN_ADMIN_PASS || "MaylinSecurePassword2026!";
 
 // Lead notifications. RESEND_API_KEY is the only secret needed; without it the
 // app still accepts submissions, it just cannot email them.
@@ -385,13 +378,6 @@ app.post("/api/admin/login", (req, res) => {
       success: false,
       error: "Demasiados intentos. Intenta más tarde.",
       retryAfterSeconds: loginLimit.retryAfterSeconds,
-    });
-  }
-
-  if (!ADMIN_PASS) {
-    return jsonResponse(res, 503, {
-      success: false,
-      error: "El panel no está configurado. Falta definir MAYLIN_ADMIN_PASS en el servidor.",
     });
   }
 
