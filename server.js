@@ -243,8 +243,10 @@ const escapeHtml = (value) =>
 // code copied from SDK examples silently drops the header and replies go to
 // the From address instead of the customer. Keep this snake_case.
 const sendLeadEmail = async (submission) => {
+  // Not configured is not the same as failed. With no key there is nothing to
+  // attempt, so the visitor must not be told their message bounced.
   if (!RESEND_API_KEY) {
-    return { sent: false, reason: "RESEND_API_KEY not set" };
+    return { sent: false, configured: false, reason: "RESEND_API_KEY not set" };
   }
 
   const rows = [
@@ -348,14 +350,24 @@ app.post("/api/contact", async (req, res) => {
 
     const emailResult = await sendLeadEmail(newSubmission);
 
-    if (!emailResult.sent) {
-      // The file copy dies on the next deploy, so a failed email means the
-      // lead is genuinely lost. Say so rather than showing a success page.
+    // Only a real delivery failure is worth turning the visitor away for. When
+    // email is simply not configured yet, the submission is accepted exactly as
+    // it was before email existed: saved, and the visitor sees the thank-you
+    // page. It still only survives until the next deploy, which is why the
+    // warning below is loud -- but that is our problem to fix, not theirs.
+    if (!emailResult.sent && emailResult.configured !== false) {
       console.error(`LEAD NOT DELIVERED (${emailResult.reason}):`, JSON.stringify(newSubmission));
       return jsonResponse(res, 502, {
         success: false,
         error: "No pudimos enviar tu mensaje. Por favor llámanos al (786) 306-7842.",
       });
+    }
+
+    if (!emailResult.sent) {
+      console.warn(
+        "Submission accepted but NOT emailed (RESEND_API_KEY unset). It will be lost on the next deploy:",
+        JSON.stringify(newSubmission),
+      );
     }
 
     return jsonResponse(res, 200, { success: true });
