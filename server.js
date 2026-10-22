@@ -62,6 +62,16 @@ const migrateLegacySubmissions = () => {
 migrateLegacySubmissions();
 console.log(`Contact submissions stored at: ${SUBMISSIONS_FILE}`);
 
+// www.maylinmattress.com served the same pages with a 200, which Google can
+// treat as a duplicate site. Send it to the canonical host permanently.
+app.use((request, response, next) => {
+  const host = request.headers.host || "";
+  if (host.toLowerCase().startsWith("www.")) {
+    return response.redirect(301, `https://${host.slice(4)}${request.originalUrl}`);
+  }
+  return next();
+});
+
 app.use(express.json({ limit: "24kb" }));
 app.use(express.urlencoded({ extended: true }));
 
