@@ -137,6 +137,12 @@ app.get("/es", (_request, response) => {
   response.sendFile(path.join(rootDir, "es.html"));
 });
 
+for (const landing of ["pillow-top-mattress-hialeah", "luxury-mattress-hialeah"]) {
+  app.get(`/${landing}`, (_request, response) => {
+    response.sendFile(path.join(rootDir, `${landing}.html`));
+  });
+}
+
 app.get("/en", (_request, response) => {
   response.redirect(301, "/");
 });
