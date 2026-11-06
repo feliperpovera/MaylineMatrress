@@ -589,6 +589,22 @@ if (customContactForm && contactFormStatus) {
 
       await apiCall("/contact", { nombre, correo, celular, mensaje });
 
+      // The lead is already saved for /admin; the email copy must not block the thank-you page.
+      await fetch("https://formsubmit.co/ajax/maylinmattress@gmail.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          Nombre: nombre,
+          email: correo,
+          Celular: celular,
+          Mensaje: mensaje,
+          _subject: `Nuevo mensaje de la web: ${nombre}`,
+          _template: "table",
+          _captcha: "false",
+        }),
+        signal: AbortSignal.timeout(6000),
+      }).catch((error) => console.error("FormSubmit email failed:", error));
+
       customContactForm.reset();
       window.location.href = "/gracias";
       return;
