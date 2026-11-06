@@ -590,20 +590,20 @@ if (customContactForm && contactFormStatus) {
       await apiCall("/contact", { nombre, correo, celular, mensaje });
 
       // The lead is already saved for /admin; the email copy must not block the thank-you page.
-      await fetch("https://formsubmit.co/ajax/maylinmattress@gmail.com", {
+      await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          Nombre: nombre,
+          access_key: "3d10979f-d174-4dea-9b77-ea6b983ce5d3", // public by design
+          subject: `Nuevo mensaje de la web: ${nombre}`,
+          from_name: "Maylin Mattress web",
+          name: nombre,
           email: correo,
-          Celular: celular,
-          Mensaje: mensaje,
-          _subject: `Nuevo mensaje de la web: ${nombre}`,
-          _template: "table",
-          _captcha: "false",
+          phone: celular,
+          message: mensaje,
         }),
         signal: AbortSignal.timeout(6000),
-      }).catch((error) => console.error("FormSubmit email failed:", error));
+      }).catch((error) => console.error("Web3Forms email failed:", error));
 
       customContactForm.reset();
       window.location.href = "/gracias";
