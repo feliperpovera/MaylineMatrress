@@ -91,6 +91,7 @@ const PUBLIC_FILES = new Set([
   "/supabase.js",
   "/supabase-config.js",
   "/styles.css",
+  "/site.css",
   "/robots.txt",
   "/sitemap.xml",
 ]);
@@ -137,11 +138,22 @@ app.get("/es", (_request, response) => {
   response.sendFile(path.join(rootDir, "es.html"));
 });
 
-for (const landing of ["pillow-top-mattress-hialeah", "luxury-mattress-hialeah"]) {
+for (const landing of [
+  "pillow-top-mattress-hialeah",
+  "luxury-mattress-hialeah",
+  "custom-mattress",
+  "boat-rv-mattress",
+  "hotel-supply",
+]) {
   app.get(`/${landing}`, (_request, response) => {
     response.sendFile(path.join(rootDir, `${landing}.html`));
   });
 }
+
+// The file sits at the root: an es/ directory would make /es redirect to /es/.
+app.get("/es/medidas-de-colchones", (_request, response) => {
+  response.sendFile(path.join(rootDir, "medidas-de-colchones.html"));
+});
 
 app.get("/en", (_request, response) => {
   response.redirect(301, "/");

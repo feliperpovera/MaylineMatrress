@@ -15,7 +15,12 @@ cp "$ROOT_DIR/admin.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/es.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/pillow-top-mattress-hialeah.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/luxury-mattress-hialeah.html" "$OUTPUT_DIR/"
+cp "$ROOT_DIR/custom-mattress.html" "$OUTPUT_DIR/"
+cp "$ROOT_DIR/boat-rv-mattress.html" "$OUTPUT_DIR/"
+cp "$ROOT_DIR/hotel-supply.html" "$OUTPUT_DIR/"
+cp "$ROOT_DIR/medidas-de-colchones.html" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/styles.css" "$OUTPUT_DIR/"
+cp "$ROOT_DIR/site.css" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/main.js" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/portal.js" "$OUTPUT_DIR/"
 cp "$ROOT_DIR/storage.js" "$OUTPUT_DIR/"
@@ -37,8 +42,9 @@ cp "$ROOT_DIR/gracias.html" "$OUTPUT_DIR/gracias/index.html"
 mkdir -p "$OUTPUT_DIR/admin"
 cp "$ROOT_DIR/admin.html" "$OUTPUT_DIR/admin/index.html"
 
-mkdir -p "$OUTPUT_DIR/es"
+mkdir -p "$OUTPUT_DIR/es/medidas-de-colchones"
 cp "$ROOT_DIR/es.html" "$OUTPUT_DIR/es/index.html"
+cp "$ROOT_DIR/medidas-de-colchones.html" "$OUTPUT_DIR/es/medidas-de-colchones/index.html"
 
 find "$OUTPUT_DIR" -name '.DS_Store' -delete
 

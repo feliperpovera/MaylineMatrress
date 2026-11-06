@@ -567,6 +567,7 @@ if (customContactForm && contactFormStatus) {
     
     const submitBtn = customContactForm.querySelector(".form-submit-btn");
     const formData = new FormData(customContactForm);
+    const isSpanishPage = document.documentElement.lang === "es";
     const nombre = String(formData.get("nombre") || "").trim();
     const correo = String(formData.get("correo") || "").trim();
     const celular = String(formData.get("celular") || "").trim();
@@ -574,17 +575,17 @@ if (customContactForm && contactFormStatus) {
 
     if (!nombre || !correo || !celular || !mensaje) {
       contactFormStatus.className = "form-status error";
-      contactFormStatus.textContent = "Please complete all fields.";
+      contactFormStatus.textContent = isSpanishPage ? "Completa todos los campos." : "Please complete all fields.";
       return;
     }
 
     try {
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "Sending...";
+        submitBtn.textContent = isSpanishPage ? "Enviando..." : "Sending...";
       }
       contactFormStatus.className = "form-status info";
-      contactFormStatus.textContent = "Sending your message...";
+      contactFormStatus.textContent = isSpanishPage ? "Enviando tu mensaje..." : "Sending your message...";
 
       await apiCall("/contact", { nombre, correo, celular, mensaje });
 
@@ -600,11 +601,13 @@ if (customContactForm && contactFormStatus) {
       contactFormStatus.textContent =
         error.message && error.status && error.status !== 404
           ? error.message
-          : "There was an error sending your message. Please try again, or call (786) 306-7842.";
+          : isSpanishPage
+            ? "No se pudo enviar tu mensaje. Inténtalo de nuevo o llama al (786) 306-7842."
+            : "There was an error sending your message. Please try again, or call (786) 306-7842.";
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Send Message";
+        submitBtn.textContent = isSpanishPage ? "Enviar mensaje" : "Send Message";
       }
     }
   });
