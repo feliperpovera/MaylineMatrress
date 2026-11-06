@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1e2a32" />
+  <meta name="theme-color" content="#141516" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="format-detection" content="telephone=yes" />
   <meta name="author" content="Maylin Mattress" />
@@ -51,10 +51,10 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet" />
-  <link rel="preload" as="image" href="/assets/site/hero-workshop.webp" fetchpriority="high" />
-  <link rel="stylesheet" href="/site.css?v=20261106b" />
-  <script src="/main.js?v=20261106c" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preload" as="image" href="/assets/site/cut-layers.webp" fetchpriority="high" />
+  <link rel="stylesheet" href="/site.css?v=20261106l" />
+  <script src="/main.js?v=20261106l" defer></script>
 
   <script type="application/ld+json">
 {
@@ -310,13 +310,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Spring Mattress",
-      "url": "https://maylinmattress.com/#products"
+      "url": "https://maylinmattress.com/spring-mattress"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "High Density Foam Mattress",
-      "url": "https://maylinmattress.com/#products"
+      "url": "https://maylinmattress.com/high-density-foam-mattress"
     },
     {
       "@type": "ListItem",
@@ -328,7 +328,7 @@
       "@type": "ListItem",
       "position": 4,
       "name": "Latex Mattress",
-      "url": "https://maylinmattress.com/luxury-mattress-hialeah"
+      "url": "https://maylinmattress.com/latex-mattress"
     },
     {
       "@type": "ListItem",
@@ -340,7 +340,7 @@
       "@type": "ListItem",
       "position": 6,
       "name": "Carpentry",
-      "url": "https://maylinmattress.com/custom-mattress#headboards"
+      "url": "https://maylinmattress.com/custom-carpentry"
     }
   ]
 }
@@ -422,16 +422,17 @@
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="/" aria-label="Maylin Mattress home">
-        <img src="/assets/maylin-mattress-logo.png" alt="Maylin Mattress" width="598" height="391" />
+        <img src="/assets/site/logo.webp" alt="Maylin Mattress" width="598" height="391" />
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
       <nav class="site-nav" id="site-nav" aria-label="Main navigation">
-        <a href="/#products">Mattresses</a>
-        <a href="/custom-mattress">Custom sizes</a>
-        <a href="/boat-rv-mattress">Boat &amp; RV</a>
+        <details class="nav-menu"><summary>Products</summary><div class="mega"><a href="/spring-mattress"><img src="/assets/site/cut-spring.webp" alt="" loading="lazy" /><span>Spring</span></a><a href="/high-density-foam-mattress"><img src="/assets/site/cut-foam.webp" alt="" loading="lazy" /><span>High density foam</span></a><a href="/pillow-top-mattress-hialeah"><img src="/assets/site/cut-pillow.webp" alt="" loading="lazy" /><span>Pillow top</span></a><a href="/latex-mattress"><img src="/assets/site/cut-latex.webp" alt="" loading="lazy" /><span>Latex</span></a><a href="/luxury-mattress-hialeah"><img src="/assets/site/cut-pillow-b.webp" alt="" loading="lazy" /><span>Luxury</span></a><a href="/custom-mattress"><img src="/assets/site/cut-spring.webp" alt="" loading="lazy" /><span>Custom sizes</span></a><a href="/boat-rv-mattress"><img src="/assets/site/cut-boat.webp" alt="" loading="lazy" /><span>Boat &amp; RV</span></a><a href="/custom-carpentry"><img src="/assets/site/cut-carp.webp" alt="" loading="lazy" /><span>Carpentry</span></a></div></details>
+        <a href="/why-maylin">Why Maylin</a>
         <a href="/#reviews">Reviews</a>
+        <a href="/faq">FAQ</a>
+        <a href="/blog">Blog</a>
         <a href="/#visit">Visit us</a>
         <a href="/#contact">Contact</a>
         <a class="lang" href="/es" hreflang="es" lang="es">ES</a>
@@ -456,87 +457,143 @@
             <li><strong>Family-owned</strong><span>3 generations</span></li>
           </ul>
       </div>
-      <figure class="hero-photo">
-        <img src="/assets/site/hero-workshop.webp" alt="mattress factory near me – Maylin Mattress in Hialeah" width="1125" height="1500" fetchpriority="high" />
-      </figure>
+      <div class="hero-media"><img src="/assets/site/cut-layers.webp" alt="mattress factory near me – Maylin Mattress in Hialeah" width="1125" height="773" fetchpriority="high" /></div>
     </section>
-    <div class="tape" aria-hidden="true"></div>
-
+    <section class="values" aria-label="Why Maylin"><div class="wrap"><div><span class="tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V10l6 4v-4l6 4V4h6v17z"/></svg></span><p><strong>Made in Hialeah</strong>Every mattress is built in our factory.</p></div><div><span class="tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.2"/></svg></span><p><strong>No middleman</strong>Factory-direct prices.</p></div><div><span class="tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/></svg></span><p><strong>Any size or shape</strong>Antique beds, boats and RVs.</p></div><div><span class="tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg></span><p><strong>Exchange guarantee</strong>Until you love your mattress.</p></div></div></section>
     <section class="band" id="products">
       <div class="wrap">
-        <div class="band-head"><h2>Factory-direct mattresses made in our Hialeah, Florida factory.</h2></div>
+        <div class="band-head band-head--center"><h2>Factory-direct mattresses made in our Hialeah, Florida factory.</h2><p>Call or text for prices and sizes. If you don't love your mattress, we exchange it until you do.</p></div>
         <div class="products">
           <article class="product-card">
-            <img class="product-main" src="/assets/site/spring-a.webp" alt="Spring mattress with pillow top made in our Hialeah factory" width="1500" height="1125" loading="lazy" decoding="async" />
-            <h3>Spring Mattress</h3>
-            <p>Traditional spring support, made in our factory. Better price than any mattress store.</p>
-            <div class="product-tools"><button class="linklike" type="button" data-product-album-trigger aria-expanded="false" aria-controls="album-spring">See 4 photos</button></div>
-            <div class="product-album" id="album-spring" hidden><div class="product-album-grid"><figure class="album-figure"><img class="album-image" src="/assets/site/spring-a.webp" alt="Spring mattress with pillow top made in our Hialeah factory" width="1500" height="1125" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/site/spring-b.webp" alt="Spring mattress with pillow top made in our Hialeah factory" width="1125" height="1500" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/site/fabric.webp" alt="Spring mattress with pillow top made in our Hialeah factory" width="862" height="1150" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/site/pillowtop-d.webp" alt="Spring mattress with pillow top made in our Hialeah factory" width="1125" height="1500" loading="lazy" decoding="async" /></figure></div></div>
-          </article>
-          <article class="product-card">
-            <img class="product-main" src="/assets/site/foam-a.webp" alt="High density foam mattress being built in our factory" width="862" height="1150" loading="lazy" decoding="async" />
-            <h3>High Density Foam Mattress</h3>
-            <p>Firm, durable, factory-direct. Outlet prices without the outlet quality.</p>
-            <div class="product-tools"><button class="linklike" type="button" data-product-album-trigger aria-expanded="false" aria-controls="album-foam">See 3 photos</button></div>
-            <div class="product-album" id="album-foam" hidden><div class="product-album-grid"><figure class="album-figure"><img class="album-image" src="/assets/site/foam-a.webp" alt="High density foam mattress being built in our factory" width="862" height="1150" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/site/foam-b.webp" alt="High density foam mattress being built in our factory" width="1125" height="1500" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/site/foam-hand.webp" alt="High density foam mattress being built in our factory" width="1125" height="1500" loading="lazy" decoding="async" /></figure></div></div>
-          </article>
-          <article class="product-card">
-            <img class="product-main" src="/assets/site/pillowtop-c.webp" alt="Dual-sided pillow top mattress on our factory floor" width="1500" height="1125" loading="lazy" decoding="async" />
-            <h3><a href="/pillow-top-mattress-hialeah">Dual-Sided Pillow Tops</a></h3>
-            <p>Flip-ready comfort on both sides for longer wear, balanced support, and a more traditional luxury feel.</p>
-            <div class="product-tools"><a href="/pillow-top-mattress-hialeah">See details</a><button class="linklike" type="button" data-product-album-trigger aria-expanded="false" aria-controls="album-pillow">See 3 photos</button></div>
-            <div class="product-album" id="album-pillow" hidden><div class="product-album-grid"><figure class="album-figure"><img class="album-image" src="/assets/site/pillowtop-c.webp" alt="Dual-sided pillow top mattress on our factory floor" width="1500" height="1125" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/site/pillowtop-a.webp" alt="Dual-sided pillow top mattress on our factory floor" width="1500" height="1125" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/site/pillowtop-b.webp" alt="Dual-sided pillow top mattress on our factory floor" width="1500" height="1125" loading="lazy" decoding="async" /></figure></div></div>
-          </article>
-          <article class="product-card">
-            <img class="product-main" src="/assets/site/latex-sheet.webp" alt="Sheet of ventilated latex in our factory" width="1125" height="1500" loading="lazy" decoding="async" />
-            <h3><a href="/luxury-mattress-hialeah">Latex Mattress</a></h3>
-            <p>Pure latex for premium comfort, support, and durability.</p>
-            <div class="product-tools"><a href="/luxury-mattress-hialeah">See details</a></div>
+            <a class="product-stage" href="/spring-mattress"><img class="product-main" src="/assets/site/cut-spring.webp" alt="Spring mattress with pillow top made in our Hialeah factory" width="1400" height="1031" loading="lazy" decoding="async" /></a>
+            <div class="product-body">
+              <h3><a href="/spring-mattress">Spring Mattress</a></h3>
+              <p>Traditional spring support, made in our factory. Better price than any mattress store.</p>
+              <div class="product-tools">
+                <a class="tool-btn" href="/spring-mattress">See photos</a>
+                <a class="tool-btn tool-btn--main" href="#contact">Get a price</a>
+              </div>
+            </div>
             
           </article>
           <article class="product-card">
-            <img class="product-main" src="/assets/boat/IMG_1428.webp" alt="Custom boat mattress cut to the shape of the cabin" width="1600" height="1200" loading="lazy" decoding="async" />
-            <h3><a href="/boat-rv-mattress">Boat Mattresses</a></h3>
-            <p>Made-to-measure mattresses for marine spaces, including uncommon dimensions and hard-to-fit layouts. Also campers, RVs and motorhomes. Same-day quote.</p>
-            <div class="product-tools"><a href="/boat-rv-mattress">See details</a><button class="linklike" type="button" data-product-album-trigger aria-expanded="false" aria-controls="album-boat">See 4 photos</button></div>
-            <div class="product-album" id="album-boat" hidden><div class="product-album-grid"><figure class="album-figure"><img class="album-image" src="/assets/boat/IMG_1428.webp" alt="Custom boat mattress cut to the shape of the cabin" width="1600" height="1200" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/boat/IMG_1421.webp" alt="Custom boat mattress cut to the shape of the cabin" width="1600" height="1200" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/boat/IMG_1424.webp" alt="Custom boat mattress cut to the shape of the cabin" width="1600" height="1200" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/boat/IMG_1427.webp" alt="Custom boat mattress cut to the shape of the cabin" width="1600" height="1200" loading="lazy" decoding="async" /></figure></div></div>
+            <a class="product-stage" href="/high-density-foam-mattress"><img class="product-main" src="/assets/site/cut-foam.webp" alt="High density foam mattress being built in our factory" width="862" height="518" loading="lazy" decoding="async" /></a>
+            <div class="product-body">
+              <h3><a href="/high-density-foam-mattress">High Density Foam Mattress</a></h3>
+              <p>Firm, durable, factory-direct. Outlet prices without the outlet quality.</p>
+              <div class="product-tools">
+                <a class="tool-btn" href="/high-density-foam-mattress">See photos</a>
+                <a class="tool-btn tool-btn--main" href="#contact">Get a price</a>
+              </div>
+            </div>
+            
           </article>
           <article class="product-card">
-            <img class="product-main" src="/assets/carpinteria/IMG_0909.webp" alt="Custom bed base and headboard built in our carpentry shop" width="1600" height="1200" loading="lazy" decoding="async" />
-            <h3><a href="/custom-mattress#headboards">Carpentry</a></h3>
-            <p>Custom carpentry for kitchens, closets, headboards, bed-related projects, support structures, and all types of tailored woodwork that match your space.</p>
-            <div class="product-tools"><a href="/custom-mattress#headboards">See details</a><button class="linklike" type="button" data-product-album-trigger aria-expanded="false" aria-controls="album-carpentry">See 4 photos</button></div>
-            <div class="product-album" id="album-carpentry" hidden><div class="product-album-grid"><figure class="album-figure"><img class="album-image" src="/assets/carpinteria/IMG_0909.webp" alt="Custom bed base and headboard built in our carpentry shop" width="1600" height="1200" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/carpinteria/IMG_0910.webp" alt="Custom bed base and headboard built in our carpentry shop" width="1600" height="1200" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/carpinteria/WhatsApp%20Image%202026-05-04%20at%2010.00.49.webp" alt="Custom bed base and headboard built in our carpentry shop" width="1200" height="1600" loading="lazy" decoding="async" /></figure><figure class="album-figure"><img class="album-image" src="/assets/carpinteria/WhatsApp%20Image%202026-05-04%20at%2010.00.48%20(1).webp" alt="Custom bed base and headboard built in our carpentry shop" width="1200" height="1600" loading="lazy" decoding="async" /></figure></div></div>
+            <a class="product-stage" href="/pillow-top-mattress-hialeah"><img class="product-main" src="/assets/site/cut-pillow.webp" alt="Dual-sided pillow top mattress on our factory floor" width="1400" height="990" loading="lazy" decoding="async" /></a>
+            <div class="product-body">
+              <h3><a href="/pillow-top-mattress-hialeah">Dual-Sided Pillow Tops</a></h3>
+              <p>Flip-ready comfort on both sides for longer wear, balanced support, and a more traditional luxury feel.</p>
+              <div class="product-tools">
+                <a class="tool-btn" href="/pillow-top-mattress-hialeah">See photos</a>
+                <a class="tool-btn tool-btn--main" href="#contact">Get a price</a>
+              </div>
+            </div>
+            
+          </article>
+          <article class="product-card">
+            <a class="product-stage" href="/latex-mattress"><img class="product-main" src="/assets/site/cut-latex.webp" alt="Sheet of ventilated latex in our factory" width="1125" height="861" loading="lazy" decoding="async" /></a>
+            <div class="product-body">
+              <h3><a href="/latex-mattress">Latex Mattress</a></h3>
+              <p>Pure latex for premium comfort, support, and durability.</p>
+              <div class="product-tools">
+                <a class="tool-btn" href="/latex-mattress">See photos</a>
+                <a class="tool-btn tool-btn--main" href="#contact">Get a price</a>
+              </div>
+            </div>
+            
+          </article>
+          <article class="product-card">
+            <a class="product-stage" href="/boat-rv-mattress"><img class="product-main" src="/assets/site/cut-boat.webp" alt="Custom boat mattress cut to the shape of the cabin" width="1357" height="756" loading="lazy" decoding="async" /></a>
+            <div class="product-body">
+              <h3><a href="/boat-rv-mattress">Boat Mattresses</a></h3>
+              <p>Made-to-measure mattresses for marine spaces, including uncommon dimensions and hard-to-fit layouts. Also campers, RVs and motorhomes. Same-day quote.</p>
+              <div class="product-tools">
+                <a class="tool-btn" href="/boat-rv-mattress">See photos</a>
+                <a class="tool-btn tool-btn--main" href="#contact">Get a price</a>
+              </div>
+            </div>
+            
+          </article>
+          <article class="product-card">
+            <a class="product-stage" href="/custom-carpentry"><img class="product-main" src="/assets/site/cut-carp.webp" alt="Custom bed base and headboard built in our carpentry shop" width="1400" height="818" loading="lazy" decoding="async" /></a>
+            <div class="product-body">
+              <h3><a href="/custom-carpentry">Carpentry</a></h3>
+              <p>Custom carpentry for kitchens, closets, headboards, bed-related projects, support structures, and all types of tailored woodwork that match your space.</p>
+              <div class="product-tools">
+                <a class="tool-btn" href="/custom-carpentry">See photos</a>
+                <a class="tool-btn tool-btn--main" href="#contact">Get a price</a>
+              </div>
+            </div>
+            
           </article>
         </div>
-        <p style="margin-top:36px;font-weight:600">Call or text for prices and sizes. If you don't love your mattress, we exchange it until you do.</p>
-        <p style="margin-top:10px">Shopping in Hialeah? See our <a href="/pillow-top-mattress-hialeah">pillow top mattresses</a> and <a href="/luxury-mattress-hialeah">luxury mattresses</a>.</p>
+        <div class="center-note"><p style="margin-top:10px">Shopping in Hialeah? See our <a href="/pillow-top-mattress-hialeah">pillow top mattresses</a> and <a href="/luxury-mattress-hialeah">luxury mattresses</a>.</p></div>
       </div>
     </section>
 
-    <section class="band band--slate">
-      <div class="wrap split split--narrow-media">
-        <div>
-          <h2>You choose what goes inside.</h2>
-          <p>Spring, high density foam, latex and dual-sided pillow top. We keep the materials here and build to order, so you pick the feel instead of settling for whatever is on a showroom floor. Come feel the difference before you decide.</p>
-        </div>
-        <img src="/assets/site/inside-coils.webp" alt="Inside a spring mattress made in our factory" width="862" height="1150" loading="lazy" decoding="async" />
+    <section class="feature">
+      <div class="feature-copy">
+        <h2>You choose what goes inside.</h2>
+        <p>Spring, high density foam, latex and dual-sided pillow top. We keep the materials here and build to order, so you pick the feel instead of settling for whatever is on a showroom floor. Come feel the difference before you decide.</p>
       </div>
+      <div class="feature-media"><img src="/assets/site/cut-pillow-b.webp" alt="pillow top mattress made in our factory" width="1400" height="700" loading="lazy" decoding="async" /></div>
     </section>
 
-    <section class="band band--tape">
-      <div class="wrap">
-        <h2>Custom size mattresses</h2>
-        <p style="margin-top:12px;max-width:60ch">Antique beds, odd sizes, RVs, campers and boats: we build the mattress to your exact measurements in our own factory. Quotes are free.</p>
-        <div class="actions"><a class="btn" href="/custom-mattress">See custom mattresses</a></div>
-      </div>
-    </section>
-
-    <section class="band" id="sizes">
-      <div class="wrap">
+    <section class="band band--cover" id="sizes">
+      <div class="wrap sizes-split">
+        <div class="size-chart"><svg viewBox="0 0 996 296" role="img" aria-label="Mattress sizes drawn to scale" font-family="Outfit, Arial, sans-serif"><rect x="6.0" y="36.1" width="110.2" height="217.5" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="15.0" y="45.1" width="84.2" height="30" rx="7" fill="#f6c21c"/><text x="61.1" y="136.8" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">Twin</text><text x="61.1" y="158.8" text-anchor="middle" font-size="14" fill="#1e2a32">38 × 75 in</text><text x="61.1" y="177.8" text-anchor="middle" font-size="14" fill="#4a5862">97 × 191 cm</text><rect x="140.2" y="36.1" width="156.6" height="217.5" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="149.2" y="45.1" width="65.3" height="30" rx="7" fill="#f6c21c"/><rect x="222.5" y="45.1" width="65.3" height="30" rx="7" fill="#f6c21c"/><text x="218.5" y="136.8" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">Full</text><text x="218.5" y="158.8" text-anchor="middle" font-size="14" fill="#1e2a32">54 × 75 in</text><text x="218.5" y="177.8" text-anchor="middle" font-size="14" fill="#4a5862">137 × 191 cm</text><rect x="320.8" y="21.6" width="174.0" height="232.0" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="329.8" y="30.6" width="74.0" height="30" rx="7" fill="#f6c21c"/><rect x="411.8" y="30.6" width="74.0" height="30" rx="7" fill="#f6c21c"/><text x="407.8" y="129.6" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">Queen</text><text x="407.8" y="151.6" text-anchor="middle" font-size="14" fill="#1e2a32">60 × 80 in</text><text x="407.8" y="170.6" text-anchor="middle" font-size="14" fill="#4a5862">152 × 203 cm</text><rect x="518.8" y="21.6" width="220.4" height="232.0" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="527.8" y="30.6" width="97.2" height="30" rx="7" fill="#f6c21c"/><rect x="633.0" y="30.6" width="97.2" height="30" rx="7" fill="#f6c21c"/><text x="629.0" y="129.6" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">King</text><text x="629.0" y="151.6" text-anchor="middle" font-size="14" fill="#1e2a32">76 × 80 in</text><text x="629.0" y="170.6" text-anchor="middle" font-size="14" fill="#4a5862">193 × 203 cm</text><rect x="763.2" y="10.0" width="208.8" height="243.6" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="772.2" y="19.0" width="91.4" height="30" rx="7" fill="#f6c21c"/><rect x="871.6" y="19.0" width="91.4" height="30" rx="7" fill="#f6c21c"/><text x="867.6" y="123.8" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">Cal King</text><text x="867.6" y="145.8" text-anchor="middle" font-size="14" fill="#1e2a32">72 × 84 in</text><text x="867.6" y="164.8" text-anchor="middle" font-size="14" fill="#4a5862">183 × 213 cm</text><rect x="6" y="271.6" width="174.0" height="16" fill="#f6c21c"/><rect x="6.0" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="40.8" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="75.6" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="110.4" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="145.2" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="179.0" y="271.6" width="2" height="16" fill="#1e2a32"/><text x="190.0" y="284.6" font-size="14" fill="#1e2a32">5 feet (60 in)</text></svg></div>
         <div class="band-head"><h2>Mattress sizes, drawn to scale</h2><p>Twin, full, queen and king at factory prices. Need something else? <a href="/custom-mattress">We make it to measure</a>.</p></div>
-        <div class="size-chart"><svg viewBox="0 0 996 296" role="img" aria-label="Mattress sizes drawn to scale" font-family="Archivo, Arial, sans-serif"><rect x="6.0" y="36.1" width="110.2" height="217.5" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="15.0" y="45.1" width="84.2" height="30" rx="7" fill="#f6c21c"/><text x="61.1" y="136.8" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">Twin</text><text x="61.1" y="158.8" text-anchor="middle" font-size="14" fill="#1e2a32">38 × 75 in</text><text x="61.1" y="177.8" text-anchor="middle" font-size="14" fill="#4a5862">97 × 191 cm</text><rect x="140.2" y="36.1" width="156.6" height="217.5" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="149.2" y="45.1" width="65.3" height="30" rx="7" fill="#f6c21c"/><rect x="222.5" y="45.1" width="65.3" height="30" rx="7" fill="#f6c21c"/><text x="218.5" y="136.8" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">Full</text><text x="218.5" y="158.8" text-anchor="middle" font-size="14" fill="#1e2a32">54 × 75 in</text><text x="218.5" y="177.8" text-anchor="middle" font-size="14" fill="#4a5862">137 × 191 cm</text><rect x="320.8" y="21.6" width="174.0" height="232.0" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="329.8" y="30.6" width="74.0" height="30" rx="7" fill="#f6c21c"/><rect x="411.8" y="30.6" width="74.0" height="30" rx="7" fill="#f6c21c"/><text x="407.8" y="129.6" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">Queen</text><text x="407.8" y="151.6" text-anchor="middle" font-size="14" fill="#1e2a32">60 × 80 in</text><text x="407.8" y="170.6" text-anchor="middle" font-size="14" fill="#4a5862">152 × 203 cm</text><rect x="518.8" y="21.6" width="220.4" height="232.0" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="527.8" y="30.6" width="97.2" height="30" rx="7" fill="#f6c21c"/><rect x="633.0" y="30.6" width="97.2" height="30" rx="7" fill="#f6c21c"/><text x="629.0" y="129.6" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">King</text><text x="629.0" y="151.6" text-anchor="middle" font-size="14" fill="#1e2a32">76 × 80 in</text><text x="629.0" y="170.6" text-anchor="middle" font-size="14" fill="#4a5862">193 × 203 cm</text><rect x="763.2" y="10.0" width="208.8" height="243.6" rx="5" fill="#fff" stroke="#1e2a32" stroke-width="2"/><rect x="772.2" y="19.0" width="91.4" height="30" rx="7" fill="#f6c21c"/><rect x="871.6" y="19.0" width="91.4" height="30" rx="7" fill="#f6c21c"/><text x="867.6" y="123.8" text-anchor="middle" font-weight="800" font-size="19" fill="#1e2a32">Cal King</text><text x="867.6" y="145.8" text-anchor="middle" font-size="14" fill="#1e2a32">72 × 84 in</text><text x="867.6" y="164.8" text-anchor="middle" font-size="14" fill="#4a5862">183 × 213 cm</text><rect x="6" y="271.6" width="174.0" height="16" fill="#f6c21c"/><rect x="6.0" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="40.8" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="75.6" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="110.4" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="145.2" y="271.6" width="2" height="16" fill="#1e2a32"/><rect x="179.0" y="271.6" width="2" height="16" fill="#1e2a32"/><text x="190.0" y="284.6" font-size="14" fill="#1e2a32">5 feet (60 in)</text></svg></div>
-        <div class="table-scroll"><table class="size-table"><thead><tr><th scope="col">Size</th><th scope="col">Inches</th><th scope="col">Centimeters</th></tr></thead><tbody><tr><th scope="row">Twin</th><td>38 × 75</td><td>97 × 191</td></tr><tr><th scope="row">Twin XL</th><td>38 × 80</td><td>97 × 203</td></tr><tr><th scope="row">Full</th><td>54 × 75</td><td>137 × 191</td></tr><tr><th scope="row">Queen</th><td>60 × 80</td><td>152 × 203</td></tr><tr><th scope="row">King</th><td>76 × 80</td><td>193 × 203</td></tr><tr><th scope="row">California King</th><td>72 × 84</td><td>183 × 213</td></tr></tbody></table></div>
+      </div>
+      <div class="wrap"><div class="table-scroll"><table class="size-table"><thead><tr><th scope="col">Size</th><th scope="col">Inches</th><th scope="col">Centimeters</th></tr></thead><tbody><tr><th scope="row">Twin</th><td>38 × 75</td><td>97 × 191</td></tr><tr><th scope="row">Twin XL</th><td>38 × 80</td><td>97 × 203</td></tr><tr><th scope="row">Full</th><td>54 × 75</td><td>137 × 191</td></tr><tr><th scope="row">Queen</th><td>60 × 80</td><td>152 × 203</td></tr><tr><th scope="row">King</th><td>76 × 80</td><td>193 × 203</td></tr><tr><th scope="row">California King</th><td>72 × 84</td><td>183 × 213</td></tr></tbody></table></div></div>
+    </section>
+
+    <section class="feature">
+      <div class="feature-copy">
+        <h2>Custom size mattresses</h2>
+        <p>Antique beds, odd sizes, RVs, campers and boats: we build the mattress to your exact measurements in our own factory. Quotes are free.</p>
+        <div class="actions"><a class="btn btn--tape" href="/custom-mattress">See custom mattresses</a></div>
+      </div>
+      <div class="feature-media"><img src="/assets/site/cut-spring.webp" alt="spring mattress made in our factory" width="1400" height="1031" loading="lazy" decoding="async" /></div>
+    </section>
+
+    <section class="halves">
+      <div class="halves-photo"><img src="/assets/site/boat-sail.webp" alt="custom boat mattress" width="1600" height="1090" loading="lazy" decoding="async" /></div>
+      <div class="halves-copy">
+        <h2>Boat, yacht and RV mattresses</h2>
+        <p>Cut to the real shape of your cabin or bed. Bring your template or we measure.</p>
+        <div class="actions"><a class="btn" href="/boat-rv-mattress">See boat and RV mattresses</a></div>
+      </div>
+    </section>
+
+    <section class="fabric" id="about">
+      <div class="wrap">
+        <div class="fabric-copy">
+          <h2>Over fifty years of mattress craftsmanship in South Florida.</h2>
+          <p>Formerly Maylin Brothers, three generations making mattresses since 1977.</p><p>Our concept was the same then as it is now: make the best possible mattress at the best price in the market.</p><p>We do that by selling directly from our factory to the end consumer. When chain stores buy mattresses, they push for the lowest cost to maximize profit, and that usually forces manufacturers to cut quality.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band--slate promise">
+      <div class="wrap promise-grid">
+        <div>
+          <h2>Love your mattress, or we exchange it.</h2>
+          <p>Experience the best night's sleep ever. We guarantee it. If you don't, we will exchange it until you do. Make your mornings bedder again.</p>
+        </div>
+        <div class="promise-mark">
+          <strong>★ 4.9</strong>
+          <span>38 reviews on Google</span>
+        </div>
       </div>
     </section>
 
@@ -563,103 +620,159 @@
       </div>
     </section>
 
-    <section class="band" id="reviews">
+    <section class="band reviews" id="reviews">
       <div class="wrap">
-        <div class="band-head">
-          <h2>What South Florida customers say about us</h2>
-          <div class="rating-line"><strong>4.9</strong><span class="stars" aria-hidden="true">★★★★★</span><a href="https://www.google.com/maps/place/MAYLIN+MATTRESS+FACTORY+DIRECT/@25.8918394,-80.3372141,17z/data=!4m8!3m7!1s0x88d9bb3bc351c0d5:0x9be8df5f976bc2e9!8m2!3d25.8918394!4d-80.3372141!9m1!1b1!16s%2Fg%2F1tfjgbcl" target="_blank" rel="noreferrer">38 reviews on Google</a></div>
-        </div>
+        <div class="band-head"><h2>What South Florida customers say about us</h2></div>
         <div class="reviews-layout">
-          <div>
-            <div class="review-list">
+          <aside class="review-summary">
+            <p class="review-brand"><svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg><span>Google Reviews</span></p>
+            <p class="review-score">4.9</p>
+            <div class="stars" role="img" aria-label="4.9 out of 5 stars">★★★★★</div>
+            <p class="review-count">38 reviews</p>
+            <a class="btn btn--tape" href="https://www.google.com/maps/place/MAYLIN+MATTRESS+FACTORY+DIRECT/@25.8918394,-80.3372141,17z/data=!4m8!3m7!1s0x88d9bb3bc351c0d5:0x9be8df5f976bc2e9!8m2!3d25.8918394!4d-80.3372141!9m1!1b1!16s%2Fg%2F1tfjgbcl" target="_blank" rel="noreferrer">See on Google</a>
+            <img class="review-award" src="/assets/site/award.webp" alt="BusinessRate Top 5 2026 award for Maylin Mattress Factory Direct" width="1024" height="1536" loading="lazy" />
+          </aside>
+          <div class="review-carousel">
+            <div class="review-track" data-scroller tabindex="0" aria-label="Customer reviews">
             <article class="review">
-              <blockquote><p>The mattress and bed are of excellent quality, handcrafted from wood and featuring integrated lighting. A true work of art.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Elisabet</strong>, a week ago</p>
-              <p class="review-reply">Maylin replied: Thanks Elisabet, enjoy your bed &amp; mattress</p>
+              <header class="review-head">
+                <span class="review-avatar" style="background:#007b83" aria-hidden="true">E</span>
+                <span class="review-who"><strong>Elisabet</strong><span>a week ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>The mattress and bed are of excellent quality, handcrafted from wood and featuring integrated lighting. A true work of art.</p><p class="review-reply"><strong>Reply from Maylin</strong> Thanks Elisabet, enjoy your bed &amp; mattress</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
             </article>
             <article class="review">
-              <blockquote><p>I am extremely satisfied with the quality and comfort of my mattress, as well as the outstanding service I received throughout the entire process. The team was friendly and knowledgeable, taking the time to explain how their mattresses are made, the differences among the available options, and how to choose the best mattress for my needs. I highly recommend this company to anyone looking for a high-quality mattress and an excellent customer service experience!</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Zoila Oro</strong>, a week ago</p>
-              <p class="review-reply">Maylin replied: Thanks for your kind review Zoila, it was a pleasure to meet you and your family.</p>
+              <header class="review-head">
+                <span class="review-avatar" style="background:#d93025" aria-hidden="true">Z</span>
+                <span class="review-who"><strong>Zoila Oro</strong><span>a week ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>I am extremely satisfied with the quality and comfort of my mattress, as well as the outstanding service I received throughout the entire process. The team was friendly and knowledgeable, taking the time to explain how their mattresses are made, the differences among the available options, and how to choose the best mattress for my needs. I highly recommend this company to anyone looking for a high-quality mattress and an excellent customer service experience!</p><p class="review-reply"><strong>Reply from Maylin</strong> Thanks for your kind review Zoila, it was a pleasure to meet you and your family.</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
             </article>
             <article class="review">
-              <blockquote><p>Needed last minute help with getting custom mattress. End product was great, customer service from beginning to end was also seamless and wonderful.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Stacy Zhang</strong>, 3 weeks ago</p>
-              <p class="review-reply">Maylin replied: Thank you Stacy, say hi to Jackson.</p>
+              <header class="review-head">
+                <span class="review-avatar" style="background:#188038" aria-hidden="true">S</span>
+                <span class="review-who"><strong>Stacy Zhang</strong><span>3 weeks ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>Needed last minute help with getting custom mattress. End product was great, customer service from beginning to end was also seamless and wonderful.</p><p class="review-reply"><strong>Reply from Maylin</strong> Thank you Stacy, say hi to Jackson.</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
             </article>
             <article class="review">
-              <blockquote><p>Incredibly comfortable, at a great price. The quality of the workmanship is amazing.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Joel Miron</strong>, 4 weeks ago</p>
-              <p class="review-reply">Maylin replied: Thank you, Joel. We build every mattress by hand in our own factory, so hearing you notice the workmanship means a lot to the team. Enjoy it, and we're here whenever you need us.</p>
+              <header class="review-head">
+                <span class="review-avatar" style="background:#d93025" aria-hidden="true">J</span>
+                <span class="review-who"><strong>Joel Miron</strong><span>4 weeks ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>Incredibly comfortable, at a great price. The quality of the workmanship is amazing.</p><p class="review-reply"><strong>Reply from Maylin</strong> Thank you, Joel. We build every mattress by hand in our own factory, so hearing you notice the workmanship means a lot to the team. Enjoy it, and we're here whenever you need us.</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
             </article>
             <article class="review">
-              <blockquote><p>I had such a great experience purchasing my new king-size mattress from Nelson! From the moment I walked in, Nelson was professional, knowledgeable, and incredibly helpful. He took the time to understand what I was looking for and made the entire process easy and stress-free. The mattress is absolutely amazing—comfortable, supportive, and exactly what I was looking for. I went to multiple stores to research and it beats all the name brand stores out there! I bought their Premium Orthomedic mattress and it's amazing. I also bought mattresses for my children's room.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Bianca Hernandez</strong>, a month ago</p>
-              <p class="review-reply">Maylin replied: Bianca, thank you for taking the time to write all of this. The part Nelson enjoys most is working out what someone actually needs, so it means a lot that it came through. The Premium Orthomedic is one we're proud of. Enjoy it, and thank you for trusting us with the kids' room too.</p>
+              <header class="review-head">
+                <span class="review-avatar" style="background:#e37400" aria-hidden="true">B</span>
+                <span class="review-who"><strong>Bianca Hernandez</strong><span>a month ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>I had such a great experience purchasing my new king-size mattress from Nelson! From the moment I walked in, Nelson was professional, knowledgeable, and incredibly helpful. He took the time to understand what I was looking for and made the entire process easy and stress-free. The mattress is absolutely amazing—comfortable, supportive, and exactly what I was looking for. I went to multiple stores to research and it beats all the name brand stores out there! I bought their Premium Orthomedic mattress and it's amazing. I also bought mattresses for my children's room.</p><p class="review-reply"><strong>Reply from Maylin</strong> Bianca, thank you for taking the time to write all of this. The part Nelson enjoys most is working out what someone actually needs, so it means a lot that it came through. The Premium Orthomedic is one we're proud of. Enjoy it, and thank you for trusting us with the kids' room too.</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
             </article>
             <article class="review">
-              <blockquote><p>Thank you so much, Nelson, for an excellent product and service. Highly recommended for anyone needing a mattress.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Richard Behar</strong>, a month ago</p>
-              <p class="review-reply">Maylin replied: Always a pleasure.</p>
+              <header class="review-head">
+                <span class="review-avatar" style="background:#e37400" aria-hidden="true">R</span>
+                <span class="review-who"><strong>Richard Behar</strong><span>a month ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>Thank you so much, Nelson, for an excellent product and service. Highly recommended for anyone needing a mattress.</p><p class="review-reply"><strong>Reply from Maylin</strong> Always a pleasure.</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
+            </article>
+            <article class="review">
+              <header class="review-head">
+                <span class="review-avatar" style="background:#007b83" aria-hidden="true">M</span>
+                <span class="review-who"><strong>Marlene Hernandez</strong><span>1 year ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>My parents would buy all their mattresses from Maylin, and later our family kept coming back because of the comfort and trust behind the product. When it was time to replace an older mattress, choosing Maylin again felt natural.</p><p class="review-reply"><strong>Reply from Maylin</strong> Thank you Marlene for your continued support. God bless you and your family.</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
+            </article>
+            <article class="review">
+              <header class="review-head">
+                <span class="review-avatar" style="background:#007b83" aria-hidden="true">F</span>
+                <span class="review-who"><strong>Francis Rodriguez</strong><span>1 year ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>Nelson was fantastic. He delivered a high-quality mattress right on time and exceeded all expectations. His professionalism and attention to detail were top-notch.</p></div>
+              
+            </article>
+            <article class="review">
+              <header class="review-head">
+                <span class="review-avatar" style="background:#188038" aria-hidden="true">G</span>
+                <span class="review-who"><strong>Gloria Ruiz</strong><span>1 year ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>Nelson is awesome. He custom made the bed exactly the way I wanted with excellent craftsmanship and materials. He was easy to work with, kept me updated throughout the process, and delivered on schedule.</p><p class="review-reply"><strong>Reply from Maylin</strong> Thanks Gloria, enjoy your bed and mattress.</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
+            </article>
+            <article class="review">
+              <header class="review-head">
+                <span class="review-avatar" style="background:#e37400" aria-hidden="true">A</span>
+                <span class="review-who"><strong>Aurora Rosell</strong><span>2 years ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>I have been purchasing mattresses from Maylin since 1988. The quality, pricing, and service have always been strong, and I have confidently recommended Maylin to family and friends.</p></div>
+              
+            </article>
+            <article class="review">
+              <header class="review-head">
+                <span class="review-avatar" style="background:#188038" aria-hidden="true">G</span>
+                <span class="review-who"><strong>Gia Morales</strong><span>2 years ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>I have been purchasing from Maylin for years. I work in the luxury furniture and design industry, and I have recommended Nelson and his company to many clients.</p><p class="review-reply"><strong>Reply from Maylin</strong> Always a pleasure.</p></div>
+              <button class="review-more" type="button" data-review-more data-less="Show less">Read more</button>
+            </article>
+            <article class="review">
+              <header class="review-head">
+                <span class="review-avatar" style="background:#e37400" aria-hidden="true">G</span>
+                <span class="review-who"><strong>GadoMighty</strong><span>2 years ago</span></span>
+                <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.9 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.9c-.6 3-2.2 5.5-4.8 7.2l7.6 5.9c4.4-4.1 7.2-10.1 7.2-17.6z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.5 0 20.1 0 24s1 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.3 0 11.6-2.1 15.5-5.7l-7.6-5.9c-2.1 1.4-4.8 2.3-7.9 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>
+              </header>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+              <div class="review-text"><p>Amazing customer service, simply the best in town. If you want better value than major retailers, this is the place to go. The quality of the mattress stood out immediately.</p></div>
+              
             </article>
             </div>
-            <details class="more-reviews">
-              <summary>Read more reviews</summary>
-              <div class="review-list">
-            <article class="review">
-              <blockquote><p>My parents would buy all their mattresses from Maylin, and later our family kept coming back because of the comfort and trust behind the product. When it was time to replace an older mattress, choosing Maylin again felt natural.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Marlene Hernandez</strong>, 1 year ago</p>
-              <p class="review-reply">Maylin replied: Thank you Marlene for your continued support. God bless you and your family.</p>
-            </article>
-            <article class="review">
-              <blockquote><p>Nelson was fantastic. He delivered a high-quality mattress right on time and exceeded all expectations. His professionalism and attention to detail were top-notch.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Francis Rodriguez</strong>, 1 year ago</p>
-              
-            </article>
-            <article class="review">
-              <blockquote><p>Nelson is awesome. He custom made the bed exactly the way I wanted with excellent craftsmanship and materials. He was easy to work with, kept me updated throughout the process, and delivered on schedule.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Gloria Ruiz</strong>, 1 year ago</p>
-              <p class="review-reply">Maylin replied: Thanks Gloria, enjoy your bed and mattress.</p>
-            </article>
-            <article class="review">
-              <blockquote><p>I have been purchasing mattresses from Maylin since 1988. The quality, pricing, and service have always been strong, and I have confidently recommended Maylin to family and friends.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Aurora Rosell</strong>, 2 years ago</p>
-              
-            </article>
-            <article class="review">
-              <blockquote><p>I have been purchasing from Maylin for years. I work in the luxury furniture and design industry, and I have recommended Nelson and his company to many clients.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>Gia Morales</strong>, 2 years ago</p>
-              <p class="review-reply">Maylin replied: Always a pleasure.</p>
-            </article>
-            <article class="review">
-              <blockquote><p>Amazing customer service, simply the best in town. If you want better value than major retailers, this is the place to go. The quality of the mattress stood out immediately.</p></blockquote>
-              <p class="review-who"><span class="stars" aria-label="5 stars">★★★★★</span> <strong>GadoMighty</strong>, 2 years ago</p>
-              
-            </article>
-              </div>
-            </details>
+            <div class="scroller-nav">
+              <button type="button" data-scroll="-1" aria-label="Previous reviews">‹</button>
+              <button type="button" data-scroll="1" aria-label="More reviews">›</button>
+            </div>
           </div>
-          <aside>
-            <img src="/assets/site/award.webp" alt="BusinessRate Top 5 2026 award for Maylin Mattress Factory Direct" width="1024" height="1536" loading="lazy" />
-          </aside>
         </div>
       </div>
     </section>
 
-    <section class="band band--cover" id="about">
-      <div class="wrap split">
-        <div>
-          <h2>Over fifty years of mattress craftsmanship in South Florida.</h2>
-          <p style="margin-top:14px">Formerly Maylin Brothers, three generations making mattresses since 1977.</p><p style="margin-top:14px">Our concept was the same then as it is now: make the best possible mattress at the best price in the market.</p><p style="margin-top:14px">We do that by selling directly from our factory to the end consumer. When chain stores buy mattresses, they push for the lowest cost to maximize profit, and that usually forces manufacturers to cut quality.</p><p style="margin-top:14px">Experience the best night's sleep ever. We guarantee it. If you don't, we will exchange it until you do. Make your mornings bedder again.</p>
-        </div>
-        <div class="photo-pair">
-          <img src="/assets/site/stock-room.webp" alt="Mattresses stacked in our factory stock room" width="1125" height="1500" loading="lazy" decoding="async" />
-          <img src="/assets/site/tape-height.webp" alt="Measuring mattress height with a tape measure" width="862" height="1150" loading="lazy" decoding="async" />
-        </div>
+
+    <section class="band">
+      <div class="wrap">
+        <div class="band-head"><h2>Your mattress store in Miami and Hialeah</h2></div>
+        <div class="seo-cols"><div><h3>Mattress store near me</h3><p>Looking for a mattress store near you in Miami-Dade or Broward? We are at 2655 West 76th Street, Hialeah, minutes from Miami. Come try your mattress before you buy.</p></div><div><h3>Buy a mattress in Miami from the factory</h3><p>We are the mattress factory and the store. We make every mattress here and sell it directly, so there is no middleman in the price.</p></div><div><h3>Spring, foam, latex and pillow top</h3><p>Compare our <a href="/spring-mattress">spring</a>, <a href="/high-density-foam-mattress">high density foam</a>, <a href="/latex-mattress">latex</a> and <a href="/pillow-top-mattress-hialeah">pillow top mattresses</a>, or see our <a href="/luxury-mattress-hialeah">luxury mattresses</a>.</p></div><div><h3>Custom mattresses</h3><p>Odd size or antique bed? We make <a href="/custom-mattress">custom size mattresses</a>, plus <a href="/boat-rv-mattress">boat and RV mattresses</a> in any shape.</p></div><div><h3>Maylin Mattress and Maylin Brothers</h3><p>Formerly Maylin Brothers, three generations making mattresses since 1977, with the same concept: the best possible mattress at the best price.</p></div><div><h3>Hotels and Airbnbs</h3><p>We also supply <a href="/hotel-supply">hotels, Airbnbs and property managers</a> with mattresses, towels and lounge chair covers.</p></div></div>
       </div>
     </section>
 
-    <section class="band" id="faq">
+    <section class="band band--cover" id="faq">
       <div class="wrap">
         <div class="band-head"><h2>Buying a mattress in South Florida</h2></div>
         <div class="faq">
@@ -691,35 +804,34 @@
       </div>
     </section>
 
-    <section class="band band--slate" id="contact">
+
+    <section class="band band--slate contact" id="contact">
       <div class="wrap contact-grid">
         <div>
           <h2>Call, text, or WhatsApp.</h2>
-          <p style="margin-top:14px">Phone and text are the easiest way to reach us for mattress pricing and availability. WhatsApp is available too.</p>
-          <ul class="contact-lines">
-            <li>Phone: <a href="tel:+17863067842">(786) 306-7842</a></li>
-            <li>Text: <a href="sms:+17863067842">(786) 306-7842</a></li>
-            <li>Visit: 2655 West 76th Street, Hialeah, FL 33016</li>
-          </ul>
+          <p class="contact-intro">Phone and text are the easiest way to reach us for mattress pricing and availability. WhatsApp is available too.</p>
+          <div class="contact-tiles"><a class="contact-tile" href="tel:+17863067842"><span class="tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><span><strong>Call us</strong><span>(786) 306-7842</span></span></a><a class="contact-tile" href="sms:+17863067842"><span class="tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span><strong>Text us</strong><span>(786) 306-7842</span></span></a><a class="contact-tile" href="https://wa.me/17863067842" target="_blank" rel="noreferrer"><span class="tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21l1.7-5A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-.8.7a4 4 0 0 1-1.9-1.9l.7-.8-1-2z"/></svg></span><span><strong>WhatsApp</strong><span>(786) 306-7842</span></span></a><a class="contact-tile" href="https://www.google.com/maps/dir/?api=1&destination=MAYLIN+MATTRESS+FACTORY+DIRECT,+2655+W+76th+St,+Hialeah,+FL+33016" target="_blank" rel="noreferrer"><span class="tile-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span><span><strong>Visit us</strong><span>2655 W 76th St, Hialeah</span></span></a></div>
         </div>
-        <div id="contact-form-section">
-          <h3 style="margin-bottom:16px">Send us a message</h3>
+        <div class="form-card" id="contact-form-section">
+          <h3>Send us a message</h3>
+          <p class="form-sub">We reply by call, text or WhatsApp.</p>
           <form class="custom-contact-form" id="custom-contact-form" novalidate>
+            <fieldset class="chips"><legend>What do you need?</legend><label class="chip"><input type="radio" name="tema" value="Mattress" checked /><span>Mattress</span></label><label class="chip"><input type="radio" name="tema" value="Custom size" /><span>Custom size</span></label><label class="chip"><input type="radio" name="tema" value="Boat or RV" /><span>Boat or RV</span></label><label class="chip"><input type="radio" name="tema" value="Other" /><span>Other</span></label></fieldset>
             <div class="form-group form-group--full">
               <label for="nombre">Name</label>
               <input type="text" id="nombre" name="nombre" placeholder="Your full name" autocomplete="name" required />
             </div>
             <div class="form-group">
-              <label for="correo">Email</label>
-              <input type="email" id="correo" name="correo" placeholder="you@example.com" autocomplete="email" required />
+              <label for="celular">Phone</label>
+              <input type="tel" id="celular" name="celular" inputmode="tel" placeholder="Your phone number" autocomplete="tel" required />
             </div>
             <div class="form-group">
-              <label for="celular">Phone</label>
-              <input type="tel" id="celular" name="celular" placeholder="Your phone number" autocomplete="tel" required />
+              <label for="correo">Email</label>
+              <input type="email" id="correo" name="correo" inputmode="email" placeholder="you@example.com" autocomplete="email" required />
             </div>
             <div class="form-group form-group--full">
               <label for="mensaje">Message</label>
-              <textarea id="mensaje" name="mensaje" rows="4" placeholder="Tell us what you need..." required></textarea>
+              <textarea id="mensaje" name="mensaje" rows="3" placeholder="Tell us what you need..." required></textarea>
             </div>
             <button type="submit" class="btn btn--tape form-submit-btn">Send Message</button>
             <div id="contact-form-status" class="form-status" aria-live="polite"></div>
@@ -733,7 +845,7 @@
     <div class="wrap">
       <div class="footer-grid">
         <div>
-          <img class="footer-logo" src="/assets/maylin-mattress-logo.png" alt="" width="598" height="391" loading="lazy" />
+          <img class="footer-logo" src="/assets/site/logo.webp" alt="" width="598" height="391" loading="lazy" />
           <p>Mattress factory and store in Hialeah, Florida. Family-owned, formerly Maylin Brothers, since 1977.</p>
         </div>
         <div>
@@ -744,7 +856,11 @@
             <li><a href="/boat-rv-mattress">Boat and RV mattresses</a></li>
             <li><a href="/pillow-top-mattress-hialeah">Pillow top mattresses</a></li>
             <li><a href="/luxury-mattress-hialeah">Luxury mattresses</a></li>
+            <li><a href="/custom-carpentry">Custom carpentry</a></li>
             <li><a href="/hotel-supply">Hotel supplies</a></li>
+            <li><a href="/why-maylin">Why Maylin</a></li>
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/blog">Blog</a></li>
           </ul>
         </div>
         <div>

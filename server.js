@@ -144,6 +144,13 @@ for (const landing of [
   "custom-mattress",
   "boat-rv-mattress",
   "hotel-supply",
+  "spring-mattress",
+  "high-density-foam-mattress",
+  "latex-mattress",
+  "custom-carpentry",
+  "why-maylin",
+  "faq",
+  "blog",
 ]) {
   app.get(`/${landing}`, (_request, response) => {
     response.sendFile(path.join(rootDir, `${landing}.html`));
@@ -154,6 +161,17 @@ for (const landing of [
 app.get("/es/medidas-de-colchones", (_request, response) => {
   response.sendFile(path.join(rootDir, "medidas-de-colchones.html"));
 });
+
+for (const post of [
+  "how-to-measure-for-a-custom-mattress",
+  "boat-mattress-template-guide",
+  "why-factory-direct-mattresses-cost-less",
+  "mattress-sizes-explained",
+]) {
+  app.get(`/blog/${post}`, (_request, response) => {
+    response.sendFile(path.join(rootDir, `blog-${post}.html`));
+  });
+}
 
 app.get("/en", (_request, response) => {
   response.redirect(301, "/");

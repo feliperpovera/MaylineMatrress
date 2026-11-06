@@ -587,23 +587,33 @@ if (customContactForm && contactFormStatus) {
       contactFormStatus.className = "form-status info";
       contactFormStatus.textContent = isSpanishPage ? "Enviando tu mensaje..." : "Sending your message...";
 
-      await apiCall("/contact", { nombre, correo, celular, mensaje });
+      const tema = String(formData.get("tema") || "").trim();
+      const mensajeFinal = tema ? `[${tema}] ${mensaje}` : mensaje;
 
-      // The lead is already saved for /admin; the email copy must not block the thank-you page.
-      await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          access_key: "3d10979f-d174-4dea-9b77-ea6b983ce5d3", // public by design
-          subject: `Nuevo mensaje de la web: ${nombre}`,
-          from_name: "Maylin Mattress web",
-          name: nombre,
-          email: correo,
-          phone: celular,
-          message: mensaje,
+      // Two independent paths: /api/contact (same as always, feeds /admin) and the
+      // email copy. The visitor only sees an error if both fail.
+      const [saved, emailed] = await Promise.allSettled([
+        apiCall("/contact", { nombre, correo, celular, mensaje: mensajeFinal }),
+        fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            access_key: "3d10979f-d174-4dea-9b77-ea6b983ce5d3", // public by design
+            subject: `Nuevo mensaje de la web: ${nombre}`,
+            from_name: "Maylin Mattress web",
+            name: nombre,
+            email: correo,
+            phone: celular,
+            message: mensajeFinal,
+          }),
+          signal: AbortSignal.timeout(6000),
+        }).then((response) => {
+          if (!response.ok) throw new Error(`Web3Forms ${response.status}`);
         }),
-        signal: AbortSignal.timeout(6000),
-      }).catch((error) => console.error("Web3Forms email failed:", error));
+      ]);
+      if (emailed.status === "rejected") console.error("Email copy failed:", emailed.reason);
+      if (saved.status === "rejected") console.error("Save failed:", saved.reason);
+      if (saved.status === "rejected" && emailed.status === "rejected") throw saved.reason;
 
       customContactForm.reset();
       window.location.href = "/gracias";
@@ -859,4 +869,61 @@ if (!footerAdminTrigger && adminLoginView) {
   } else {
     showLoginView();
   }
+}
+
+// Review carousel: arrows scroll the track; long reviews expand in place.
+document.querySelectorAll("[data-scroll]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const track = button.closest(".review-carousel")?.querySelector("[data-scroller]");
+    if (!track) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    track.scrollBy({ left: Number(button.dataset.scroll) * track.clientWidth * 0.9, behavior: reduce ? "auto" : "smooth" });
+  });
+});
+document.querySelectorAll("[data-review-more]").forEach((button) => {
+  const more = button.textContent;
+  button.addEventListener("click", () => {
+    const open = button.closest(".review").classList.toggle("is-open");
+    button.textContent = open ? button.dataset.less : more;
+  });
+});
+
+// Product pages: tap a photo to view it large; native <dialog> handles Esc and focus.
+const photoGrid = document.querySelector("[data-gallery]");
+const viewer = document.querySelector(".viewer");
+if (photoGrid && viewer) {
+  const photos = Array.from(photoGrid.querySelectorAll("img"));
+  const viewerImage = viewer.querySelector("img");
+  let current = 0;
+  const show = (index) => {
+    current = (index + photos.length) % photos.length;
+    viewerImage.src = photos[current].src;
+    viewerImage.alt = photos[current].alt;
+  };
+  photoGrid.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-photo]");
+    if (!button) return;
+    show(Number(button.dataset.photo));
+    viewer.showModal();
+  });
+  viewer.addEventListener("click", (event) => {
+    const action = event.target.dataset.viewer;
+    if (action === "close" || event.target === viewer) viewer.close();
+    else if (action) show(current + Number(action));
+  });
+  viewer.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") show(current + 1);
+    if (event.key === "ArrowLeft") show(current - 1);
+  });
+}
+
+// Products menu: close on outside click or Escape.
+const navMenu = document.querySelector(".nav-menu");
+if (navMenu) {
+  document.addEventListener("click", (event) => {
+    if (!navMenu.contains(event.target)) navMenu.open = false;
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") navMenu.open = false;
+  });
 }
