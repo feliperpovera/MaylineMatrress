@@ -131,7 +131,7 @@ p + p { margin-top: 0.9em; }
 .nav-toggle span { display: block; height: 3px; margin-block: 5px; background: var(--slate); }
 
 /* Hero: product on a clean stage, like a showroom */
-.hero { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); align-items: center; gap: 24px; overflow: hidden; background: linear-gradient(180deg, #f7f7f6, #ecebe9); }
+.hero { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); align-items: center; gap: 24px; overflow: hidden; background: var(--white); }
 .hero-copy { justify-self: end; width: min(590px, 100%); padding: clamp(40px, 6vw, 80px) 0 clamp(40px, 6vw, 80px) var(--gutter); }
 .hero-tag { margin-bottom: 12px; font-weight: 500; color: var(--slate-soft); }
 .hero .lead { margin-top: 18px; font-size: 1.1rem; }
@@ -139,11 +139,11 @@ p + p { margin-top: 0.9em; }
 .hero-media img { width: 100%; }
 
 /* Value strip */
-.values { background: var(--slate); color: var(--white); }
+.values { border-block: 1px solid var(--rule); }
 .values .wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; padding-block: 22px; }
 .values .wrap > div { display: flex; align-items: center; gap: 12px; }
-.values p { font-size: 0.9rem; line-height: 1.3; color: #d7d6d4; }
-.values strong { display: block; font-weight: 600; color: var(--white); }
+.values p { font-size: 0.9rem; line-height: 1.3; color: var(--slate-soft); }
+.values strong { display: block; font-weight: 600; color: var(--slate); }
 
 /* Products menu */
 .nav-menu summary { display: flex; align-items: center; gap: 6px; font-weight: 600; cursor: pointer; list-style: none; }
@@ -493,7 +493,7 @@ figcaption { margin-top: 8px; font-size: 0.92rem; color: var(--slate-soft); }
 .feature { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: center; gap: clamp(24px, 4vw, 56px); padding-block: clamp(48px, 7vw, 88px); overflow: hidden; }
 .feature-copy { justify-self: end; width: min(500px, 100%); padding-left: var(--gutter); }
 .feature-copy p { margin-top: 16px; }
-.feature-media img { width: 100%; }
+.feature-media img { width: 100%; max-height: 440px; object-fit: contain; object-position: left center; }
 .sizes-split { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
 .sizes-split .band-head { margin-bottom: 0; }
 .halves { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: var(--cover); }
@@ -514,6 +514,13 @@ figcaption { margin-top: 8px; font-size: 0.92rem; color: var(--slate-soft); }
   .halves-photo img { min-height: 0; aspect-ratio: 4 / 3; }
   .fabric { background: linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url("/assets/site/fabric.webp") center / cover; }
 }
+
+/* Minimal: the contact band is a quiet gray page, not a dark block */
+.contact.band--slate { background: var(--cover); color: var(--slate); }
+.contact.band--slate a:not(.btn) { color: var(--slate); }
+.about { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(24px, 5vw, 64px); }
+.about p + p { margin-top: 12px; }
+@media (max-width: 760px) { .about { grid-template-columns: minmax(0, 1fr); } }
 
 /* Products: one stage for every photo, app-style cards */
 .products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
@@ -563,15 +570,15 @@ figcaption { margin-top: 8px; font-size: 0.92rem; color: var(--slate-soft); }
 
 /* Contact: quick actions and a form card */
 .contact-grid { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
-.contact-intro { margin-top: 14px; color: #d7d6d4; }
+.contact-intro { margin-top: 14px; color: var(--slate-soft); }
 .contact-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
-.band--slate a.contact-tile { display: flex; align-items: center; gap: 12px; min-height: 76px; padding: 12px 14px; border-radius: 16px; background: rgba(255, 255, 255, 0.08); color: var(--white); text-decoration: none; transition: background-color 0.15s; }
-.band--slate a.contact-tile:hover { background: rgba(255, 255, 255, 0.16); }
+.band--slate a.contact-tile { display: flex; align-items: center; gap: 12px; min-height: 76px; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 16px; background: var(--white); color: var(--slate); text-decoration: none; transition: background-color 0.15s; }
+.band--slate a.contact-tile:hover { background: var(--cover); }
 .contact-tile strong { display: block; font-weight: 600; line-height: 1.25; }
-.contact-tile span span { font-size: 0.86rem; color: #d7d6d4; }
+.contact-tile span span { font-size: 0.86rem; color: var(--slate-soft); }
 .tile-icon { display: grid; place-items: center; flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px; background: var(--tape); color: var(--slate); }
 .tile-icon svg { width: 22px; height: 22px; }
-.form-card { padding: clamp(22px, 3vw, 34px); border-radius: 22px; background: var(--white); color: var(--slate); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3); }
+.form-card { padding: clamp(22px, 3vw, 34px); border: 1px solid var(--rule); border-radius: 22px; background: var(--white); color: var(--slate); }
 .form-sub { margin: 4px 0 18px; color: var(--slate-soft); }
 .custom-contact-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .chips { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: 0; }
