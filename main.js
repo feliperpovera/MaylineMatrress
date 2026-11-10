@@ -598,7 +598,7 @@ if (customContactForm && contactFormStatus) {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({
-            access_key: "3d10979f-d174-4dea-9b77-ea6b983ce5d3", // public by design
+            access_key: "e97a7f8c-a95d-42bc-9700-3fffeaf2a762", // public by design
             subject: `Nuevo mensaje de la web: ${nombre}`,
             from_name: "Maylin Mattress web",
             name: nombre,
