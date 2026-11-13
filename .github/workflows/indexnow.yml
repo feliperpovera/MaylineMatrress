@@ -1,0 +1,19 @@
+# Avisa a Bing y a los demás buscadores de IndexNow (Yandex, Seznam, Naver) cada vez que el sitio cambia,
+# enviando todas las URLs del sitemap. La clave es pública y vive en https://maylinmattress.com/b137cf497313917f241aefca58c47edd.txt.
+name: Avisar a buscadores (IndexNow)
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Esperar a que el sitio publique el cambio
+        run: sleep 240
+      - name: Enviar URLs a IndexNow
+        run: python3 .github/indexnow.py maylinmattress.com https://maylinmattress.com/sitemap.xml b137cf497313917f241aefca58c47edd

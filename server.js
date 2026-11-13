@@ -94,6 +94,7 @@ const PUBLIC_FILES = new Set([
   "/site.css",
   "/robots.txt",
   "/sitemap.xml",
+  "/b137cf497313917f241aefca58c47edd.txt", // clave de IndexNow (pública)
 ]);
 
 const isPublicPath = (requestPath) =>
